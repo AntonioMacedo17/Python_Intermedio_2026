@@ -1,0 +1,18 @@
+# Pesos pesados del modelo (GitHub rechaza archivos > 100 MB)
+modelo/*.safetensors
+modelo/*.bin
+modelo/*.pt
+modelo/checkpoint-*/
+modelo/runs/
+
+# Claves y entornos (NUNCA subir la API key)
+.env
+.venv/
+venv/
+.streamlit/secrets.toml
+
+# Archivos temporales
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.DS_Store

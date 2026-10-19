@@ -1,0 +1,18 @@
+# Versión inicial: al final del notebook 02 una celda reescribe este archivo con tus versiones EXACTAS.
+streamlit>=1.40
+pandas>=2.2
+numpy>=1.26
+plotly>=5.24
+kaleido>=0.2.1
+requests>=2.32
+beautifulsoup4>=4.12
+lxml>=5.0
+scikit-learn>=1.5
+matplotlib>=3.9
+seaborn>=0.13
+torch>=2.3
+transformers>=4.44
+accelerate>=0.33
+google-genai>=1.0
+python-dotenv>=1.0
+ipykernel>=6.29
