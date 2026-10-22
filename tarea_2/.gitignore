@@ -1,5 +1,6 @@
 # --- Entorno virtual y cachés de Python ---
 .venv/
+.venv-uv/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
@@ -23,3 +24,6 @@ modelos/checkpoint-*/
 # --- Sistema ---
 .DS_Store
 Thumbs.db
+
+# Idiomas de Tesseract (se bajan de github.com/tesseract-ocr/tessdata, ver README)
+modelos/tessdata/
