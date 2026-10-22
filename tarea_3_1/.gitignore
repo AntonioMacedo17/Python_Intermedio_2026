@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+# Datos crudos pesados: se re-descargan con los scripts
+datos/raw/*.tif
+datos/raw/*.csv
+datos/cache/

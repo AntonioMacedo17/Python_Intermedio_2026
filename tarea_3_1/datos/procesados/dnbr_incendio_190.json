@@ -1,0 +1,31 @@
+{
+  "incendio_id": 190,
+  "fecha_pre": "2026-09-28",
+  "escenas_pre": [
+    "S2C_MSIL2A_20260928T150721_R082_T18LXN_20260928T182213",
+    "S2C_MSIL2A_20260928T150721_R082_T18LXM_20260928T182213",
+    "S2C_MSIL2A_20260928T150721_R082_T18LWN_20260928T182213",
+    "S2C_MSIL2A_20260928T150721_R082_T18LWM_20260928T182213"
+  ],
+  "fecha_post": "2026-10-20",
+  "escenas_post": [
+    "S2A_MSIL2A_20261020T150931_R082_T18LXN_20261020T212150",
+    "S2A_MSIL2A_20261020T150931_R082_T18LXM_20261020T212150",
+    "S2A_MSIL2A_20261020T150931_R082_T18LWN_20261020T212150",
+    "S2A_MSIL2A_20261020T150931_R082_T18LWM_20261020T212150"
+  ],
+  "pct_zona_enmascarada": 1.2,
+  "zona_ha": 2019.5,
+  "ha_por_clase": {
+    "No quemado": 1489.1,
+    "Severidad baja": 394.8,
+    "Moderada-baja": 110.2,
+    "Moderada-alta": 2.1,
+    "Alta": 0.0
+  },
+  "ha_quemadas_dnbr_027": 112.2,
+  "ha_quemadas_dnbr_010": 507.1,
+  "ha_quemadas_por_distrito": {
+    "MAZAMARI (SATIPO, JUNIN)": 112.2
+  }
+}
