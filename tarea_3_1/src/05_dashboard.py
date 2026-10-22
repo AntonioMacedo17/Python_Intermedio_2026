@@ -178,9 +178,27 @@ reemplazos = {
 }
 
 html = (BASE / "src" / "plantilla_reportaje.html").read_text(encoding="utf-8")
+reemplazos["__LEAFLET_CSS__"] = (BASE / "src" / "vendor" / "leaflet-1.9.4.min.css").read_text(encoding="utf-8")
 for k, v in reemplazos.items():
     html = html.replace(k, v)
 faltan = sorted(set(t for t in __import__("re").findall(r"__[A-Z0-9_]+__", html)))
 assert not faltan, faltan
 (OUT / "index.html").write_text(html, encoding="utf-8")
 print(f"Reportaje: {OUT / 'index.html'} ({len(html) / 1e6:.2f} MB)")
+
+# Versión para publicar en claude.ai: la plataforma envuelve la página (sin doctype/html/head/body propios)
+# y bloquea imágenes de otros servidores, así que va sin mapa base satelital.
+import re
+art = re.sub(r"<!doctype html>\s*<html[^>]*>\s*<head>|</head>\s*<body>|</body>\s*</html>", "", html, flags=re.I)
+art = art.replace("<meta charset=\"utf-8\">", "").replace(
+    '<meta name="viewport" content="width=device-width,initial-scale=1">', "")
+inicio = art.index("const sat = L.tileLayer(")
+fin = art.index("const cortes = [5, 10, 25, 50, 100, 250];")
+art = art[:inicio] + art[fin:]
+art = art.replace("L.control.layers({'Satélite': sat, 'Gris claro': gris},", "L.control.layers(null,")
+art = art.replace(" · Mapa base: Esri.</p><!--NOTA_BASE-->",
+                  ".</p><p class=\"fuente\" style=\"margin-top:2px\">En esta versión publicada el mapa no tiene fondo satelital, porque la plataforma bloquea imágenes externas. La versión del repositorio (dashboard/index.html) sí lo incluye.</p>")
+art = art.replace('<tr><td>Mapa base: <a href="https://www.esri.com/">Esri</a> World Imagery y World Light Gray</td><td>teselas en línea</td><td>al abrir la página</td></tr>', "")
+assert "arcgisonline" not in art and "Mapa base: Esri" not in art
+(OUT / "reportaje_claude.html").write_text(art, encoding="utf-8")
+print(f"Versión claude.ai: {OUT / 'reportaje_claude.html'} ({len(art) / 1e6:.2f} MB)")

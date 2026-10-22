@@ -6,27 +6,37 @@
 <title>¿A quién afecta el fuego?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Source+Sans+3:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>/* Leaflet 1.9.4 (BSD-2) */
+__LEAFLET_CSS__</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 :root {
   --crema: #F7F3EA; --carbon: #2B2B2B; --verde: #1F5F4A; --morado: #6A4C93;
   --papel: #FFFCF5; --linea: #E3DCCB; --suave: #5E5A52; --verde-claro: #DCE8E1; --morado-claro: #ECE6F3;
+  --alerta: #8A3B2E; --alerta-fondo: #F3DED8; --sobre: #FFFFFF; --amarillo: #E9A23B;
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --crema: #181C1A; --carbon: #EEE8DA; --verde: #7CC3A3; --morado: #B9A0E2; --papel: #222825; --linea: #38403B;
+  --suave: #B9B1A2; --verde-claro: #2A3A32; --morado-claro: #362D49; --alerta: #F0A493; --alerta-fondo: #45271F; --sobre: #181C1A; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --crema: #181C1A; --carbon: #EEE8DA; --verde: #7CC3A3; --morado: #B9A0E2; --papel: #222825; --linea: #38403B;
+  --suave: #B9B1A2; --verde-claro: #2A3A32; --morado-claro: #362D49; --alerta: #F0A493; --alerta-fondo: #45271F; --sobre: #181C1A; color-scheme: dark; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--crema); color: var(--carbon); font-family: var(--sans); font-size: 18px; line-height: 1.6; }
 a { color: var(--verde); }
-.corte { position: sticky; top: 0; z-index: 1000; background: var(--carbon); color: var(--crema); font-size: 13.5px;
+.corte { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 1000; background: var(--carbon); color: var(--crema); font-size: 13.5px;
   padding: 7px 16px; display: flex; flex-wrap: wrap; gap: 4px 18px; justify-content: center; }
-.corte b { color: #fff; }
-.corte span::before { content: "●"; color: #E9A23B; margin-right: 6px; font-size: 10px; vertical-align: 2px; }
+.corte b { color: var(--crema); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 1001; background: var(--carbon); }
+.corte span::before { content: "●"; color: var(--amarillo); margin-right: 6px; font-size: 10px; vertical-align: 2px; }
 .col { max-width: 720px; margin: 0 auto; padding: 0 16px; }
 .ancha { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 header.hero { padding: 72px 0 40px; border-bottom: 1px solid var(--linea); }
 .antetitulo { font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: 13px; color: var(--verde); }
+h1, h2, h3 { text-wrap: balance; }
 h1 { font-family: var(--serif); font-weight: 800; font-size: clamp(2.2rem, 6vw, 3.9rem); line-height: 1.04; margin: 14px 0 20px; color: var(--carbon); letter-spacing: -.01em; }
 h1 .num { color: var(--morado); }
 .bajada { font-size: 1.22rem; color: var(--suave); max-width: 640px; }
@@ -39,7 +49,7 @@ h3 { font-family: var(--serif); color: var(--carbon); font-size: 1.25rem; margin
 .fuente::before { content: "Fuente: "; font-weight: 700; }
 .leer { background: var(--papel); border-left: 4px solid var(--morado); padding: 12px 16px; margin: 14px 0 0; font-size: 15.5px; border-radius: 0 8px 8px 0; }
 .leer b.t { color: var(--morado); display: block; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
-.leer .no { color: #8A3B2E; font-weight: 700; }
+.leer .no { color: var(--alerta); font-weight: 700; }
 .glosario { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin: 36px 0 0; }
 .glosario dt { font-family: var(--serif); font-weight: 700; color: var(--verde); font-size: 1.05rem; }
 .glosario dd { margin: 4px 0 0; font-size: 15.5px; color: var(--suave); }
@@ -49,7 +59,7 @@ h3 { font-family: var(--serif); color: var(--carbon); font-size: 1.25rem; margin
 .pasos li { position: relative; padding: 0 0 26px 74px; }
 .pasos .ico { position: absolute; left: 0; top: 0; width: 56px; height: 56px; border-radius: 50%; background: var(--papel);
   border: 2px solid var(--verde); display: grid; place-items: center; font-family: var(--serif); font-weight: 800; color: var(--verde); }
-.pasos li.persona .ico { background: var(--morado); border-color: var(--morado); color: #fff; }
+.pasos li.persona .ico { background: var(--morado); border-color: var(--morado); color: var(--sobre); }
 .pasos .cifra { font-family: var(--serif); font-weight: 800; font-size: 1.9rem; line-height: 1.1; color: var(--carbon); }
 .pasos li.persona .cifra { color: var(--morado); }
 .pasos .que { font-weight: 700; }
@@ -59,7 +69,8 @@ h3 { font-family: var(--serif); color: var(--carbon); font-size: 1.25rem; margin
 @media (max-width: 760px) { .anillos-wrap { grid-template-columns: 1fr; } }
 .toggle { display: inline-flex; border: 1.5px solid var(--verde); border-radius: 999px; overflow: hidden; margin: 6px 0 4px; }
 .toggle button { font: inherit; font-size: 15px; font-weight: 600; border: 0; background: transparent; color: var(--verde); padding: 6px 16px; cursor: pointer; }
-.toggle button[aria-pressed="true"] { background: var(--verde); color: #fff; }
+.toggle button[aria-pressed="true"] { background: var(--verde); color: var(--sobre); }
+.toggle button:focus-visible, a:focus-visible { outline: 3px solid var(--morado); outline-offset: 2px; }
 .bandas { list-style: none; padding: 0; margin: 0; }
 .bandas li { padding: 12px 0; border-bottom: 1px solid var(--linea); }
 .bandas .r { font-size: 14px; color: var(--suave); font-weight: 600; }
@@ -67,7 +78,7 @@ h3 { font-family: var(--serif); color: var(--carbon); font-size: 1.25rem; margin
 .bandas .acum { font-size: 14px; color: var(--suave); }
 svg text { font-family: var(--sans); }
 /* Mapa */
-#mapa { height: 560px; border-radius: 10px; border: 1px solid var(--linea); }
+#mapa { height: 560px; border-radius: 10px; border: 1px solid var(--linea); background: var(--papel); }
 .leyendas { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 12px; font-size: 14px; }
 .leyendas .lg b { display: block; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--suave); margin-bottom: 4px; }
 .sw { display: inline-flex; align-items: center; margin-right: 10px; white-space: nowrap; }
@@ -98,9 +109,9 @@ ol.ranking li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px so
 /* Fuentes oficiales */
 .ofi { background: var(--papel); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 18px; margin-top: 16px; }
 .sello { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; margin-bottom: 6px; }
-.sello.ok { background: var(--verde); color: #fff; }
+.sello.ok { background: var(--verde); color: var(--sobre); }
 .sello.prensa { background: var(--morado-claro); color: var(--morado); }
-.sello.nv { background: #F3DED8; color: #8A3B2E; }
+.sello.nv { background: var(--alerta-fondo); color: var(--alerta); }
 .ofi h4 { margin: 2px 0 6px; font-size: 1.05rem; }
 .ofi .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 15.5px; }
 @media (max-width: 560px) { .ofi .vs { grid-template-columns: 1fr; } }
@@ -205,7 +216,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
         <span class="sw"><i style="background:transparent;border:2px dashed #6A4C93"></i>3 km</span><span class="sw"><i style="background:transparent;border:2px solid #6A4C93"></i>1 km</span>
         <span class="sw"><i style="background:#FFE14D;border-radius:50%;border:1px solid #2B2B2B"></i>foco VIIRS</span></div>
     </div>
-    <p class="fuente">Sentinel-2 L2A, Microsoft Planetary Computer (__MZ_PRE__ vs. __MZ_POST__) · NASA FIRMS VIIRS · WorldPop 2020 · Mapa base: Esri.</p>
+    <p class="fuente">Sentinel-2 L2A, Microsoft Planetary Computer (__MZ_PRE__ vs. __MZ_POST__) · NASA FIRMS VIIRS · WorldPop 2020 · Mapa base: Esri.</p><!--NOTA_BASE-->
     <div class="leer"><b class="t">Cómo leer</b>Usa el control de capas (arriba a la derecha) para encender o apagar la población, la severidad y los anillos. Haz clic en una celda o en un foco para ver su valor. La severidad solo se calculó a ≤ 1 km de los focos (__MZ_ZONA__ ha analizadas). <span class="no">No muestra</span> lo que ardió antes del __MZ_PRE__, lo que quedó bajo nubes (__MZ_MASK__ de la zona), ni dónde están exactamente las casas dentro de cada celda de 1 km. La imagen del 8 oct ya muestra una parte quemada: el incendio empezó antes del inicio de la ventana de FIRMS (14 oct) y su fecha exacta de inicio no se conoce.</div>
   </div>
 </section>

@@ -4,6 +4,8 @@
 
 > **Corte de datos:** focos VIIRS del **14 oct 2026 05:14 UTC al 21 oct 2026 19:19 UTC** (14:19 h de Lima). Un incendio cuenta como *activo* si tuvo algún foco entre el 19 oct 19:19 y el 21 oct 19:19 UTC. Todos los datos se descargaron el **21 oct 2026**. Es una herramienta independiente: no reemplaza los reportes del COEN, INDECI, SERFOR ni SERNANP.
 
+**Reportaje publicado en Claude:** https://claude.ai/artifact/T85MK16ZAznqAeJEJFXoon (versión sin fondo satelital, porque la plataforma bloquea imágenes externas).
+
 **Dashboard (reportaje interactivo):** [`dashboard/index.html`](dashboard/index.html). Descárgalo y ábrelo con doble clic, o míralo en línea en [raw.githack](https://raw.githack.com/AntonioMacedo17/Python_Intermedio_2026/main/tarea_3_1/dashboard/index.html).
 
 ## La pregunta
