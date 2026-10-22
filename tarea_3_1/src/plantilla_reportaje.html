@@ -158,7 +158,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
       <li><span class="ico">4</span><div class="cifra">__MZ_HA27__ ha en Mazamari</div><div class="que">Se mide lo quemado</div>
         <p>Comparé dos imágenes de Sentinel-2 (__MZ_PRE__ y __MZ_POST__) del incendio de Mazamari. Donde la vegetación "se apagó" en el infrarrojo hay área quemada.</p></li>
       <li class="persona"><span class="ico">5</span><div class="cifra">__P5__ personas</div><div class="que">Se cuenta a la gente</div>
-        <p>Tracé un círculo de 5 km alrededor de cada foco activo, uní todos los círculos para no contar dos veces a nadie y sumé la población de WorldPop 2020 que cae dentro.</p></li>
+        <p>Tracé un círculo de 5 km alrededor de cada foco activo, uní todos los círculos para no contar dos veces a nadie y sumé la población de WorldPop 2020 (personas por celda de ~1 km²) cuyo centro cae dentro.</p></li>
     </ol>
     <div class="leer"><b class="t">Cómo leer</b>Cada paso filtra o transforma el anterior. <span class="no">No muestra</span> incendios tapados por nubes ni los que se apagaron antes del __ACTIVO_DESDE__. Un foco suelto no prueba que haya un incendio.</div>
   </div>
@@ -167,7 +167,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
 <section id="anillos">
   <div class="col">
     <div class="kicker">2 · Distancia</div>
-    <h2>Mientras más cerca del fuego, menos gente, pero más expuesta</h2>
+    <h2>__P1__ personas viven a 1 km o menos del fuego</h2>
     <p>De las __P5__ personas que viven a ≤ 5 km, <b>__P1__</b> están a 1 km o menos. Usa el selector para pasar de todo el país al incendio de Mazamari.</p>
     <div class="toggle" role="group" aria-label="Ámbito">
       <button type="button" data-ambito="veg" aria-pressed="true">Todo el Perú</button>
@@ -206,7 +206,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
         <span class="sw"><i style="background:#FFE14D;border-radius:50%;border:1px solid #2B2B2B"></i>foco VIIRS</span></div>
     </div>
     <p class="fuente">Sentinel-2 L2A, Microsoft Planetary Computer (__MZ_PRE__ vs. __MZ_POST__) · NASA FIRMS VIIRS · WorldPop 2020 · Mapa base: Esri.</p>
-    <div class="leer"><b class="t">Cómo leer</b>Usa el control de capas (arriba a la derecha) para encender o apagar la población, la severidad y los anillos. Haz clic en una celda o en un foco para ver su valor. La severidad solo se calculó a ≤ 1 km de los focos (__MZ_ZONA__ ha analizadas). <span class="no">No muestra</span> lo que ardió antes del __MZ_PRE__, lo que quedó bajo nubes (__MZ_MASK__ de la zona), ni dónde están exactamente las casas dentro de cada celda de 1 km. El fuego empezó antes del 14 oct; FIRMS de 7 días no ve su inicio.</div>
+    <div class="leer"><b class="t">Cómo leer</b>Usa el control de capas (arriba a la derecha) para encender o apagar la población, la severidad y los anillos. Haz clic en una celda o en un foco para ver su valor. La severidad solo se calculó a ≤ 1 km de los focos (__MZ_ZONA__ ha analizadas). <span class="no">No muestra</span> lo que ardió antes del __MZ_PRE__, lo que quedó bajo nubes (__MZ_MASK__ de la zona), ni dónde están exactamente las casas dentro de cada celda de 1 km. La imagen del 8 oct ya muestra una parte quemada: el incendio empezó antes del inicio de la ventana de FIRMS (14 oct) y su fecha exacta de inicio no se conoce.</div>
   </div>
 </section>
 
@@ -214,7 +214,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
   <div class="col">
     <div class="kicker">4 · Dónde</div>
     <h2>Los 15 distritos con más gente cerca del fuego</h2>
-    <p>Junín encabeza los departamentos con <b>__JUNIN_P__</b> personas expuestas (el __JUNIN_PCTDEP__ de su población). Pero por distrito, la exposición se concentra donde un foco cae junto a una ciudad.</p>
+    <p>Junín encabeza los departamentos con <b>__JUNIN_P__</b> personas expuestas (el __JUNIN_PCTDEP__ de su población). El distrito con más personas a ≤ 5 km es __TOP_DIST__ (__TOP_DIST_P__), aunque ningún incendio activo cae dentro de sus límites: el fuego está en el distrito vecino.</p>
     <ol class="ranking">__RANKING__</ol>
     <p class="fuente">NASA FIRMS VIIRS (activos al corte) · WorldPop 2020 · límites INEI (juaneladio/peru-geojson).</p>
     <div class="leer"><b class="t">Cómo leer</b>La barra compara el número de personas a ≤ 5 km entre distritos, sin contar las fuentes urbanas excluidas. Un distrito puede tener gente expuesta y "0 incendios dentro" si el fuego está en el distrito vecino (como José Leonardo Ortiz, junto a Lambayeque). <span class="no">No muestra</span> daños, y muchos de estos focos son de un solo píxel cerca de ciudades: pueden ser quemas agrícolas o basurales, no incendios forestales.</div>
@@ -232,7 +232,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
         <p class="calc">__P5__ ÷ __POB_MZ__ = __VECES_MZ_EXACTO__ · ambas cifras de WorldPop 2020</p></div></div>
       <div class="compara"><div class="big">__JUNIN_PCT__</div><div><p>de toda la gente expuesta vive en Junín: <b>__JUNIN_P__</b> personas, el departamento con más vecinos del fuego.</p>
         <p class="calc">__JUNIN_P__ ÷ __P5__ · WorldPop 2020</p></div></div>
-      <div class="compara"><div class="big">__G0__ → __G3__</div><div><p>es lo que cambia la cifra según qué llamemos «incendio»: de contar <i>todos</i> los focos activos a contar solo los __G3_INC__ incendios con más de 100 ha de huella. __UNFOCO__ incendios activos tienen un solo foco.</p>
+      <div class="compara"><div class="big">__G0_CORTO__ → __G3_CORTO__</div><div><p>es lo que cambia la cifra según qué llamemos «incendio»: de contar <i>todos</i> los focos activos a contar solo los __G3_INC__ incendios con más de 100 ha de huella. __UNFOCO__ incendios activos tienen un solo foco.</p>
         <div class="tabla"><table><thead><tr><th>Definición de «incendio»</th><th class="n">Incendios</th><th class="n">Personas a ≤ 5 km</th></tr></thead><tbody>__FILAS_GRAD__</tbody></table></div></div></div>
     </div>
     <div class="leer"><b class="t">Cómo leer</b>Las comparaciones dividen cifras del mismo dataset (WorldPop 2020), así que son exactas dentro de esa fuente. <span class="no">No significan</span> que toda esa gente haya sido afectada.</div>
@@ -329,7 +329,7 @@ footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30
 
 <script>
 const D = __DATOS__;
-const fmt = v => Math.round(v).toLocaleString('es-PE').replace(/,/g, ' ');
+const fmt = v => Math.round(v).toLocaleString('es-PE').replace(/,/g, ' ');
 const VERDE = '#1F5F4A', MORADO = '#6A4C93', CARBON = '#2B2B2B';
 
 // ---------- Anillos ----------
@@ -342,13 +342,13 @@ function anillos(ambito) {
   const tonos = {5: '#DCE8E1', 3: '#9FC2B1', 1: MORADO};
   let s = '';
   [5, 3, 1].forEach(k => { s += `<circle cx="170" cy="170" r="${R[k]}" fill="${tonos[k]}" stroke="${CARBON}" stroke-width="1"/>`; });
-  s += `<circle cx="170" cy="170" r="5" fill="#FFE14D" stroke="${CARBON}"/>`;
+  s += `<circle cx="170" cy="178" r="5" fill="#FFE14D" stroke="${CARBON}"/>`;
   s += `<text x="170" y="${170 - R[5] + 30}" text-anchor="middle" font-size="15" font-weight="700" fill="${CARBON}">${fmt(banda[5])}</text>`;
   s += `<text x="170" y="${170 - R[5] + 46}" text-anchor="middle" font-size="12" fill="${CARBON}">entre 3 y 5 km</text>`;
   s += `<text x="170" y="${170 - R[3] + 26}" text-anchor="middle" font-size="15" font-weight="700" fill="${CARBON}">${fmt(banda[3])}</text>`;
   s += `<text x="170" y="${170 - R[3] + 42}" text-anchor="middle" font-size="12" fill="${CARBON}">entre 1 y 3 km</text>`;
-  s += `<text x="170" y="${170 + 26}" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">${fmt(banda[1])}</text>`;
-  [5, 3, 1].forEach(k => { s += `<text x="${170 + R[k] * 0.72}" y="${170 + R[k] * 0.72}" font-size="12" font-weight="700" fill="${CARBON}">${k} km</text>`; });
+  s += `<text x="170" y="166" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">${fmt(banda[1])}</text>`;
+  [5, 3, 1].forEach(k => { s += `<text x="170" y="${170 + R[k] - 7}" text-anchor="middle" font-size="12" font-weight="700" fill="${k === 1 ? '#fff' : CARBON}">${k} km</text>`; });
   svg.innerHTML = s;
   document.getElementById('bandas').innerHTML = [[1, 'A 1 km o menos'], [3, 'Entre 1 y 3 km'], [5, 'Entre 3 y 5 km']].map(([k, t]) =>
     `<li><div class="r">${t}</div><div class="v" style="color:${k === 1 ? MORADO : VERDE}">${fmt(banda[k])} personas</div>` +

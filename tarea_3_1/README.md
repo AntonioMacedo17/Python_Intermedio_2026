@@ -24,7 +24,7 @@
    *Fuente: NASA FIRMS VIIRS, 14–21 oct 2026 · WorldPop 2020.*
 2. **La cifra depende de qué se llame «incendio».** Con todos los focos activos son **1 145 047** personas; sin las 4 fuentes urbanas o industriales, **827 672**; solo con los incendios de ≥ 3 focos, **213 014**; y solo con los de más de 100 ha de huella, **72 079**. 172 de los 327 incendios activos tienen **un solo foco**.
    *Fuente: NASA FIRMS VIIRS, 19–21 oct 2026 (activos) · WorldPop 2020.*
-3. **En Mazamari se quemaron 112 ha con severidad moderada o alta y 507 ha con algún daño, y 2 535 personas viven a ≤ 5 km (373 a ≤ 1 km).** Es una población rural dispersa, de 10 a 100 hab/km². Según la imagen "antes" que se elija, el área quemada va de **69 a 152 ha**.
+3. **En Mazamari se quemaron 112 ha con severidad moderada o alta y 507 ha con algún daño, y 2 535 personas viven a ≤ 5 km (373 a ≤ 1 km).** Es una población rural dispersa, de 10 a 100 personas por celda de ~1 km² (WorldPop). Según la imagen "antes" que se elija, el área quemada va de **69 a 152 ha**.
    *Fuente: Sentinel-2 L2A del 28 sep y el 20 oct 2026 · WorldPop 2020.*
 
 ## Personas por distancia al fuego

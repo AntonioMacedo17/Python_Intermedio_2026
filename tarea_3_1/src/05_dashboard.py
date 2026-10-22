@@ -79,11 +79,11 @@ datos = {
 
 def n(x, dec=0):
     """Número en formato peruano: espacio de miles, coma decimal."""
-    return f"{x:,.{dec}f}".replace(",", " ").replace(".", ",")
+    return f"{x:,.{dec}f}".replace(",", " ").replace(".", ",")
 
 
 def pct(x, dec=1):
-    return n(x, dec) + " %"
+    return n(x, dec) + " %"
 
 
 # Comparaciones exactas, dentro del mismo dataset (WorldPop 2020)
@@ -162,6 +162,10 @@ reemplazos = {
     "__P1__": n(a.loc[1, "personas_veg"]), "__P3__": n(a.loc[3, "personas_veg"]),
     "__G0__": n(grad.personas_5km.iat[0]), "__G3__": n(grad.personas_5km.iat[-1]),
     "__G3_INC__": str(grad.incendios.iat[-1]),
+    "__G0_CORTO__": n(grad.personas_5km.iat[0] / 1e6, 2) + " M",
+    "__G3_CORTO__": n(grad.personas_5km.iat[-1] / 1e3) + " mil",
+    "__TOP_DIST__": f"{top.NOMBDIST.iat[0].title()} ({top.NOMBPROV.iat[0].title()}, {top.NOMBDEP.iat[0].title()})",
+    "__TOP_DIST_P__": n(top.expuesta_5km.iat[0]),
     "__UNFOCO__": str(int((act[~act.urbano].n_focos == 1).sum())),
     "__VECES_MZ__": n(veces_mz, 1), "__VECES_MZ_EXACTO__": n(veces_mz, 2), "__POB_MZ__": n(pob_mz),
     "__UNO_DE__": n(uno_de, 0), "__UNO_DE_EXACTO__": n(uno_de, 2),

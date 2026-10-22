@@ -77,7 +77,7 @@ with rasterio.open(RAW / "per_ppp_2020_1km_Aggregated.tif") as src:
     ext = rasterio.windows.bounds(w, src.transform)
 fig, ax = plt.subplots(figsize=(9, 8))
 im = ax.imshow(sub, extent=[ext[0], ext[2], ext[1], ext[3]], cmap="YlOrRd", norm=LogNorm(1, 2000))
-fig.colorbar(im, ax=ax, label="Personas por km² (WorldPop 2020)", shrink=0.75)
+fig.colorbar(im, ax=ax, label="Personas por celda de ~1 km² (WorldPop 2020)", shrink=0.75)
 dist.boundary.plot(ax=ax, color="#888", lw=0.6)
 b.boundary.plot(ax=ax, color=estilo.VERDE, lw=2.2)
 with rasterio.open(PROC / f"dnbr_incendio_{ELEGIDO}.tif") as src:
