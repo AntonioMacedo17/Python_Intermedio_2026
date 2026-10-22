@@ -2,6 +2,8 @@
 
 **Tarea 3.1 · Ciencia de Datos con Python · 21 de octubre de 2026 · Antonio Macedo**
 
+**Dashboard interactivo:** [`dashboard/index.html`](dashboard/index.html). Descárgalo y ábrelo con doble clic, o míralo en línea en [raw.githack](https://raw.githack.com/AntonioMacedo17/Python_Intermedio_2026/main/tarea_3_1/dashboard/index.html). Tiene un mapa de distritos e incendios con un deslizador de "mínimo de focos", gráficos por departamento y por definición, una tabla de incendios y la sección de Mazamari.
+
 ## La pregunta
 
 ¿Cuántas personas viven a **5 km o menos** de los incendios activos del Perú esta semana, dónde están, y cuánto se quemó en un incendio concreto (Mazamari, Satipo)?
@@ -60,7 +62,7 @@ Cada paso es un script de `src/` y corre en CPU en unos minutos.
    - Traza un buffer de 5 km alrededor de cada foco activo (en UTM 18S) y **une** todos los buffers, para no contar dos veces a la misma persona.
    - Suma los píxeles de WorldPop cuyo centro cae dentro y reparte el total por distrito y departamento.
    - Excluye como **urbano/industrial** todo incendio cuya mayoría de focos cae en píxeles con ≥ 500 hab/km².
-4. **`04_figuras.py`**: genera los mapas y gráficos.
+4. **`04_figuras.py`**: genera los mapas y gráficos. **`05_dashboard.py`** arma el dashboard HTML (Leaflet + Plotly) con los datos incrustados.
 
 ### Decisiones que cambiaron el resultado
 
@@ -96,6 +98,7 @@ python 02_dnbr.py listar 190 2026-08-25 2026-10-21
 python 02_dnbr.py calcular 190 2026-09-28 2026-10-20
 python 03_poblacion.py
 python 04_figuras.py
+python 05_dashboard.py
 ```
 
 > FIRMS «7d» cambia todos los días. Los focos de este análisis quedaron guardados en `datos/procesados/focos_peru.csv`. Los ID de incendio pueden cambiar si se re-descargan los datos.
