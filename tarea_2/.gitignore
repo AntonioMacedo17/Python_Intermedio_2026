@@ -1,0 +1,25 @@
+# --- Entorno virtual y cachés de Python ---
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# --- Corpus original (pesado): NO se versiona ---
+# Las URLs, licencias y cómo recuperarlo están en datos/fuentes.csv
+datos/raw/
+
+# --- Pesos de modelos ---
+modelos/*.safetensors
+modelos/*.bin
+modelos/*.pt
+modelos/*.onnx
+modelos/checkpoint-*/
+
+# --- Claves y secretos (API de Gemini, tokens de Hugging Face, etc.) ---
+.env
+*.key
+.streamlit/secrets.toml
+
+# --- Sistema ---
+.DS_Store
+Thumbs.db
