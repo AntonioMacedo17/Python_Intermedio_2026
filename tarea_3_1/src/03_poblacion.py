@@ -44,16 +44,16 @@ ids = rasterize([(g, i + 1) for i, g in enumerate(dist.geometry)], out_shape=sha
 pop_dist = np.bincount(ids.ravel(), weights=pop.ravel(), minlength=len(dist) + 1)[1:]
 
 
-def buffers(ids_inc):
+def buffers(ids_inc, radio=RADIO_M):
     f = focos[focos.incendio_id.isin(ids_inc)]
     g = gpd.GeoDataFrame(f, geometry=gpd.points_from_xy(f.longitude, f.latitude), crs="EPSG:4326").to_crs(CRS_M)
-    g["geometry"] = g.buffer(RADIO_M)
+    g["geometry"] = g.buffer(radio)
     return g.dissolve("incendio_id")[["geometry"]]
 
 
-def exposicion(ids_inc):
-    """Personas a <= 5 km de la unión de buffers + desglose por distrito."""
-    b = buffers(ids_inc)
+def exposicion(ids_inc, radio=RADIO_M):
+    """Personas a <= radio de la unión de buffers + desglose por distrito."""
+    b = buffers(ids_inc, radio)
     union = gpd.GeoSeries([b.union_all()], crs=CRS_M)
     dentro = ~geometry_mask(union.to_crs("EPSG:4326"), out_shape=shape, transform=T)
     pe = np.where(dentro, pop, 0)
@@ -66,6 +66,7 @@ def pob_por_incendio(b):
     out = {}
     for iid, geom in b.to_crs("EPSG:4326").geometry.items():
         w = from_bounds(*geom.bounds, transform=T).round_offsets().round_lengths()
+        w = Window(w.col_off - 2, w.row_off - 2, w.width + 4, w.height + 4)  # margen: no cortar píxeles del borde
         w = w.intersection(Window(0, 0, shape[1], shape[0]))
         sub = pop[w.row_off:w.row_off + w.height, w.col_off:w.col_off + w.width]
         m = ~geometry_mask([geom], out_shape=sub.shape, transform=rasterio.windows.transform(w, T))
@@ -104,6 +105,15 @@ gradiente = pd.DataFrame([
 ])
 print(gradiente.to_string(index=False))
 gradiente.to_csv(PROC / "gradiente_definiciones.csv", index=False)
+
+# Anillos de distancia (acumulados): personas a <= 1, 3 y 5 km. A 1 km la resolución de WorldPop (1 km) es gruesa.
+anillos = pd.DataFrame([
+    {"radio_km": r, "personas_veg": round(exposicion(veg, r * 1000)[1]),
+     "personas_mazamari": round(exposicion([INCENDIO_ELEGIDO], r * 1000)[1])}
+    for r in (1, 3, 5)
+])
+print(anillos.to_string(index=False))
+anillos.to_csv(PROC / "anillos_distancia.csv", index=False)
 resumen = {
     "corte_focos_utc": f"{focos.fecha_hora.min()} a {focos.fecha_hora.max()}",
     "incendios_activos_total": int(len(activos)),

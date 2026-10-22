@@ -9,14 +9,14 @@
   "pct_peru_vegetacion": 2.31,
   "area_5km_vegetacion_km2": 22805,
   "distritos_con_expuestos": 266,
-  "incendios_veg_con_mas_de_1000_personas": 145,
-  "mediana_personas_por_incendio_veg": 728,
+  "incendios_veg_con_mas_de_1000_personas": 147,
+  "mediana_personas_por_incendio_veg": 730,
   "elegido": {
     "incendio_id": 190,
     "distrito": "MAZAMARI",
     "provincia": "SATIPO",
     "departamento": "JUNIN",
-    "personas_5km": 2529,
+    "personas_5km": 2535,
     "n_focos": 62
   }
 }
