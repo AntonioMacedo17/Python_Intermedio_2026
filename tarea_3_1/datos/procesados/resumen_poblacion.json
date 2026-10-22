@@ -1,0 +1,22 @@
+{
+  "corte_focos_utc": "2026-10-14 05:14:00 a 2026-10-21 19:19:00",
+  "incendios_activos_total": 331,
+  "incendios_activos_urbanos_excluidos": 4,
+  "incendios_activos_vegetacion": 327,
+  "poblacion_peru_worldpop2020": 35869577,
+  "personas_5km_sin_filtro": 1145047,
+  "personas_5km_vegetacion": 827672,
+  "pct_peru_vegetacion": 2.31,
+  "area_5km_vegetacion_km2": 22805,
+  "distritos_con_expuestos": 266,
+  "incendios_veg_con_mas_de_1000_personas": 145,
+  "mediana_personas_por_incendio_veg": 728,
+  "elegido": {
+    "incendio_id": 190,
+    "distrito": "MAZAMARI",
+    "provincia": "SATIPO",
+    "departamento": "JUNIN",
+    "personas_5km": 2529,
+    "n_focos": 62
+  }
+}
