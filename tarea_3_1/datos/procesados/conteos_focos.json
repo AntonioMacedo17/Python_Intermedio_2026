@@ -1,0 +1,11 @@
+{
+  "focos_sudamerica": 181328,
+  "focos_peru": 9949,
+  "focos_sin_conf_baja": 8613,
+  "focos_limpios": 8559,
+  "fuentes_fijas": 2,
+  "incendios": 2585,
+  "incendios_activos": 331,
+  "corte_inicio_utc": "2026-10-14 05:14:00",
+  "corte_fin_utc": "2026-10-21 19:19:00"
+}

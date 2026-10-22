@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>¿A quién afecta el fuego?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root {
+  --crema: #F7F3EA; --carbon: #2B2B2B; --verde: #1F5F4A; --morado: #6A4C93;
+  --papel: #FFFCF5; --linea: #E3DCCB; --suave: #5E5A52; --verde-claro: #DCE8E1; --morado-claro: #ECE6F3;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--crema); color: var(--carbon); font-family: var(--sans); font-size: 18px; line-height: 1.6; }
+a { color: var(--verde); }
+.corte { position: sticky; top: 0; z-index: 1000; background: var(--carbon); color: var(--crema); font-size: 13.5px;
+  padding: 7px 16px; display: flex; flex-wrap: wrap; gap: 4px 18px; justify-content: center; }
+.corte b { color: #fff; }
+.corte span::before { content: "●"; color: #E9A23B; margin-right: 6px; font-size: 10px; vertical-align: 2px; }
+.col { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+.ancha { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+header.hero { padding: 72px 0 40px; border-bottom: 1px solid var(--linea); }
+.antetitulo { font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: 13px; color: var(--verde); }
+h1 { font-family: var(--serif); font-weight: 800; font-size: clamp(2.2rem, 6vw, 3.9rem); line-height: 1.04; margin: 14px 0 20px; color: var(--carbon); letter-spacing: -.01em; }
+h1 .num { color: var(--morado); }
+.bajada { font-size: 1.22rem; color: var(--suave); max-width: 640px; }
+.firma { margin-top: 26px; font-size: 14px; color: var(--suave); }
+section { padding: 64px 0 24px; }
+h2 { font-family: var(--serif); font-weight: 700; color: var(--morado); font-size: clamp(1.6rem, 3.6vw, 2.2rem); line-height: 1.15; margin: 0 0 14px; }
+h3 { font-family: var(--serif); color: var(--carbon); font-size: 1.25rem; margin: 30px 0 8px; }
+.kicker { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 12.5px; color: var(--verde); margin-bottom: 6px; }
+.fuente { font-size: 13.5px; color: var(--suave); margin-top: 6px; }
+.fuente::before { content: "Fuente: "; font-weight: 700; }
+.leer { background: var(--papel); border-left: 4px solid var(--morado); padding: 12px 16px; margin: 14px 0 0; font-size: 15.5px; border-radius: 0 8px 8px 0; }
+.leer b.t { color: var(--morado); display: block; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+.leer .no { color: #8A3B2E; font-weight: 700; }
+.glosario { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin: 36px 0 0; }
+.glosario dt { font-family: var(--serif); font-weight: 700; color: var(--verde); font-size: 1.05rem; }
+.glosario dd { margin: 4px 0 0; font-size: 15.5px; color: var(--suave); }
+/* Embudo */
+.pasos { list-style: none; padding: 0; margin: 28px 0 0; position: relative; }
+.pasos::before { content: ""; position: absolute; left: 27px; top: 10px; bottom: 10px; width: 2px; background: var(--linea); }
+.pasos li { position: relative; padding: 0 0 26px 74px; }
+.pasos .ico { position: absolute; left: 0; top: 0; width: 56px; height: 56px; border-radius: 50%; background: var(--papel);
+  border: 2px solid var(--verde); display: grid; place-items: center; font-family: var(--serif); font-weight: 800; color: var(--verde); }
+.pasos li.persona .ico { background: var(--morado); border-color: var(--morado); color: #fff; }
+.pasos .cifra { font-family: var(--serif); font-weight: 800; font-size: 1.9rem; line-height: 1.1; color: var(--carbon); }
+.pasos li.persona .cifra { color: var(--morado); }
+.pasos .que { font-weight: 700; }
+.pasos p { margin: 4px 0 0; font-size: 16px; color: var(--suave); }
+/* Anillos */
+.anillos-wrap { display: grid; grid-template-columns: minmax(260px, 360px) 1fr; gap: 28px; align-items: center; margin-top: 18px; }
+@media (max-width: 760px) { .anillos-wrap { grid-template-columns: 1fr; } }
+.toggle { display: inline-flex; border: 1.5px solid var(--verde); border-radius: 999px; overflow: hidden; margin: 6px 0 4px; }
+.toggle button { font: inherit; font-size: 15px; font-weight: 600; border: 0; background: transparent; color: var(--verde); padding: 6px 16px; cursor: pointer; }
+.toggle button[aria-pressed="true"] { background: var(--verde); color: #fff; }
+.bandas { list-style: none; padding: 0; margin: 0; }
+.bandas li { padding: 12px 0; border-bottom: 1px solid var(--linea); }
+.bandas .r { font-size: 14px; color: var(--suave); font-weight: 600; }
+.bandas .v { font-family: var(--serif); font-weight: 800; font-size: 1.7rem; line-height: 1.15; }
+.bandas .acum { font-size: 14px; color: var(--suave); }
+svg text { font-family: var(--sans); }
+/* Mapa */
+#mapa { height: 560px; border-radius: 10px; border: 1px solid var(--linea); }
+.leyendas { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 12px; font-size: 14px; }
+.leyendas .lg b { display: block; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--suave); margin-bottom: 4px; }
+.sw { display: inline-flex; align-items: center; margin-right: 10px; white-space: nowrap; }
+.sw i { width: 14px; height: 14px; display: inline-block; margin-right: 5px; border-radius: 2px; }
+.datos-mz { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; border-top: 2px solid var(--carbon); margin: 20px 0; }
+.datos-mz div { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--linea); }
+.datos-mz b { display: block; font-family: var(--serif); font-size: 1.6rem; color: var(--verde); line-height: 1.1; }
+.datos-mz span { font-size: 14px; color: var(--suave); }
+/* Ranking */
+ol.ranking { list-style: none; padding: 0; margin: 22px 0 0; }
+ol.ranking li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--linea); }
+.rk-n { font-family: var(--serif); font-weight: 800; color: var(--morado); width: 28px; flex: none; font-size: 1.2rem; }
+.rk-body { flex: 1; min-width: 0; }
+.rk-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.rk-top b { font-size: 1.05rem; }
+.rk-lugar { color: var(--suave); font-size: 14px; }
+.rk-top em { margin-left: auto; font-style: normal; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rk-bar { height: 10px; background: var(--verde-claro); border-radius: 5px; margin: 6px 0 4px; overflow: hidden; }
+.rk-bar i { display: block; height: 100%; background: var(--verde); border-radius: 5px; }
+.rk-sub { font-size: 13.5px; color: var(--suave); }
+/* Comparaciones */
+.comparas { display: grid; gap: 22px; margin-top: 22px; }
+.compara { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: start; }
+@media (max-width: 560px) { .compara { grid-template-columns: 1fr; gap: 4px; } }
+.compara .big { font-family: var(--serif); font-weight: 800; font-size: 2.6rem; color: var(--morado); line-height: 1; }
+.compara p { margin: 0; }
+.compara .calc { font-size: 13.5px; color: var(--suave); font-variant-numeric: tabular-nums; }
+/* Fuentes oficiales */
+.ofi { background: var(--papel); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 18px; margin-top: 16px; }
+.sello { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; margin-bottom: 6px; }
+.sello.ok { background: var(--verde); color: #fff; }
+.sello.prensa { background: var(--morado-claro); color: var(--morado); }
+.sello.nv { background: #F3DED8; color: #8A3B2E; }
+.ofi h4 { margin: 2px 0 6px; font-size: 1.05rem; }
+.ofi .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 15.5px; }
+@media (max-width: 560px) { .ofi .vs { grid-template-columns: 1fr; } }
+.ofi .vs b { display: block; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--suave); }
+.ofi .veredicto { margin-top: 8px; font-size: 15px; border-top: 1px dashed var(--linea); padding-top: 8px; }
+/* Método */
+.metodo { background: var(--papel); border-top: 1px solid var(--linea); margin-top: 40px; padding-bottom: 60px; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 10px 0; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+th { font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--verde); }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.sel td { background: var(--morado-claro); }
+.tabla { overflow-x: auto; }
+ul.lim li { margin-bottom: 8px; }
+code { background: var(--verde-claro); padding: 1px 5px; border-radius: 4px; font-size: .9em; }
+footer { text-align: center; font-size: 13.5px; color: var(--suave); padding: 30px 16px 50px; }
+@media (max-width: 560px) { body { font-size: 17px; } #mapa { height: 440px; } header.hero { padding-top: 48px; } }
+</style>
+</head>
+<body>
+
+<div class="corte" role="note">
+  <span>Corte de los datos: <b>__CORTE_UTC__</b> (__CORTE_LIMA__)</span>
+  <span>Focos NASA FIRMS VIIRS: __VENTANA__</span>
+  <span>Población: WorldPop 2020</span>
+</div>
+
+<header class="hero">
+  <div class="col">
+    <div class="antetitulo">Incendios en el Perú · ¿A quién afecta?</div>
+    <h1><span class="num">__P5_MIL__ mil personas</span> viven a 5 km o menos de un incendio activo en el Perú</h1>
+    <p class="bajada">Son __P5__ habitantes, el __PCT_PERU__ del país, alrededor de __INC_VEG__ incendios de vegetación que seguían ardiendo entre el __ACTIVO_DESDE__ y el corte. En Mazamari (Satipo, Junín), uno de esos incendios quemó __MZ_HA27__ ha y tiene __MZ_P5__ vecinos en un radio de 5 km.</p>
+    <p class="fuente">NASA FIRMS VIIRS (__VENTANA__) · WorldPop 2020 (1 km) · Sentinel-2 L2A (__MZ_PRE__ y __MZ_POST__) · límites INEI.</p>
+    <dl class="glosario" aria-label="Glosario">
+      <div><dt>Foco de calor</dt><dd>Un píxel de 375 m en el que el satélite detectó calor anómalo en una pasada. Puede ser un incendio, una quema agrícola, una fábrica o una antorcha de gas.</dd></div>
+      <div><dt>Incendio activo</dt><dd>Un grupo de focos a ≤ 1 km y ≤ 48 h entre sí, con al menos un foco en las últimas 48 h del corte.</dd></div>
+      <div><dt>Área quemada</dt><dd>Superficie donde la vegetación cambió como cambia al quemarse (dNBR ≥ 0,27 en Sentinel-2, a 20 m). No es lo mismo que la "huella" de los focos.</dd></div>
+    </dl>
+    <p class="firma">Antonio Macedo · Tarea 3.1, Ciencia de Datos con Python · Herramienta independiente: no reemplaza los reportes del COEN, INDECI, SERFOR ni SERNANP.</p>
+  </div>
+</header>
+
+<section id="satelite">
+  <div class="col">
+    <div class="kicker">1 · Del satélite a las personas</div>
+    <h2>Cómo pasamos de un píxel caliente a un vecino del fuego</h2>
+    <p>Un satélite no ve personas ni incendios: ve calor. Para llegar a "quién vive cerca" hay que tomar cinco decisiones, y cada una cambia el número.</p>
+    <ol class="pasos">
+      <li><span class="ico">1</span><div class="cifra">__F_PE__ focos</div><div class="que">El satélite detecta calor</div>
+        <p>De __F_SA__ focos VIIRS en Sudamérica, __F_PE__ cayeron dentro del Perú. Saqué los de confianza baja y __N_FIJAS__ fuentes fijas (una es la planta de gas de Pisco, que arde los 8 días sin moverse). Quedaron <b>__F_LIM__</b>.</p></li>
+      <li><span class="ico">2</span><div class="cifra">__INC__ incendios</div><div class="que">Los focos se agrupan</div>
+        <p>Dos focos a ≤ 1 km y ≤ 48 h de distancia entre sí cuentan como el mismo incendio. __INC_ACT__ seguían activos al corte.</p></li>
+      <li><span class="ico">3</span><div class="cifra">__INC_VEG__ incendios de vegetación</div><div class="que">Se descarta lo que no es monte</div>
+        <p>__INC_URB__ "incendios" estaban en plena ciudad, en píxeles con ≥ 500 hab/km² (Chimbote, Chincha Baja, Pisco, Mollendo). Probablemente son industrias o basurales, así que salen del cálculo.</p></li>
+      <li><span class="ico">4</span><div class="cifra">__MZ_HA27__ ha en Mazamari</div><div class="que">Se mide lo quemado</div>
+        <p>Comparé dos imágenes de Sentinel-2 (__MZ_PRE__ y __MZ_POST__) del incendio de Mazamari. Donde la vegetación "se apagó" en el infrarrojo hay área quemada.</p></li>
+      <li class="persona"><span class="ico">5</span><div class="cifra">__P5__ personas</div><div class="que">Se cuenta a la gente</div>
+        <p>Tracé un círculo de 5 km alrededor de cada foco activo, uní todos los círculos para no contar dos veces a nadie y sumé la población de WorldPop 2020 que cae dentro.</p></li>
+    </ol>
+    <div class="leer"><b class="t">Cómo leer</b>Cada paso filtra o transforma el anterior. <span class="no">No muestra</span> incendios tapados por nubes ni los que se apagaron antes del __ACTIVO_DESDE__. Un foco suelto no prueba que haya un incendio.</div>
+  </div>
+</section>
+
+<section id="anillos">
+  <div class="col">
+    <div class="kicker">2 · Distancia</div>
+    <h2>Mientras más cerca del fuego, menos gente, pero más expuesta</h2>
+    <p>De las __P5__ personas que viven a ≤ 5 km, <b>__P1__</b> están a 1 km o menos. Usa el selector para pasar de todo el país al incendio de Mazamari.</p>
+    <div class="toggle" role="group" aria-label="Ámbito">
+      <button type="button" data-ambito="veg" aria-pressed="true">Todo el Perú</button>
+      <button type="button" data-ambito="mz" aria-pressed="false">Solo Mazamari</button>
+    </div>
+    <div class="anillos-wrap">
+      <svg id="svg-anillos" viewBox="0 0 340 340" role="img" aria-label="Anillos de distancia de 1, 3 y 5 km alrededor del fuego"></svg>
+      <ul class="bandas" id="bandas"></ul>
+    </div>
+    <p class="fuente">Focos NASA FIRMS VIIRS (activos al corte) · WorldPop 2020, 1 km.</p>
+    <div class="leer"><b class="t">Cómo leer</b>Cada banda muestra cuántas personas viven <i>entre</i> esas distancias de algún foco activo, y debajo va el total acumulado. Los círculos están a escala de distancia, no de población. <span class="no">No muestra</span> quién respiró humo ni quién sufrió daños. La cifra a 1 km es la más gruesa, porque los píxeles de WorldPop miden 1 km y uno de ellos entra entero o queda fuera según dónde caiga su centro.</div>
+  </div>
+</section>
+
+<section id="mazamari">
+  <div class="ancha">
+    <div class="col" style="padding:0">
+      <div class="kicker">3 · Un incendio de cerca</div>
+      <h2>Mazamari: __MZ_HA27__ hectáreas quemadas y __MZ_P5__ vecinos</h2>
+      <p>El incendio de Mazamari (Satipo, Junín) acumuló __MZ_FOCOS__ focos entre el __MZ_INICIO__ y el __MZ_ULTIMO__ UTC. La imagen de Sentinel-2 del __MZ_POST__ muestra <b>__MZ_HA27__ ha</b> con severidad moderada o alta y __MZ_HA10__ ha con algún daño. Alrededor vive población rural dispersa: <b>__MZ_P1__</b> personas a ≤ 1 km, __MZ_P3__ a ≤ 3 km y __MZ_P5__ a ≤ 5 km.</p>
+    </div>
+    <div class="datos-mz">
+      <div><b>__MZ_HA27__ ha</b><span>dNBR ≥ 0,27 (moderada o alta)</span></div>
+      <div><b>__MZ_RANGO__</b><span>rango según la imagen "antes" elegida</span></div>
+      <div><b>__MZ_P5__</b><span>personas a ≤ 5 km</span></div>
+      <div><b>__MZ_MASK__</b><span>de la zona enmascarada por nubes</span></div>
+    </div>
+    <div id="mapa" aria-label="Mapa interactivo de Mazamari"></div>
+    <div class="leyendas">
+      <div class="lg"><b>Severidad dNBR (USGS)</b>
+        <span class="sw"><i style="background:#fee391"></i>Baja 0,10–0,27</span><span class="sw"><i style="background:#fe9929"></i>Moderada-baja 0,27–0,44</span>
+        <span class="sw"><i style="background:#d7301f"></i>Moderada-alta 0,44–0,66</span><span class="sw"><i style="background:#7f0000"></i>Alta ≥ 0,66</span></div>
+      <div class="lg"><b>Personas por celda (~1 km², WorldPop 2020)</b><span id="lg-pob"></span></div>
+      <div class="lg"><b>Distancia</b><span class="sw"><i style="background:transparent;border:2px solid #1F5F4A"></i>5 km</span>
+        <span class="sw"><i style="background:transparent;border:2px dashed #6A4C93"></i>3 km</span><span class="sw"><i style="background:transparent;border:2px solid #6A4C93"></i>1 km</span>
+        <span class="sw"><i style="background:#FFE14D;border-radius:50%;border:1px solid #2B2B2B"></i>foco VIIRS</span></div>
+    </div>
+    <p class="fuente">Sentinel-2 L2A, Microsoft Planetary Computer (__MZ_PRE__ vs. __MZ_POST__) · NASA FIRMS VIIRS · WorldPop 2020 · Mapa base: Esri.</p>
+    <div class="leer"><b class="t">Cómo leer</b>Usa el control de capas (arriba a la derecha) para encender o apagar la población, la severidad y los anillos. Haz clic en una celda o en un foco para ver su valor. La severidad solo se calculó a ≤ 1 km de los focos (__MZ_ZONA__ ha analizadas). <span class="no">No muestra</span> lo que ardió antes del __MZ_PRE__, lo que quedó bajo nubes (__MZ_MASK__ de la zona), ni dónde están exactamente las casas dentro de cada celda de 1 km. El fuego empezó antes del 14 oct; FIRMS de 7 días no ve su inicio.</div>
+  </div>
+</section>
+
+<section id="ranking">
+  <div class="col">
+    <div class="kicker">4 · Dónde</div>
+    <h2>Los 15 distritos con más gente cerca del fuego</h2>
+    <p>Junín encabeza los departamentos con <b>__JUNIN_P__</b> personas expuestas (el __JUNIN_PCTDEP__ de su población). Pero por distrito, la exposición se concentra donde un foco cae junto a una ciudad.</p>
+    <ol class="ranking">__RANKING__</ol>
+    <p class="fuente">NASA FIRMS VIIRS (activos al corte) · WorldPop 2020 · límites INEI (juaneladio/peru-geojson).</p>
+    <div class="leer"><b class="t">Cómo leer</b>La barra compara el número de personas a ≤ 5 km entre distritos, sin contar las fuentes urbanas excluidas. Un distrito puede tener gente expuesta y "0 incendios dentro" si el fuego está en el distrito vecino (como José Leonardo Ortiz, junto a Lambayeque). <span class="no">No muestra</span> daños, y muchos de estos focos son de un solo píxel cerca de ciudades: pueden ser quemas agrícolas o basurales, no incendios forestales.</div>
+  </div>
+</section>
+
+<section id="escala">
+  <div class="col">
+    <div class="kicker">5 · Para dimensionar</div>
+    <h2>¿Cuánto es __P5_MIL__ mil personas?</h2>
+    <div class="comparas">
+      <div class="compara"><div class="big">1 de __UNO_DE__</div><div><p>habitantes del Perú vive a 5 km o menos de un incendio activo.</p>
+        <p class="calc">__POB_PERU__ (población total, WorldPop 2020) ÷ __P5__ = __UNO_DE_EXACTO__</p></div></div>
+      <div class="compara"><div class="big">__VECES_MZ__×</div><div><p>la población de todo el distrito de Mazamari (__POB_MZ__ habitantes).</p>
+        <p class="calc">__P5__ ÷ __POB_MZ__ = __VECES_MZ_EXACTO__ · ambas cifras de WorldPop 2020</p></div></div>
+      <div class="compara"><div class="big">__JUNIN_PCT__</div><div><p>de toda la gente expuesta vive en Junín: <b>__JUNIN_P__</b> personas, el departamento con más vecinos del fuego.</p>
+        <p class="calc">__JUNIN_P__ ÷ __P5__ · WorldPop 2020</p></div></div>
+      <div class="compara"><div class="big">__G0__ → __G3__</div><div><p>es lo que cambia la cifra según qué llamemos «incendio»: de contar <i>todos</i> los focos activos a contar solo los __G3_INC__ incendios con más de 100 ha de huella. __UNFOCO__ incendios activos tienen un solo foco.</p>
+        <div class="tabla"><table><thead><tr><th>Definición de «incendio»</th><th class="n">Incendios</th><th class="n">Personas a ≤ 5 km</th></tr></thead><tbody>__FILAS_GRAD__</tbody></table></div></div></div>
+    </div>
+    <div class="leer"><b class="t">Cómo leer</b>Las comparaciones dividen cifras del mismo dataset (WorldPop 2020), así que son exactas dentro de esa fuente. <span class="no">No significan</span> que toda esa gente haya sido afectada.</div>
+  </div>
+</section>
+
+<section id="oficial">
+  <div class="col">
+    <div class="kicker">6 · Contraste</div>
+    <h2>¿Lo confirman las fuentes oficiales?</h2>
+    <p>Busqué reportes del COEN, INDECI y la prensa el 21 oct 2026. Las cifras oficiales miden otra cosa: <b>personas registradas con daños</b> y <b>emergencias atendidas</b>. Yo mido <b>gente que vive cerca</b> y <b>grupos de focos satelitales</b>. Por eso no deben coincidir.</p>
+
+    <div class="ofi"><span class="sello ok">Verificado en documento oficial</span>
+      <h4><a href="https://portal.indeci.gob.pe/wp-content/uploads/2026/10/REPORTE-COMPLEMENTARIO-N.%C2%BA-13907-11OCT2026-INCENDIO-FORESTAL-EN-EL-DISTRITO-DE-R%C3%8DO-TAMBO-JUN%C3%8DN-6.pdf">COEN-INDECI · Reporte complementario n.º 13907</a>, 11 oct 2026, 05:30 h</h4>
+      <div class="vs"><div><b>Dice</b>Incendio en la C. N. Tsyapo, Río Tambo (Satipo): 80 damnificados, 60 afectados, 2 lesionados, 20 viviendas destruidas, 10 afectadas, 350 ha de cobertura natural destruida. Mazamari aparece como base aérea de las operaciones.</div>
+      <div><b>Mis datos</b>En el distrito de Río Tambo hay un grupo de 279 focos VIIRS (14–17 oct) con 3 545 ha de huella. No medí su área quemada.</div></div>
+      <div class="veredicto">Las fechas son distintas y la huella VIIRS no es área quemada. Que mi grupo de focos sea el mismo incendio de Tsyapo: <b>no verificado</b>.</div></div>
+
+    <div class="ofi"><span class="sello prensa">Cifra oficial citada por prensa</span>
+      <h4>Jefe de INDECI, en <a href="https://www.infobae.com/peru/2026/10/12/incendios-forestales-en-peru-indeci-reporta-58-activos-y-las-fuerzas-armadas-despliegan-aviones-y-helicopteros/">Infobae</a> (publicado el 11 oct 2026)</h4>
+      <div class="vs"><div><b>Dice</b>58 incendios forestales activos (Cusco, Ayacucho, Apurímac, Junín, Áncash, Arequipa y Cajamarca).</div>
+      <div><b>Mis datos</b>__INC_VEG__ incendios de vegetación activos entre el __ACTIVO_DESDE__ y el corte.</div></div>
+      <div class="veredicto">No son comparables: son fechas distintas, e INDECI cuenta emergencias atendidas mientras que yo cuento agrupaciones de focos (muchas, de un solo foco).</div></div>
+
+    <div class="ofi"><span class="sello prensa">Cifra oficial citada por prensa</span>
+      <h4>COEN y SERFOR, en <a href="https://es.mongabay.com/2026/10/peru-medio-centenar-incendios-forestales-trece-regiones-extienden-territorios-indigenas/">Mongabay Latam</a> (13 oct 2026)</h4>
+      <div class="vs"><div><b>Dice</b>COEN: 51 incendios (35 activos, 16 controlados) en 13 regiones. Monitoreo satelital del SERFOR: 56 activos en 16 regiones. Al menos 34 registros activos del SERFOR no figuran en el COEN.</div>
+      <div><b>Mis datos</b>—</div></div>
+      <div class="veredicto">Hasta las fuentes oficiales difieren entre sí según el método, igual que mi cifra según la definición de «incendio».</div></div>
+
+    <div class="ofi"><span class="sello prensa">Cifra oficial citada por prensa</span>
+      <h4>INDECI-COEN, en <a href="https://elbuho.pe/2026/10/ya-son-12-los-fallecidos-en-los-incendios-forestales-que-se-estan-registrando-en-siete-regiones-del-peru/">El Búho</a> (corte al 19 oct 2026)</h4>
+      <div class="vs"><div><b>Dice</b>12 incendios forestales activos, 832 personas afectadas y 12 fallecidos en octubre. Río Tambo (Satipo) es "el punto más crítico del país".</div>
+      <div><b>Mis datos</b>__P5__ personas a ≤ 5 km de un incendio activo.</div></div>
+      <div class="veredicto">No son comparables: "afectado" es alguien registrado con daños (EDAN), y "a ≤ 5 km" es exposición potencial.</div></div>
+
+    <div class="ofi"><span class="sello nv">No verificado</span>
+      <h4>El incendio de Mazamari (mi incendio n.º 190)</h4>
+      <div class="vs"><div><b>Dice</b>No encontré un reporte oficial (COEN, INDECI, SERFOR ni SERNANP) sobre un incendio dentro del distrito de Mazamari.</div>
+      <div><b>Mis datos</b>__MZ_HA27__ ha (dNBR ≥ 0,27) y __MZ_P5__ personas a ≤ 5 km.</div></div>
+      <div class="veredicto">Mis cifras de Mazamari no tienen contraste oficial. Tampoco revisé reportes del SERNANP: <b>no verificado</b>.</div></div>
+    <p class="fuente">Consultado el 21 oct 2026. Las cifras citadas por prensa no se contrastaron con el documento original.</p>
+  </div>
+</section>
+
+<section id="metodo" class="metodo">
+  <div class="col">
+    <div class="kicker">7 · Para revisar</div>
+    <h2>Método, fuentes y limitaciones</h2>
+
+    <h3>Umbrales exactos</h3>
+    <div class="tabla"><table><tbody>
+      <tr><th>Focos</th><td>VIIRS 375 m de S-NPP, NOAA-20 y NOAA-21. Se excluyen los de confianza <code>low</code> y los que están a ≤ 5 km de los volcanes Sabancaya, Ubinas y Misti.</td></tr>
+      <tr><th>Incendio</th><td>Focos a ≤ 1 km y ≤ 48 h entre sí (componentes conexas). <b>Activo:</b> algún foco entre el __ACTIVO_DESDE__ y el corte.</td></tr>
+      <tr><th>Fuente fija</th><td>≥ 6 días distintos con desviación &lt; 0,002° (~220 m): se excluye.</td></tr>
+      <tr><th>Urbano</th><td>&gt; 50 % de sus focos en píxeles WorldPop con ≥ 500 hab/km²: se excluye.</td></tr>
+      <tr><th>NBR / dNBR</th><td>NBR = (B8A − B12)/(B8A + B12) a 20 m. dNBR = NBR<sub>antes</sub> − NBR<sub>después</sub>. Antes: <b>__MZ_PRE__</b>. Después: <b>__MZ_POST__</b>.</td></tr>
+      <tr><th>Máscara SCL</th><td>Se descartan las clases 0 (sin dato), 1 (saturado), 3 (sombra de nube), 6 (agua), 8 y 9 (nube media y alta), 10 (cirro) y 11 (nieve), en cualquiera de las dos fechas. En la zona quedó enmascarado el __MZ_MASK__.</td></tr>
+      <tr><th>Área quemada</th><td><b>dNBR ≥ 0,27</b> (USGS: moderada-baja o más), solo a ≤ 1 km de los focos del incendio. Clases: 0,10 / 0,27 / 0,44 / 0,66.</td></tr>
+      <tr><th>Población</th><td>WorldPop 2020, 1 km. Radios de <b>1, 3 y 5 km</b> por foco (UTM 18S), unidos; se suma un píxel si su <b>centro</b> cae dentro.</td></tr>
+    </tbody></table></div>
+
+    <h3>Imágenes de Sentinel-2 en la zona de Mazamari</h3>
+    <div class="tabla"><table><thead><tr><th>Fecha</th><th class="n">% nube en la zona</th><th class="n">% válido</th><th class="n">% nube escena</th><th>Uso</th></tr></thead><tbody>__FILAS_ESC__</tbody></table></div>
+    <p class="fuente">Órbita R082, tiles 18LWM, 18LWN, 18LXM y 18LXN. "% válido" es la parte de la zona que no cae en las clases SCL excluidas.</p>
+
+    <h3>Sensibilidad a la fecha "antes"</h3>
+    <div class="tabla"><table><thead><tr><th>Antes</th><th>Después</th><th class="n">ha dNBR ≥ 0,27</th><th class="n">ha dNBR ≥ 0,10</th></tr></thead><tbody>__FILAS_SENS__</tbody></table></div>
+    <p>Usé el __MZ_PRE__ porque en la imagen del 8 oct ya se veía una parte quemada. Con una fecha más temprana entran más cambios ajenos al incendio. También probé primero el incendio de Cayna (Ambo, Huánuco), pero su única imagen posterior (21 oct) estaba 100 % nublada y no se pudo medir.</p>
+
+    <h3>Fuentes</h3>
+    <div class="tabla"><table><thead><tr><th>Dataset</th><th>Datos</th><th>Descargado</th></tr></thead><tbody>
+      <tr><td><a href="https://firms.modaps.eosdis.nasa.gov/active_fire/">NASA FIRMS</a>: VIIRS 375 m (S-NPP, NOAA-20, NOAA-21), «South America 7d»</td><td>__VENTANA__ (NRT)</td><td>21 oct 2026</td></tr>
+      <tr><td><a href="https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a">Sentinel-2 Level-2A</a>, Microsoft Planetary Computer</td><td>escenas del 29 ago al 20 oct 2026</td><td>21 oct 2026</td></tr>
+      <tr><td><a href="https://data.worldpop.org/GIS/Population/Global_2000_2020_1km/2020/PER/per_ppp_2020_1km_Aggregated.tif">WorldPop</a>: <code>per_ppp_2020_1km_Aggregated</code>, Perú (<a href="https://www.worldpop.org/">worldpop.org</a>)</td><td>2020</td><td>21 oct 2026</td></tr>
+      <tr><td><a href="https://github.com/juaneladio/peru-geojson">juaneladio/peru-geojson</a>: límites INEI con UBIGEO</td><td>versión del repositorio</td><td>21 oct 2026</td></tr>
+      <tr><td>Mapa base: <a href="https://www.esri.com/">Esri</a> World Imagery y World Light Gray</td><td>teselas en línea</td><td>al abrir la página</td></tr>
+    </tbody></table></div>
+    <p>El código está en <code>tarea_3_1/src</code> (scripts del 00 al 05), en el repositorio <a href="https://github.com/AntonioMacedo17/Python_Intermedio_2026">AntonioMacedo17/Python_Intermedio_2026</a>.</p>
+
+    <h3>Limitaciones</h3>
+    <ul class="lim">
+      <li><b>Un foco de calor no es un incendio.</b> __UNFOCO__ incendios activos tienen un solo foco. Varios focos de la costa de Moquegua, Ilo y Arequipa aparecen todos en la misma pasada (20 oct, 18:36 UTC) y podrían ser falsos positivos sobre el desierto.</li>
+      <li><b>Las nubes esconden el fuego.</b> En la selva, un incendio puede no verse por días. Cayna no se pudo medir por eso.</li>
+      <li><b>Exposición no es daño.</b> Vivir a ≤ 5 km no significa haber sido afectado, y los 5 km son una convención.</li>
+      <li><b>WorldPop 2020</b> es un modelo, no un censo, y tiene 6 años. A 1 km de resolución, la cifra a ≤ 1 km es aproximada.</li>
+      <li><b>FIRMS de 7 días</b> no ve el inicio de los incendios más antiguos. Las cifras por incendio se solapan; el total nacional usa la unión de los radios.</li>
+      <li>El área quemada solo se midió a ≤ 1 km de los focos: puede perder bordes del incendio o incluir quemas agrícolas vecinas.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>¿A quién afecta el fuego? · Antonio Macedo · Datos al __CORTE_UTC__ · Herramienta independiente.</footer>
+
+<script>
+const D = __DATOS__;
+const fmt = v => Math.round(v).toLocaleString('es-PE').replace(/,/g, ' ');
+const VERDE = '#1F5F4A', MORADO = '#6A4C93', CARBON = '#2B2B2B';
+
+// ---------- Anillos ----------
+const svg = document.getElementById('svg-anillos');
+const R = {5: 160, 3: 96, 1: 32};
+function anillos(ambito) {
+  const col = ambito === 'mz' ? 'personas_mazamari' : 'personas_veg';
+  const v = Object.fromEntries(D.anillos.map(a => [a.radio_km, a[col]]));
+  const banda = {1: v[1], 3: v[3] - v[1], 5: v[5] - v[3]};
+  const tonos = {5: '#DCE8E1', 3: '#9FC2B1', 1: MORADO};
+  let s = '';
+  [5, 3, 1].forEach(k => { s += `<circle cx="170" cy="170" r="${R[k]}" fill="${tonos[k]}" stroke="${CARBON}" stroke-width="1"/>`; });
+  s += `<circle cx="170" cy="170" r="5" fill="#FFE14D" stroke="${CARBON}"/>`;
+  s += `<text x="170" y="${170 - R[5] + 30}" text-anchor="middle" font-size="15" font-weight="700" fill="${CARBON}">${fmt(banda[5])}</text>`;
+  s += `<text x="170" y="${170 - R[5] + 46}" text-anchor="middle" font-size="12" fill="${CARBON}">entre 3 y 5 km</text>`;
+  s += `<text x="170" y="${170 - R[3] + 26}" text-anchor="middle" font-size="15" font-weight="700" fill="${CARBON}">${fmt(banda[3])}</text>`;
+  s += `<text x="170" y="${170 - R[3] + 42}" text-anchor="middle" font-size="12" fill="${CARBON}">entre 1 y 3 km</text>`;
+  s += `<text x="170" y="${170 + 26}" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">${fmt(banda[1])}</text>`;
+  [5, 3, 1].forEach(k => { s += `<text x="${170 + R[k] * 0.72}" y="${170 + R[k] * 0.72}" font-size="12" font-weight="700" fill="${CARBON}">${k} km</text>`; });
+  svg.innerHTML = s;
+  document.getElementById('bandas').innerHTML = [[1, 'A 1 km o menos'], [3, 'Entre 1 y 3 km'], [5, 'Entre 3 y 5 km']].map(([k, t]) =>
+    `<li><div class="r">${t}</div><div class="v" style="color:${k === 1 ? MORADO : VERDE}">${fmt(banda[k])} personas</div>` +
+    `<div class="acum">Acumulado a ≤ ${k} km: ${fmt(v[k])}</div></li>`).join('');
+}
+document.querySelectorAll('.toggle button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.toggle button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  anillos(b.dataset.ambito);
+}));
+anillos('veg');
+
+// ---------- Mapa de Mazamari ----------
+const mapa = L.map('mapa', {scrollWheelZoom: false});
+const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  {attribution: 'Imágenes: Esri, Maxar, Earthstar Geographics', maxZoom: 17}).addTo(mapa);
+const gris = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+  {attribution: 'Base: Esri, HERE, Garmin, © OpenStreetMap', maxZoom: 16});
+const cortes = [5, 10, 25, 50, 100, 250];
+const ylorrd = ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#f03b20', '#bd0026'];
+const cpob = v => ylorrd[cortes.filter(c => v >= c).length];
+document.getElementById('lg-pob').innerHTML = ylorrd.map((c, i) =>
+  `<span class="sw"><i style="background:${c}"></i>${i === 0 ? '< 5' : i === ylorrd.length - 1 ? '≥ 250' : cortes[i - 1] + '–' + cortes[i]}</span>`).join('');
+const capaPob = L.geoJSON(D.pob, {style: f => ({fillColor: cpob(f.properties.v), fillOpacity: .55, color: '#fff', weight: .3}),
+  onEachFeature: (f, l) => l.bindPopup(`<b>${fmt(f.properties.v)}</b> personas en esta celda (~1 km²)<br><small>WorldPop 2020</small>`)}).addTo(mapa);
+const csev = {1: '#fee391', 2: '#fe9929', 3: '#d7301f', 4: '#7f0000'};
+const nsev = {1: 'Baja (0,10–0,27)', 2: 'Moderada-baja (0,27–0,44)', 3: 'Moderada-alta (0,44–0,66)', 4: 'Alta (≥ 0,66)'};
+const capaSev = L.geoJSON(D.sev, {style: f => ({fillColor: csev[f.properties.clase], fillOpacity: .9, color: csev[f.properties.clase], weight: .5}),
+  onEachFeature: (f, l) => l.bindPopup(`Severidad dNBR: <b>${nsev[f.properties.clase]}</b><br><small>Sentinel-2 L2A</small>`)}).addTo(mapa);
+const capaAros = L.geoJSON(D.aros, {style: f => ({fill: false, color: f.properties.radio_km === 5 ? VERDE : MORADO, weight: f.properties.radio_km === 5 ? 3 : 2,
+  dashArray: f.properties.radio_km === 3 ? '6 5' : null}), interactive: false}).addTo(mapa);
+const capaFocos = L.layerGroup(D.focos.map(p => L.circleMarker([p.latitude, p.longitude], {radius: 3.5, color: CARBON, weight: 1, fillColor: '#FFE14D', fillOpacity: 1})
+  .bindPopup(`Foco VIIRS ${p.sensor}<br>${p.fecha_hora} UTC<br>FRP ${p.frp} MW`))).addTo(mapa);
+L.control.layers({'Satélite': sat, 'Gris claro': gris},
+  {'Población (WorldPop 2020)': capaPob, 'Severidad dNBR': capaSev, 'Anillos 1 · 3 · 5 km': capaAros, 'Focos VIIRS': capaFocos},
+  {collapsed: false}).addTo(mapa);
+L.control.scale({imperial: false}).addTo(mapa);
+mapa.fitBounds(capaAros.getBounds(), {padding: [10, 10]});
+</script>
+</body>
+</html>

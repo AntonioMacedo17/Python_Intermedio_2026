@@ -3,6 +3,7 @@
 Regla: focos a <= 1 km y <= 48 h pertenecen al mismo incendio (componentes conexas).
 Incendio activo: tiene al menos un foco en las últimas 48 h del archivo.
 """
+import json
 from pathlib import Path
 
 import geopandas as gpd
@@ -38,7 +39,8 @@ df = pd.concat(
 df["fecha_hora"] = pd.to_datetime(
     df["acq_date"] + " " + df["acq_time"].astype(str).str.zfill(4), format="%Y-%m-%d %H%M"
 )
-print(f"Focos Sudamérica: {len(df):,}")
+n_sa = len(df)
+print(f"Focos Sudamérica: {n_sa:,}")
 
 # 2. Solo Perú (puntos dentro de los distritos INEI)
 dist = gpd.read_file(RAW / "peru_distrital_simple.geojson")[
@@ -111,5 +113,12 @@ print(f"Incendios: {len(agg):,} | activos (foco en últimas 48 h): {agg.activo.s
 print(f"Activos con huella > 100 ha: {(agg.activo & (agg.huella_ha > 100)).sum()}")
 print(agg.head(20)[["n_focos", "huella_ha", "frp_total", "activo", "departamento", "provincia", "distrito", "inicio", "ultimo"]].to_string())
 
+conteos = {
+    "focos_sudamerica": int(n_sa), "focos_peru": int(n_peru), "focos_sin_conf_baja": int(n_conf),
+    "focos_limpios": int(len(gdf)), "fuentes_fijas": int(len(fijas)), "incendios": int(len(agg)),
+    "incendios_activos": int(agg.activo.sum()),
+    "corte_inicio_utc": str(gdf.fecha_hora.min()), "corte_fin_utc": str(t_max),
+}
+(OUT / "conteos_focos.json").write_text(json.dumps(conteos, indent=2), encoding="utf-8")
 gdf.drop(columns="geometry").to_csv(OUT / "focos_peru.csv", index=False)
 agg.to_csv(OUT / "incendios_peru.csv")
