@@ -1,6 +1,5 @@
 # --- Entorno virtual y cachés de Python ---
 .venv/
-.venv-uv/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
