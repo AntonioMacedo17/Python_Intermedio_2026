@@ -141,8 +141,7 @@ def main():
     print(tabla.loc[tabla["descartado"], ["id", "motivo_descarte"]].to_string(index=False) or "sin descartes")
 
     # ── 3-4. transcripción + diarización (solo español y no descartados) ─────────────────
-    t = voz.Transcriptor(MODELO)
-    print(f"{t} cargado en {t.segundos_carga:.1f} s")
+    t = None  # el modelo se carga solo si falta algún clip
     filas = []
     for f in tabla[(tabla["idioma"] == "es") & ~tabla["descartado"]].itertuples():
         x = audios[f.id]
@@ -155,6 +154,9 @@ def main():
             filas.append(fila_de(f, segs, None, None))
             print(f"{f.id} ya estaba hecho: se reutiliza", flush=True)
             continue
+        if t is None:
+            t = voz.Transcriptor(MODELO)
+            print(f"{t} cargado en {t.segundos_carga:.1f} s")
         t0 = time.perf_counter()
         segs = t.segmentos(x, idioma="es")
         seg_asr = time.perf_counter() - t0

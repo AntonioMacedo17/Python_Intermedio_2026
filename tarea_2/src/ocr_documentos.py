@@ -41,7 +41,7 @@ def main():
     tabla = pd.read_csv(DOCS / "descargas.csv").reset_index(drop=True)
     tabla["id"] = [f"doc_{i:03d}" for i in range(1, len(tabla) + 1)]
     (DOCS / "ocr").mkdir(exist_ok=True)
-    ocr = PaddleOCR(**OPCIONES)
+    ocr = None  # el modelo se carga solo si falta algún documento
     filas = []
     for f in tabla.itertuples():
         salida_json = DOCS / "ocr" / f"{f.id}.json"
@@ -53,6 +53,8 @@ def main():
                           "segundos_ocr": prev.get("segundos")})
             print(f"{f.id} ya estaba hecho: se reutiliza", flush=True)
             continue
+        if ocr is None:
+            ocr = PaddleOCR(**OPCIONES)
         t0 = time.perf_counter()
         r = ocr.predict(str(RAIZ / f.archivo_original))[0]
         segundos = time.perf_counter() - t0
