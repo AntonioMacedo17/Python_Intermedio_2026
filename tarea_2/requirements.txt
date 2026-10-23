@@ -1,0 +1,5 @@
+# Solo lo necesario para ejecutar la app (streamlit run app.py). La app lee CSV: no instala
+# PaddleOCR, Whisper ni modelos LLM. El entorno de los notebooks está en pyproject.toml / uv.lock.
+streamlit==1.66.1
+pandas==2.3.3
+plotly==7.1.0
