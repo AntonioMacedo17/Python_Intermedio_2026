@@ -1,12 +1,14 @@
 """Aplica la regla de modelos/config_evaluacion.json y guarda datos/muestra_evaluacion.csv.
 
-    .venv/Scripts/python.exe src/elegir_muestra.py
+    .venv/Scripts/python.exe src/elegir_muestra.py audio
+    .venv/Scripts/python.exe src/elegir_muestra.py documentos
 
 Solo usa metadatos (tipo, condición, duración del archivo, descartes de la limpieza):
 nunca salidas de OCR o ASR. Se corre una sola vez, cuando el corpus de 25+ documentos
 esté completo, y su resultado se commitea ANTES de escribir las referencias manuales.
 """
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -43,11 +45,19 @@ def muestra_audio(cfg, semilla):
 
 
 def main():
+    """Uso: `elegir_muestra.py audio` o `elegir_muestra.py documentos`. Cada modalidad se sortea
+    una sola vez y se guarda en su propio archivo; la de audio no depende de las fotos propias."""
     cfg = json.loads((RAIZ / "modelos" / "config_evaluacion.json").read_text(encoding="utf-8"))
-    muestra = pd.concat([muestra_documentos(cfg["muestra_documentos"], cfg["semilla"]),
-                         muestra_audio(cfg["muestra_audio"], cfg["semilla"])], ignore_index=True)
-    assert (muestra["modalidad"].value_counts() == 10).all(), muestra["modalidad"].value_counts()
-    muestra.to_csv(RAIZ / "datos" / "muestra_evaluacion.csv", index=False)
+    modalidad = sys.argv[1]
+    salida = RAIZ / "datos" / f"muestra_evaluacion_{modalidad}.csv"
+    if salida.exists():
+        raise SystemExit(f"{salida.name} ya existe: la muestra se sortea una sola vez y no se rehace.")
+    if modalidad == "audio":
+        muestra = muestra_audio(cfg["muestra_audio"], cfg["semilla"])
+    else:
+        muestra = muestra_documentos(cfg["muestra_documentos"], cfg["semilla"])
+    assert len(muestra) == 10, len(muestra)
+    muestra.to_csv(salida, index=False)
     print(muestra.to_string(index=False))
 
 
