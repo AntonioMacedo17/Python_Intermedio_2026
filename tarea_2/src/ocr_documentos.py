@@ -2,7 +2,7 @@
 
     .venv/Scripts/python.exe src/ocr_documentos.py
 
-Entrada: datos/raw/documentos/descargas.csv (+ capturas propias cuando existan).
+Entrada: datos/raw/documentos/corpus_documentos.csv (Commons + capturas propias).
 Salidas en datos/raw/documentos/ (fuera de Git: aún sin seudonimizar):
 - ocr/<id>.json        respaldo crudo de PaddleOCR (cajas, textos y confianzas)
 - ocr/<id>_cajas.jpg   la imagen con las cajas detectadas (para revisar a ojo)
@@ -38,8 +38,8 @@ CONFIG_OCR = f"PaddleOCR {paddleocr.__version__} (lang=es, sin orientación/unwa
 
 
 def main():
-    tabla = pd.read_csv(DOCS / "descargas.csv").reset_index(drop=True)
-    tabla["id"] = [f"doc_{i:03d}" for i in range(1, len(tabla) + 1)]
+    tabla = pd.read_csv(DOCS / "corpus_documentos.csv")  # Commons + capturas propias (src/corpus_documentos.py)
+    tabla = tabla[~tabla["descartado"]]
     (DOCS / "ocr").mkdir(exist_ok=True)
     ocr = None  # el modelo se carga solo si falta algún documento
     filas = []

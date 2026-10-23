@@ -33,8 +33,8 @@ def tesseract():
     version = str(pytesseract.get_tesseract_version())
     carpeta = SALIDA / "tesseract"
     carpeta.mkdir(parents=True, exist_ok=True)
-    docs = pd.read_csv(RAW / "documentos" / "descargas.csv").reset_index(drop=True)
-    docs["id"] = [f"doc_{i:03d}" for i in range(1, len(docs) + 1)]
+    docs = pd.read_csv(RAW / "documentos" / "corpus_documentos.csv")
+    docs = docs[~docs["descartado"]]
     for f in docs.itertuples():
         destino = carpeta / f"{f.id}.json"
         if destino.exists():

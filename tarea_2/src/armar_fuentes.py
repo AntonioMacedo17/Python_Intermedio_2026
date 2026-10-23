@@ -26,12 +26,13 @@ def main():
         "Wikimedia Commons": "Descarga directa desde Commons con src/descargar_audio.py (verifica SHA-1)",
         "OpenSLR 73": "Lectura parcial (HTTP Range) del zip de OpenSLR 73 con src/descargar_audio.py"})
 
-    docs = pd.read_csv(RAW / "documentos" / "descargas.csv").reset_index(drop=True)
-    docs["id"] = [f"doc_{i:03d}" for i in range(1, len(docs) + 1)]
+    docs = pd.read_csv(RAW / "documentos" / "corpus_documentos.csv")
     docs["modalidad"] = "documento"
     docs["acceso"] = [
-        "Miniatura oficial de Commons con src/descargar_documentos.py"
-        + (f" (página {int(p)} del PDF)" if pd.notna(p) else "") for p in docs["pagina_pdf"]]
+        ("Miniatura oficial de Commons con src/descargar_documentos.py"
+         + (f" (página {int(p)} del PDF)" if pd.notna(p) else "")) if o == "Wikimedia Commons"
+        else "Captura propia: no se publica la imagen; disponible solo como texto y metadatos"
+        for p, o in zip(docs["pagina_pdf"], docs["origen"])]
 
     cols = ["id", "modalidad", "fuente_url", "licencia", "acceso", "origen", "fecha_extraccion", "nota"]
     fuentes = pd.concat([docs[cols], audio[cols]], ignore_index=True)
