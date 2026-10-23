@@ -41,19 +41,28 @@ def main():
     filas = []
     for f in tabla.itertuples():
         salida_json = DOCS / "ocr" / f"{f.id}.json"
+        if salida_json.exists():  # reanudar: el JSON se escribe al final de cada documento
+            prev = json.loads(salida_json.read_text(encoding="utf-8"))
+            filas.append({"id": f.id, "texto_ocr_crudo": "\n".join(prev["textos"]), "modelo_ocr": prev["config"],
+                          "n_lineas": len(prev["textos"]),
+                          "confianza_media": round(float(np.mean(prev["confianzas"])), 3) if prev["confianzas"] else None,
+                          "segundos_ocr": prev.get("segundos")})
+            print(f"{f.id} ya estaba hecho: se reutiliza", flush=True)
+            continue
         t0 = time.perf_counter()
         r = ocr.predict(str(RAIZ / f.archivo_original))[0]
         segundos = time.perf_counter() - t0
         textos, confs = list(r["rec_texts"]), [float(c) for c in r["rec_scores"]]
         cajas = np.asarray(r["rec_boxes"]).reshape(-1, 4).astype(int).tolist()
-        salida_json.write_text(json.dumps({"id": f.id, "config": CONFIG_OCR, "textos": textos,
-                                           "confianzas": confs, "cajas_xyxy": cajas}, ensure_ascii=False),
-                               encoding="utf-8")
         r.save_to_img(str(DOCS / "ocr" / f"{f.id}_cajas.jpg"))
         img = Image.open(RAIZ / f.archivo_original).convert("RGB")
         (DOCS / "recortes" / f.id).mkdir(parents=True, exist_ok=True)
         for k, (x0, y0, x1, y1) in enumerate(cajas):
             img.crop((x0, y0, x1, y1)).save(DOCS / "recortes" / f.id / f"linea_{k:03d}.png")
+        # el JSON va al final: si existe, el documento quedó completo
+        salida_json.write_text(json.dumps({"id": f.id, "config": CONFIG_OCR, "textos": textos, "confianzas": confs,
+                                           "cajas_xyxy": cajas, "segundos": round(segundos, 1)}, ensure_ascii=False),
+                               encoding="utf-8")
         filas.append({"id": f.id, "texto_ocr_crudo": "\n".join(textos), "modelo_ocr": CONFIG_OCR,
                       "n_lineas": len(textos), "confianza_media": round(float(np.mean(confs)), 3) if confs else None,
                       "segundos_ocr": round(segundos, 1)})

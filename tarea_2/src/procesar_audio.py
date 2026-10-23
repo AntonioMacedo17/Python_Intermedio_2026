@@ -67,6 +67,20 @@ def sospechas(segmentos):
     return marcas
 
 
+def fila_de(f, segs, seg_asr, seg_diar):
+    """Una fila de asr_crudo.csv a partir de los segmentos de un clip."""
+    n_hab = len({s.hablante for s in segs})
+    plano = " ".join(s.texto for s in segs)
+    # marcas de hablante solo si hay más de uno, como pide el enunciado
+    texto_asr = " ".join(f"[HABLANTE_{s.hablante[1:]}] {s.texto}" for s in segs) if n_hab >= 2 else plano
+    return {"id": f.id, "texto_asr": texto_asr, "texto_plano": plano, "modelo_asr": CONFIG_ASR,
+            "n_hablantes": n_hab, "n_segmentos": len(segs),
+            "segundos_asr": round(seg_asr, 1) if seg_asr is not None else None,
+            "segundos_diarizacion": round(seg_diar, 1) if seg_diar is not None else None,
+            "rtf": round(seg_asr / f.duracion_seg, 3) if seg_asr is not None else None,
+            "sospechas_alucinacion": " | ".join(sospechas(segs))}
+
+
 def main():
     tabla = pd.read_csv(AUDIO / "descargas.csv")
     (AUDIO / "clips").mkdir(exist_ok=True)
@@ -132,27 +146,27 @@ def main():
     filas = []
     for f in tabla[(tabla["idioma"] == "es") & ~tabla["descartado"]].itertuples():
         x = audios[f.id]
+        hechos = [AUDIO / "salidas" / f"{f.id}.{ext}" for ext in ("csv", "srt", "txt")]
+        if all(p.exists() for p in hechos):
+            # Reanudar: este clip ya se procesó en una corrida anterior (el .txt se escribe al final).
+            # Sus tiempos no se guardaron, así que quedan vacíos; el RTF oficial se mide en la Parte 2.
+            prev = pd.read_csv(hechos[0]).fillna({"texto": "", "hablante": "H1"})
+            segs = [voz.Segmento(r.inicio, r.fin, str(r.texto), r.hablante) for r in prev.itertuples()]
+            filas.append(fila_de(f, segs, None, None))
+            print(f"{f.id} ya estaba hecho: se reutiliza", flush=True)
+            continue
         t0 = time.perf_counter()
         segs = t.segmentos(x, idioma="es")
         seg_asr = time.perf_counter() - t0
         t0 = time.perf_counter()
         segs = voz.diarizar(x, segs) if segs else segs
         seg_diar = time.perf_counter() - t0
-        n_hab = len({s.hablante for s in segs})
-        tabla_segs = voz.a_tabla(segs)
-        tabla_segs.to_csv(AUDIO / "salidas" / f"{f.id}.csv", index=False)
+        voz.a_tabla(segs).to_csv(AUDIO / "salidas" / f"{f.id}.csv", index=False)
         (AUDIO / "salidas" / f"{f.id}.srt").write_text(voz.a_srt(segs), encoding="utf-8")
         (AUDIO / "salidas" / f"{f.id}.txt").write_text(voz.a_texto(segs), encoding="utf-8")
-        plano = " ".join(s.texto for s in segs)
-        if n_hab >= 2:  # marcas de hablante solo si hay más de uno, como pide el enunciado
-            texto_asr = " ".join(f"[HABLANTE_{s.hablante[1:]}] {s.texto}" for s in segs)
-        else:
-            texto_asr = plano
-        filas.append({"id": f.id, "texto_asr": texto_asr, "texto_plano": plano, "modelo_asr": CONFIG_ASR,
-                      "n_hablantes": n_hab, "n_segmentos": len(segs), "segundos_asr": round(seg_asr, 1),
-                      "segundos_diarizacion": round(seg_diar, 1), "rtf": round(seg_asr / f.duracion_seg, 3),
-                      "sospechas_alucinacion": " | ".join(sospechas(segs))})
-        print(f"{f.id} {f.duracion_seg:6.1f}s  RTF {seg_asr / f.duracion_seg:.2f}  hablantes {n_hab}  {plano[:60]!r}")
+        filas.append(fila_de(f, segs, seg_asr, seg_diar))
+        print(f"{f.id} {f.duracion_seg:6.1f}s  RTF {seg_asr / f.duracion_seg:.2f}  "
+              f"hablantes {filas[-1]['n_hablantes']}", flush=True)
     salida = tabla.merge(pd.DataFrame(filas), on="id", how="left")
     salida.to_csv(AUDIO / "asr_crudo.csv", index=False)
     print("listo:", AUDIO / "asr_crudo.csv")
