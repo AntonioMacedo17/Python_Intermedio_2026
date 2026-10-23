@@ -23,7 +23,7 @@
     "procedimiento": "Primero los obligatorios; luego, dentro de cada condición, sorteo sin reemplazo con pandas.DataFrame.sample(n=cupos_restantes, random_state=semilla) sobre los elegibles ordenados por id. La duración se mide del archivo de audio, no de ninguna salida de modelo."
   },
   "modelos": {
-    "ocr_base": "PaddleOCR 3.7.0, lang='es', use_doc_orientation_classify=False, use_doc_unwarping=False, use_textline_orientation=False, sin preprocesamiento (configuración de la Sesión 10)",
+    "ocr_base": "PaddleOCR 3.7.0, lang='es', use_doc_orientation_classify=False, use_doc_unwarping=False, use_textline_orientation=False, sin preprocesamiento (configuración de la Sesión 10); enable_mkldnn=False por un fallo técnico de PaddlePaddle 3.3 en Windows detectado el 23/10 antes de ver resultados",
     "ocr_alternativo": "Tesseract 5.4.0 (UB Mannheim), lang='spa' (tessdata oficial), --oem 3 --psm 3 (valores por defecto), sin preprocesamiento",
     "asr_base": "faster-whisper small (Systran/faster-whisper-small), CPU int8, language='es', beam_size=5, vad_filter=True con silencios de 0,3 s (voz.py)",
     "asr_alternativo": "Parakeet TDT 0.6B v3 (nvidia/parakeet-tdt-0.6b-v3) vía voz.Transcriptor, CPU, tramos de voz por VAD Silero (0,3 s, máx. 12 s)",

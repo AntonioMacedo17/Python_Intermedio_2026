@@ -29,8 +29,12 @@ from PIL import Image  # noqa: E402
 RAIZ = Path(__file__).resolve().parents[1]
 DOCS = RAIZ / "datos" / "raw" / "documentos"
 OPCIONES = dict(lang="es", use_doc_orientation_classify=False, use_doc_unwarping=False,
-                use_textline_orientation=False)
-CONFIG_OCR = f"PaddleOCR {paddleocr.__version__} (lang=es, sin orientación/unwarping, sin preproceso)"
+                use_textline_orientation=False,
+                # Arreglo técnico (23/10, antes de cualquier métrica): PaddlePaddle 3.3 en CPU/Windows
+                # falla con oneDNN ("ConvertPirAttribute2RuntimeAttribute not support"). Sin oneDNN
+                # funciona igual, solo más lento. No cambia el modelo ni sus parámetros.
+                enable_mkldnn=False)
+CONFIG_OCR = f"PaddleOCR {paddleocr.__version__} (lang=es, sin orientación/unwarping, sin preproceso, oneDNN off)"
 
 
 def main():
