@@ -36,7 +36,7 @@ def leer(nombre):
 def grafico(fig, alto=380):
     fig.update_layout(height=alto, paper_bgcolor=CREMA, plot_bgcolor=CREMA, font_color=CARBON,
                       title_font_color=VERDE_TITULO, margin=dict(l=10, r=10, t=60, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 
 docs, trans = leer("documentos.csv"), leer("transcripciones.csv")
@@ -99,7 +99,7 @@ with tab_res:
     st.subheader("Tabla filtrada")
     tabla = pd.concat([d.assign(modalidad="documento").rename(columns={"texto_ocr": "texto"})[["id", "modalidad", "tipo", "texto"]],
                        t.assign(modalidad="audio", tipo="clip").rename(columns={"texto_asr": "texto"})[["id", "modalidad", "tipo", "texto"]]])
-    st.dataframe(tabla, use_container_width=True, hide_index=True)
+    st.dataframe(tabla, width="stretch", hide_index=True)
     st.download_button("Descargar CSV (textos seudonimizados)", tabla.to_csv(index=False).encode("utf-8"),
                        "textos_filtrados.csv", "text/csv")
 
@@ -142,7 +142,7 @@ with tab_aud:
             st.caption("El audio de este clip no se publica; se muestra la transcripción.")
         if comparacion_asr is not None and sel in set(comparacion_asr["id"]):
             st.markdown("**Comparación de modelos en este clip**")
-            st.dataframe(comparacion_asr[comparacion_asr["id"] == sel], hide_index=True, use_container_width=True)
+            st.dataframe(comparacion_asr[comparacion_asr["id"] == sel], hide_index=True, width="stretch")
 
 with tab_eval:
     if metricas is None:
@@ -152,7 +152,7 @@ with tab_eval:
                        color_discrete_sequence=[VERDE, MORADO], text_auto=".2f",
                        title="Error por modelo en la muestra de 10 casos (menor es mejor)",
                        labels={"valor": "tasa de error", "modelo": ""}))
-        st.dataframe(metricas, hide_index=True, use_container_width=True)
+        st.dataframe(metricas, hide_index=True, width="stretch")
 
 st.caption("Fuentes: Wikimedia Commons, OpenSLR 73 y capturas propias; licencias en datos/fuentes.csv. "
            "Nombres reales reemplazados por [PERSONA_###].")

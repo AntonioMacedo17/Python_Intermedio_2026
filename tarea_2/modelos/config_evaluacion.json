@@ -28,7 +28,7 @@
     "asr_base": "faster-whisper small (Systran/faster-whisper-small), CPU int8, language='es', beam_size=5, vad_filter=True con silencios de 0,3 s (voz.py)",
     "asr_alternativo": "Parakeet TDT 0.6B v3 (nvidia/parakeet-tdt-0.6b-v3) vía voz.Transcriptor, CPU, tramos de voz por VAD Silero (0,3 s, máx. 12 s)",
     "diarizacion": "voz.diarizar: huellas WeSpeaker ResNet34 + clustering aglomerativo coseno, umbral 0,7, número de hablantes no fijado",
-    "llm": "Gemini gemini-2.5-flash, temperature=0, salida JSON; solo recibe texto ya seudonimizado"
+    "llm": "Gemini gemini-3.8-flash, temperature=0, salida JSON; solo recibe texto ya seudonimizado. (Se había fijado gemini-2.5-flash; la API respondió 404 'no longer available to new users' el 23/10, antes de cualquier extracción, y recomendó 3.8-flash.)"
   },
   "metricas": {
     "normalizacion": "voz.normalizar(): minúsculas, NFC, sin puntuación, espacios simples; las tildes se conservan. Se aplica igual a referencia y a hipótesis.",
