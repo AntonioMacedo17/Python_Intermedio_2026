@@ -142,6 +142,7 @@ def main():
 
     # ── 3-4. transcripción + diarización (solo español y no descartados) ─────────────────
     t = None  # el modelo se carga solo si falta algún clip
+    reutilizados = 0
     filas = []
     for f in tabla[(tabla["idioma"] == "es") & ~tabla["descartado"]].itertuples():
         x = audios[f.id]
@@ -152,7 +153,7 @@ def main():
             prev = pd.read_csv(hechos[0]).fillna({"texto": "", "hablante": "H1"})
             segs = [voz.Segmento(r.inicio, r.fin, str(r.texto), r.hablante) for r in prev.itertuples()]
             filas.append(fila_de(f, segs, None, None))
-            print(f"{f.id} ya estaba hecho: se reutiliza", flush=True)
+            reutilizados += 1
             continue
         if t is None:
             t = voz.Transcriptor(MODELO)
@@ -171,7 +172,7 @@ def main():
               f"hablantes {filas[-1]['n_hablantes']}", flush=True)
     salida = tabla.merge(pd.DataFrame(filas), on="id", how="left")
     salida.to_csv(AUDIO / "asr_crudo.csv", index=False)
-    print("listo:", AUDIO / "asr_crudo.csv")
+    print(f"listo: {len(filas)} clips transcritos ({reutilizados} reutilizados de corridas anteriores)")
 
 
 if __name__ == "__main__":

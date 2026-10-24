@@ -27,7 +27,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import torch  # noqa: F401,E402  (torch antes que cualquier cosa de paddle, por si acaso)
-import voz  # noqa: E402
+
 
 RAIZ = Path(__file__).resolve().parents[1]
 RAW = RAIZ / "datos" / "raw"
@@ -75,9 +75,18 @@ class Seudonimizador:
     def tramos_ner(self, texto):
         """Posiciones (inicio, fin) de personas en el texto ORIGINAL. Se usan los offsets del modelo,
         no la palabra reconstruida (que puede diferir del original en espacios o tildes)."""
+        partes = [(a, b, texto[a:b]) for a, b in pedazos(texto)]
+        # Líneas TODO EN MAYÚSCULAS (títulos de OCR): el NER distingue mayúsculas y casi no las reconoce;
+        # se le pasan además en "Tipo Título" (misma longitud, así las posiciones siguen valiendo).
+        for m in re.finditer(r"[^\n]+", texto):
+            letras = [c for c in m.group() if c.isalpha()]
+            if len(m.group().split()) >= 2 and letras and sum(c.isupper() for c in letras) / len(letras) > 0.6:
+                titulo = m.group().title()
+                if len(titulo) == len(m.group()):
+                    partes.append((m.start(), m.end(), titulo))
         tramos = []
-        for a, b in pedazos(texto):
-            for e in self.ner(texto[a:b]):
+        for a, b, trozo in partes:
+            for e in self.ner(trozo):
                 ini, fin = a + e["start"], a + e["end"]
                 w = texto[ini:fin].strip(" .,;:")
                 if e["entity_group"] == "PER" and e["score"] >= UMBRAL_NER and len(w) >= 3 \
@@ -85,18 +94,39 @@ class Seudonimizador:
                     tramos.append((ini, fin))
         return tramos
 
+    @staticmethod
+    def tramos_difusos(texto, nombre, parecido=None):
+        """Como voz.seudonimizar pero sin distinguir tildes ni mayúsculas, y devolviendo posiciones.
+        Umbral: 75 para nombres de 2+ palabras (más letras, menos coincidencias por azar) y 80 para
+        nombres de una palabra. Ej.: 'BANON GASTILLA' (error de OCR) vs 'Ramón Castilla' = 78,6."""
+        from rapidfuzz import fuzz
+        palabras = [m.span() for m in re.finditer(r"\w+", texto)]
+        n = len(re.findall(r"\w+", nombre))
+        parecido = parecido or (75 if n >= 2 else 80)
+        objetivo = clave(" ".join(re.findall(r"\w+", nombre)))
+        hallados = []
+        for j in range(len(palabras) - n + 1):
+            ini, fin = palabras[j][0], palabras[j + n - 1][1]
+            ventana = clave(" ".join(re.findall(r"\w+", texto[ini:fin])))
+            if fuzz.ratio(ventana, objetivo) >= parecido:
+                hallados.append((ini, fin))
+        return hallados
+
     def aplicar(self, id_, texto):
         if not isinstance(texto, str) or not texto.strip():
             return texto, {"n_reemplazos_lista": 0, "n_reemplazos_ner": 0, "n_reemplazos_regex": 0}
         conteo = {"n_reemplazos_lista": 0, "n_reemplazos_ner": 0, "n_reemplazos_regex": 0}
         salida = texto
         # 1. lista conocida, difusa
-        for nombre in self.conocidos:
-            # marca provisoria: el seudónimo definitivo se crea solo si el nombre de verdad aparece
-            salida = voz.seudonimizar(salida, {nombre: "[PROVISORIO]"})
-            n = salida.count("[PROVISORIO]")
+        for nombre in self.conocidos:  # de los más largos a los más cortos
+            n, limite = 0, len(salida) + 1
+            for ini, fin in sorted(self.tramos_difusos(salida, nombre), reverse=True):
+                if fin > limite or "PERSONA_" in salida[ini:fin]:
+                    continue
+                limite = ini
+                salida = salida[:ini] + self.seudonimo(nombre) + salida[fin:]
+                n += 1
             if n:
-                salida = salida.replace("[PROVISORIO]", self.seudonimo(nombre))
                 conteo["n_reemplazos_lista"] += n
                 self.detecciones.append({"id": id_, "capa": "lista", "entidad": nombre, "veces": n})
         # 2. NER sobre lo que queda (reemplazo por posiciones, de atrás hacia adelante)
@@ -142,7 +172,7 @@ def main():
     pd.DataFrame([{"nombre": v[0], "seudonimo": v[1]} for v in s.tabla.values()]).to_csv(
         RAW / "seudonimos.csv", index=False)
     pd.DataFrame(s.detecciones).to_csv(RAW / "revision_seudonimizacion.csv", index=False)
-    print("personas distintas:", len(s.tabla))
+    print("cadenas distintas reemplazadas:", len(s.tabla))
     det = pd.DataFrame(s.detecciones)
     det = det[~det["id"].str.endswith("_plano")]
     print(det.groupby("capa")["veces"].sum().to_string())

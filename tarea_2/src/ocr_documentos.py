@@ -42,6 +42,7 @@ def main():
     tabla = tabla[~tabla["descartado"]]
     (DOCS / "ocr").mkdir(exist_ok=True)
     ocr = None  # el modelo se carga solo si falta algún documento
+    reutilizados = 0
     filas = []
     for f in tabla.itertuples():
         salida_json = DOCS / "ocr" / f"{f.id}.json"
@@ -51,7 +52,7 @@ def main():
                           "n_lineas": len(prev["textos"]),
                           "confianza_media": round(float(np.mean(prev["confianzas"])), 3) if prev["confianzas"] else None,
                           "segundos_ocr": prev.get("segundos")})
-            print(f"{f.id} ya estaba hecho: se reutiliza", flush=True)
+            reutilizados += 1
             continue
         if ocr is None:
             ocr = PaddleOCR(**OPCIONES)
@@ -75,7 +76,7 @@ def main():
         print(f"{f.id} {f.tipo:10s} {len(textos):4d} líneas  conf {np.mean(confs) if confs else 0:.2f}  "
               f"{segundos:5.1f}s", flush=True)
     tabla.merge(pd.DataFrame(filas), on="id").to_csv(DOCS / "ocr_crudo.csv", index=False)
-    print("listo:", DOCS / "ocr_crudo.csv")
+    print(f"listo: {len(filas)} documentos ({reutilizados} reutilizados de corridas anteriores)")
 
 
 if __name__ == "__main__":
