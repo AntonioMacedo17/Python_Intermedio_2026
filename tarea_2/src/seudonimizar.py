@@ -49,10 +49,13 @@ def clave(nombre):
     return " ".join("".join(c for c in s if not unicodedata.combining(c)).split())
 
 
-def trozos(texto, max_palabras=120):
-    palabras = texto.split()
+def pedazos(texto, max_palabras=120):
+    """Divide el texto en tramos (inicio, fin) de hasta max_palabras palabras, cortando en espacios,
+    para no pasar del límite de 512 piezas de BERT. Devuelve posiciones del texto original."""
+    palabras = [m.span() for m in re.finditer(r"\S+", texto)]
     for i in range(0, len(palabras), max_palabras):
-        yield " ".join(palabras[i:i + max_palabras])
+        grupo = palabras[i:i + max_palabras]
+        yield grupo[0][0], grupo[-1][1]
 
 
 class Seudonimizador:
@@ -69,15 +72,18 @@ class Seudonimizador:
             self.tabla[k] = (nombre, f"[PERSONA_{len(self.tabla) + 1:03d}]")
         return self.tabla[k][1]
 
-    def nombres_ner(self, texto):
-        hallados = set()
-        for t in trozos(texto):
-            for e in self.ner(t):
-                w = e["word"].replace("##", "").strip(" .,;:")
+    def tramos_ner(self, texto):
+        """Posiciones (inicio, fin) de personas en el texto ORIGINAL. Se usan los offsets del modelo,
+        no la palabra reconstruida (que puede diferir del original en espacios o tildes)."""
+        tramos = []
+        for a, b in pedazos(texto):
+            for e in self.ner(texto[a:b]):
+                ini, fin = a + e["start"], a + e["end"]
+                w = texto[ini:fin].strip(" .,;:")
                 if e["entity_group"] == "PER" and e["score"] >= UMBRAL_NER and len(w) >= 3 \
                         and re.search(r"[A-Za-zÁÉÍÓÚÑáéíóúñ]", w) and clave(w) not in NO_PERSONAS:
-                    hallados.add(w)
-        return sorted(hallados, key=len, reverse=True)
+                    tramos.append((ini, fin))
+        return tramos
 
     def aplicar(self, id_, texto):
         if not isinstance(texto, str) or not texto.strip():
@@ -86,19 +92,23 @@ class Seudonimizador:
         salida = texto
         # 1. lista conocida, difusa
         for nombre in self.conocidos:
-            antes = salida.count("[PERSONA_")
-            salida = voz.seudonimizar(salida, {nombre: self.seudonimo(nombre)})
-            n = salida.count("[PERSONA_") - antes
+            # marca provisoria: el seudónimo definitivo se crea solo si el nombre de verdad aparece
+            salida = voz.seudonimizar(salida, {nombre: "[PROVISORIO]"})
+            n = salida.count("[PROVISORIO]")
             if n:
+                salida = salida.replace("[PROVISORIO]", self.seudonimo(nombre))
                 conteo["n_reemplazos_lista"] += n
                 self.detecciones.append({"id": id_, "capa": "lista", "entidad": nombre, "veces": n})
-        # 2. NER sobre lo que queda
-        for nombre in self.nombres_ner(salida):
-            patron = r"(?<!\w)" + re.escape(nombre) + r"(?!\w)"
-            salida, n = re.subn(patron, self.seudonimo(nombre), salida)
-            if n:
-                conteo["n_reemplazos_ner"] += n
-                self.detecciones.append({"id": id_, "capa": "ner", "entidad": nombre, "veces": n})
+        # 2. NER sobre lo que queda (reemplazo por posiciones, de atrás hacia adelante)
+        limite = len(salida) + 1
+        for ini, fin in sorted(self.tramos_ner(salida), reverse=True):
+            nombre = salida[ini:fin]
+            if "[PERSONA_" in nombre or fin > limite:  # ya seudonimizado o se superpone con otro tramo
+                continue
+            limite = ini
+            salida = salida[:ini] + self.seudonimo(nombre) + salida[fin:]
+            conteo["n_reemplazos_ner"] += 1
+            self.detecciones.append({"id": id_, "capa": "ner", "entidad": nombre, "veces": 1})
         # 3. números y correos
         for tipo, patron in PATRONES.items():
             salida, n = re.subn(patron, f"[{tipo.upper()}]", salida)
