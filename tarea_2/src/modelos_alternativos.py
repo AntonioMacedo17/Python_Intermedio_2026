@@ -11,6 +11,7 @@ Los dos reanudan: un archivo ya procesado no se repite. Salidas en datos/raw/alt
 sin seudonimizar). Se mide el tiempo de proceso de cada archivo sin contar la carga del modelo.
 """
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -30,6 +31,8 @@ def tesseract():
     import pytesseract
     from PIL import Image
     pytesseract.pytesseract.tesseract_cmd = TESSERACT
+    # la ruta del repo tiene un espacio: se pasa por variable de entorno, no como argumento entre comillas
+    os.environ["TESSDATA_PREFIX"] = str(RAIZ / "modelos" / "tessdata")
     version = str(pytesseract.get_tesseract_version())
     carpeta = SALIDA / "tesseract"
     carpeta.mkdir(parents=True, exist_ok=True)
@@ -41,8 +44,7 @@ def tesseract():
             continue
         img = Image.open(RAIZ / f.archivo_original).convert("RGB")
         t0 = time.perf_counter()
-        texto = pytesseract.image_to_string(
-            img, lang="spa", config=f'{CONFIG_TESS} --tessdata-dir "{RAIZ / "modelos" / "tessdata"}"')
+        texto = pytesseract.image_to_string(img, lang="spa", config=CONFIG_TESS)
         seg = time.perf_counter() - t0
         destino.write_text(json.dumps({"id": f.id, "texto": texto, "segundos": round(seg, 2),
                                        "modelo": f"Tesseract {version} (spa, {CONFIG_TESS})"}, ensure_ascii=False),
