@@ -55,6 +55,7 @@ tarea2 = [
   "plotly>=5.24",
   "streamlit>=1.38",
   "nbconvert>=7",
+  "kaleido>=1.5.0",
 ]
 
 [tool.uv]
