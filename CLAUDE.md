@@ -21,6 +21,8 @@
 - Commits con mensajes descriptivos al terminar cada etapa, distribuidos en los días
   (el profe evalúa que el historial esté repartido en el tiempo).
 - Al final de cada sesión, sugiéreme el texto del comentario para el Issue/bitácora.
+  Indica siempre en qué Issue va (T2 – Parte 1, T2 – Parte 2 o T2 – Parte 3); si el avance
+  toca varias partes, da un comentario corto (2-3 líneas) por cada Issue, por separado.
 - Los Issues de GitHub los creo yo en la web.
 - Nunca versionar archivos pesados (>100 MB), audios crudos, pesos de modelos ni claves API.
 
