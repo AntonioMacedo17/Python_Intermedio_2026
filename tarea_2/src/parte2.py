@@ -22,14 +22,21 @@ def muestra(modalidad):
 
 
 def referencias(modalidad):
-    """Referencias manuales del estudiante. Falla si falta alguna de la muestra (no se evalúa a medias)."""
-    archivo = {"audio": "referencias_audio.csv", "documentos": "referencias_documentos.csv"}[modalidad]
-    ref = pd.read_csv(RAW / "referencias" / archivo, encoding="utf-8-sig")
-    m = muestra(modalidad)
-    falta = set(m["id"]) - set(ref.loc[ref["texto_referencia"].fillna("").str.strip() != "", "id"])
-    if falta:
-        raise ValueError(f"Faltan referencias manuales para: {sorted(falta)}")
-    return m.merge(ref.drop(columns=[c for c in ["tipo"] if c in ref]), on="id")
+    """Referencias manuales del estudiante (el .xlsx si existe; si no, el .csv).
+    Devuelve (referencias completas, ids que faltan). Si falta la muestra o la plantilla, (None, todos)."""
+    base = RAW / "referencias" / f"referencias_{modalidad}"
+    ruta = next((p for p in [base.with_suffix(".xlsx"), base.with_suffix(".csv")] if p.exists()), None)
+    try:
+        m = muestra(modalidad)
+    except FileNotFoundError:
+        return None, ["(muestra aún no sorteada)"]
+    if ruta is None:
+        return None, sorted(m["id"])
+    ref = pd.read_excel(ruta) if ruta.suffix == ".xlsx" else pd.read_csv(ruta, encoding="utf-8-sig")
+    hechos = set(ref.loc[ref["texto_referencia"].fillna("").astype(str).str.strip() != "", "id"])
+    falta = sorted(set(m["id"]) - hechos)
+    ref = m.merge(ref.drop(columns=[c for c in ["tipo"] if c in ref]), on="id")
+    return ref[ref["id"].isin(hechos)], falta
 
 
 def salidas_documentos():

@@ -1,6 +1,7 @@
 """Extracción de campos con Gemini sobre texto YA seudonimizado.
 
-    .venv/Scripts/python.exe src/extraccion_llm.py
+    .venv/Scripts/python.exe src/extraccion_llm.py              # extrae lo que falta
+    .venv/Scripts/python.exe src/extraccion_llm.py consolidar   # solo arma el CSV
 
 - Modelo: gemini-3.8-flash, temperature=0, salida JSON con esquema fijo (modelos/config_evaluacion.json).
 - Prompt: modelos/prompt_extraccion.txt (fijado antes de la auditoría humana).
@@ -99,7 +100,12 @@ def main():
                                        "fecha": date.today().isoformat()}, ensure_ascii=False), encoding="utf-8")
         print(f"{f.id} ok", flush=True)
         time.sleep(PAUSA)
+    consolidar()
 
+
+def consolidar():
+    """Une las respuestas guardadas en datos/raw/llm/*.json en un CSV (también si la cuota cortó la corrida)."""
+    carpeta = RAW / "llm"
     filas = []
     for p in sorted(carpeta.glob("*.json")):
         d = json.loads(p.read_text(encoding="utf-8"))
@@ -111,4 +117,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    consolidar() if sys.argv[1:] == ["consolidar"] else main()

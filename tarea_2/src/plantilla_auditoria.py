@@ -2,14 +2,18 @@
 
     .venv/Scripts/python.exe src/plantilla_auditoria.py
 
-Se corre una sola vez, con el corpus completo ya extraído. Sorteo: pandas.sample(random_state=2026)
-dentro de cada modalidad. La plantilla queda en datos/raw/referencias/auditoria_llm.csv (fuera de Git:
-contiene textos aún no revisados) y los criterios en trabajo_manual/04_GUIA_auditoria_llm.md.
+Se corre una sola vez. Sorteo: pandas.sample(random_state=2026) dentro de cada modalidad, entre las
+extracciones que existen (el 25/10 la cuota diaria gratuita de Gemini dejó 19 documentos y 13 audios: el
+sorteo es entre esos; la disponibilidad no depende de la calidad de la extracción). La plantilla queda en
+datos/raw/referencias/auditoria_llm.xlsx (fuera de Git: contiene textos aún no revisados) y los criterios
+en trabajo_manual/04_GUIA_auditoria_llm.md.
 """
 import json
 from pathlib import Path
 
 import pandas as pd
+
+from hojas_revision import guardar
 
 RAIZ = Path(__file__).resolve().parents[1]
 RAW = RAIZ / "datos" / "raw"
@@ -17,10 +21,13 @@ SEMILLA = 2026
 
 
 def main():
-    salida = RAW / "referencias" / "auditoria_llm.csv"
+    salida = RAW / "referencias" / "auditoria_llm.xlsx"
     if salida.exists():
-        raise SystemExit("auditoria_llm.csv ya existe: el sorteo se hace una sola vez.")
-    ext = pd.read_csv(RAW / "llm" / "extraccion_llm_borrador.csv").sort_values("id")
+        raise SystemExit("auditoria_llm.xlsx ya existe: el sorteo se hace una sola vez.")
+    ext = pd.DataFrame([json.loads(p.read_text(encoding="utf-8")) for p in (RAW / "llm").glob("*.json")])
+    ext["campos_json"] = ext["campos"].map(lambda c: json.dumps(c, ensure_ascii=False))
+    ext = ext.sort_values("id").reset_index(drop=True)
+    print(ext["modalidad"].value_counts().to_string())
     textos = pd.concat([
         pd.read_csv(RAW / "documentos" / "ocr_seudonimizado.csv")[["id", "texto_ocr"]].rename(columns={"texto_ocr": "texto"}),
         pd.read_csv(RAW / "audio" / "asr_seudonimizado.csv")[["id", "texto_asr_seud"]].rename(columns={"texto_asr_seud": "texto"})])
@@ -28,10 +35,12 @@ def main():
     muestra = muestra.merge(textos, on="id", how="left")
     for col in ["tema_ok", "resumen_ok", "campos_especificos_ok", "sin_inventos", "completamente_correcta", "error_observado"]:
         muestra[col] = ""
+    muestra["texto"] = muestra["texto"].fillna("").str.slice(0, 32000)  # límite de celda de Excel
     muestra["campos_legibles"] = muestra["campos_json"].map(
         lambda s: " | ".join(f"{k}: {v}" for k, v in json.loads(s).items() if not k.startswith("_")))
     muestra[["id", "modalidad", "texto", "campos_legibles", "tema_ok", "resumen_ok", "campos_especificos_ok",
-             "sin_inventos", "completamente_correcta", "error_observado"]].to_csv(salida, index=False, encoding="utf-8-sig")
+             "sin_inventos", "completamente_correcta", "error_observado"]].pipe(
+        lambda d: guardar(d, salida, {"texto": 90, "campos_legibles": 70, "error_observado": 40}, revision=False))
     print(muestra[["id", "modalidad"]].to_string(index=False))
 
 

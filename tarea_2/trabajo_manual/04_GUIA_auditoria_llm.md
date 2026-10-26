@@ -1,6 +1,6 @@
 # Guía: auditoría humana de 20 extracciones del LLM (domingo, ~45 min)
 
-Plantilla: `tarea_2/datos/raw/referencias/auditoria_llm.csv` (fuera de Git). Son 10 documentos y 10 audios
+Plantilla: `tarea_2/datos/raw/referencias/auditoria_llm.xlsx` (fuera de Git). Son 10 documentos y 10 audios
 sorteados con semilla 2026. Cada fila trae el **texto que recibió el LLM** (ya seudonimizado) y los **campos
 que devolvió**. Juzgas contra ese texto, no contra la imagen o el audio original: así se evalúa al LLM y no
 al OCR/ASR.
