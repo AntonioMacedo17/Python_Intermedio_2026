@@ -1,8 +1,9 @@
 # Entorno de los NOTEBOOKS de la tarea 2 (OCR, ASR, evaluación, LLM).
 # Los grupos docai y audio están copiados del pyproject.toml del curso
 # (github.com/d2cml-ai/Data-Science-Python), como pide el enunciado.
-# La app de Streamlit NO usa este archivo: usa requirements.txt (liviano).
-#   uv sync --group docai --group audio --group tarea2
+# Vive en entorno/ (no junto a app.py) porque Streamlit Cloud da prioridad a uv.lock/pyproject.toml
+# sobre requirements.txt cuando están en la carpeta de la app. La app usa ../requirements.txt (liviano).
+#   cd tarea_2 && uv sync --project entorno --group docai --group audio --group tarea2
 [project]
 name = "tarea-2-voces-documentos"
 version = "0.1.0"

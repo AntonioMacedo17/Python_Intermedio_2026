@@ -6,7 +6,7 @@ Estudiante: Antonio Macedo
 **Pregunta guía:** ¿pueden convertirse documentos escaneados y entrevistas en audio peruanas en un archivo de
 texto estructurado y buscable?
 
-**Dashboard:** _(enlace de Streamlit Community Cloud: se agrega al publicar)_
+**Dashboard:** https://tarea2-voces-docus-peru.streamlit.app (Streamlit Community Cloud; solo lee los CSV de `datos/`)
 
 | Etapa | Archivo | Salida |
 |---|---|---|
@@ -103,7 +103,7 @@ La música de banda encima de la voz es el caso más difícil para los dos model
 
 ```bash
 cd tarea_2
-uv sync --group docai --group audio --group tarea2      # entorno de los notebooks
+uv sync --project entorno --group docai --group audio --group tarea2   # entorno de los notebooks (pyproject.toml y uv.lock están en entorno/)
 .venv/Scripts/python.exe src/descargar_audio.py          # y src/descargar_documentos.py
 .venv/Scripts/python.exe src/procesar_audio.py           # limpieza + ASR + diarización
 .venv/Scripts/python.exe src/ocr_documentos.py
