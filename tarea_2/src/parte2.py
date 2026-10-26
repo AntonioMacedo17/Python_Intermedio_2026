@@ -6,6 +6,7 @@ escondería errores reales de reconocimiento en los nombres. Lo que se publica s
 las referencias ya seudonimizadas.
 """
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -50,7 +51,14 @@ def salidas_documentos():
 def salidas_audio():
     """Texto, segundos y RTF por clip de cada ASR (base y alternativo, si ya corrió)."""
     base = pd.read_csv(RAW / "audio" / "asr_crudo.csv")
-    base = base[base["id"].str.startswith("clip_")][["id", "texto_plano", "segundos_asr", "rtf", "modelo_asr"]]
+    base = base[(base["idioma"] == "es") & ~base["descartado"]]
+    # Los clips reutilizados al reanudar no guardaron su tiempo en el CSV; el RTF de la primera corrida
+    # (misma laptop, misma configuración) quedó en el registro: "clip_001  136.3s  RTF 0.47 ...".
+    log = (RAW / "audio" / "procesar_audio.log").read_text(encoding="utf-8", errors="replace")
+    rtf_log = {m[0]: float(m[1]) for m in re.findall(r"^(clip_\d+) +[\d.]+s +RTF ([\d.]+)", log, flags=re.M)}
+    base["rtf"] = base["rtf"].fillna(base["id"].map(rtf_log))
+    base["segundos_asr"] = base["segundos_asr"].fillna(base["rtf"] * base["duracion_seg"])
+    base = base[["id", "texto_plano", "segundos_asr", "rtf", "modelo_asr"]]
     base.columns = ["id", "texto", "segundos", "rtf", "modelo"]
     salidas = {"faster-whisper small (base)": base}
     pk = list((RAW / "alternativos" / "parakeet").glob("*.json"))
