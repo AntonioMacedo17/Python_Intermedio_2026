@@ -23,6 +23,9 @@
 - Al final de cada sesión, sugiéreme el texto del comentario para el Issue/bitácora.
   Indica siempre en qué Issue va (T2 – Parte 1, T2 – Parte 2 o T2 – Parte 3); si el avance
   toca varias partes, da un comentario corto (2-3 líneas) por cada Issue, por separado.
+- Al cerrar cada sesión, deja en la carpeta de la tarea un `trabajo_manual/RESUMEN_<día>.md` corto
+  (qué se hizo, cifras clave, decisiones, pendientes y próximo paso) para que yo pueda pasárselo a
+  Claude en el chat web.
 - Los Issues de GitHub los creo yo en la web.
 - Nunca versionar archivos pesados (>100 MB), audios crudos, pesos de modelos ni claves API.
 
