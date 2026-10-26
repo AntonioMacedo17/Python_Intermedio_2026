@@ -66,11 +66,10 @@ _(Se completan con las salidas del notebook 02.)_
    - El nivel gratuito permite 20 pedidos por día y por modelo, y el límite cortó la corrida.
    - No se cambió de modelo para completar, para no mezclar dos modelos en el corpus.
    - La auditoría de 20 casos se sorteó entre las 32 extracciones existentes. La disponibilidad no depende de la calidad de la extracción.
-4. **Parakeet parcial.** Se cortó a las 21:00 del 25/10 para no arriesgar la entrega: procesó primero los clips de la muestra (ver la sección 1 del notebook 02).
-5. **Diarización poco confiable con muchas voces cortas.** En una marcha detectó hasta 15 "hablantes".
-6. **Música encima de la voz.** En un clip de fiesta patronal, el VAD solo encontró voz en ~11 % del audio.
-7. **Orden de lectura.** En un manuscrito con 3 columnas, PaddleOCR mezcla las columnas. Por eso se excluyó de la muestra con una regla fijada antes.
-8. **Sesgo de la muestra de audio.** Para que la transcripción manual fuera factible se tomaron clips de 200 s o menos, así que las entrevistas largas no se evalúan.
+4. **Diarización poco confiable con muchas voces cortas.** En una marcha detectó hasta 15 "hablantes".
+5. **Música encima de la voz.** En un clip de fiesta patronal, el VAD solo encontró voz en ~11 % del audio.
+6. **Orden de lectura.** En un manuscrito con 3 columnas, PaddleOCR mezcla las columnas. Por eso se excluyó de la muestra con una regla fijada antes.
+7. **Sesgo de la muestra de audio.** Para que la transcripción manual fuera factible se tomaron clips de 200 s o menos, así que las entrevistas largas no se evalúan.
 
 ## 6. Cómo reproducir
 
