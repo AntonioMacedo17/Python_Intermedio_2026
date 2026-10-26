@@ -39,6 +39,7 @@ PATRONES = {
     "celular": r"\b9\d{2}[ -]?\d{3}[ -]?\d{3}\b",
     "correo": r"\b[\w.+-]+@[\w-]+\.[\w.]+\b",
 }
+MARCADOR = re.compile(r"\[PERSONA_\d{3}\]")
 # Palabras que el NER suele confundir con personas en documentos legales antiguos.
 NO_PERSONAS = {"art", "artículo", "congreso", "nación", "república", "constitución", "dios", "señor", "señora",
                "presidente", "lima", "perú", "estado", "título", "don", "doña", "sr", "sra", "dr"}
@@ -59,12 +60,13 @@ def pedazos(texto, max_palabras=120):
 
 
 class Seudonimizador:
-    def __init__(self, conocidos):
+    def __init__(self, conocidos, no_son_nombres=()):
         from transformers import pipeline
         self.ner = pipeline("ner", model=MODELO_NER, aggregation_strategy="simple", device="cpu")
         self.tabla = {}  # clave(nombre) -> (nombre visto, seudónimo)
         self.conocidos = sorted(conocidos, key=len, reverse=True)
         self.detecciones = []
+        self.no_son_nombres = {clave(x) for x in no_son_nombres}
 
     def seudonimo(self, nombre):
         k = clave(nombre)
@@ -84,13 +86,24 @@ class Seudonimizador:
                 titulo = m.group().title()
                 if len(titulo) == len(m.group()):
                     partes.append((m.start(), m.end(), titulo))
+        marcas = [m.span() for m in MARCADOR.finditer(texto)]
         tramos = []
         for a, b, trozo in partes:
             for e in self.ner(trozo):
                 ini, fin = a + e["start"], a + e["end"]
+                if e["entity_group"] != "PER" or e["score"] < UMBRAL_NER:
+                    continue
+                # El NER trabaja con pedazos de palabra: se extiende el tramo a palabras completas
+                # (si no, "Micaela" queda como "Mic[PERSONA_001]" y se filtran pedazos del nombre).
+                while ini > 0 and texto[ini - 1].isalnum():
+                    ini -= 1
+                while fin < len(texto) and texto[fin].isalnum():
+                    fin += 1
+                if any(ini < mb and ma < fin for ma, mb in marcas):  # tocaría un seudónimo ya puesto
+                    continue
                 w = texto[ini:fin].strip(" .,;:")
-                if e["entity_group"] == "PER" and e["score"] >= UMBRAL_NER and len(w) >= 3 \
-                        and re.search(r"[A-Za-zÁÉÍÓÚÑáéíóúñ]", w) and clave(w) not in NO_PERSONAS:
+                if len(w) >= 3 and re.search(r"[A-Za-zÁÉÍÓÚÑáéíóúñ]", w) and clave(w) not in NO_PERSONAS \
+                        and clave(w) not in self.no_son_nombres:  # revisión humana, sobre la palabra completa
                     tramos.append((ini, fin))
         return tramos
 
@@ -121,7 +134,8 @@ class Seudonimizador:
         for nombre in self.conocidos:  # de los más largos a los más cortos
             n, limite = 0, len(salida) + 1
             for ini, fin in sorted(self.tramos_difusos(salida, nombre), reverse=True):
-                if fin > limite or "PERSONA_" in salida[ini:fin]:
+                if fin > limite or any(ini < mb and ma < fin for ma, mb in
+                                       (m.span() for m in MARCADOR.finditer(salida))):
                     continue
                 limite = ini
                 salida = salida[:ini] + self.seudonimo(nombre) + salida[fin:]
@@ -151,7 +165,10 @@ class Seudonimizador:
 def main():
     conocidos = [l.strip() for l in (RAW / "nombres_conocidos.txt").read_text(encoding="utf-8").splitlines()
                  if l.strip() and not l.startswith("#")]
-    s = Seudonimizador(conocidos)
+    # Revisión humana (25/10): lo marcado "no_es_nombre" deja de taparse; "duda" se sigue tapando.
+    ruta_no = RAW / "no_son_nombres.txt"
+    no_son = [l.strip() for l in ruta_no.read_text(encoding="utf-8").splitlines()] if ruta_no.exists() else []
+    s = Seudonimizador(conocidos, [x for x in no_son if x])
 
     ocr = pd.read_csv(RAW / "documentos" / "ocr_crudo.csv")
     filas = []
