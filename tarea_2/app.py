@@ -41,7 +41,7 @@ def grafico(fig, alto=380):
 
 docs, trans = leer("documentos.csv"), leer("transcripciones.csv")
 llm, metricas, ejemplos = leer("extraccion_llm.csv"), leer("metricas.csv"), leer("ejemplos/ejemplos.csv")
-comparacion_asr = leer("comparacion_asr.csv")
+comparacion_asr, comparacion = leer("comparacion_asr.csv"), leer("comparacion_modelos.csv")
 campos = {} if llm is None else {r.id: json.loads(r.campos_json) for r in llm.itertuples()}
 publicables = set() if ejemplos is None else set(ejemplos["id"])
 
@@ -146,13 +146,28 @@ with tab_aud:
 
 with tab_eval:
     if metricas is None:
-        st.info("Las métricas se calculan en el notebook 02 (Parte 2).")
+        st.info("Todavía no hay referencias manuales: las métricas de error se calculan en el notebook 02 "
+                "cuando estén. Abajo, lo que no necesita referencias.")
     else:
-        grafico(px.bar(metricas, x="modelo", y="valor", color="metrica", barmode="group",
-                       color_discrete_sequence=[VERDE, MORADO], text_auto=".2f",
-                       title="Error por modelo en la muestra de 10 casos (menor es mejor)",
-                       labels={"valor": "tasa de error", "modelo": ""}))
-        st.dataframe(metricas, hide_index=True, width="stretch")
+        tot = metricas[metricas["grupo"] == "TODOS"]
+        for modalidad, g in tot.groupby("modalidad"):
+            grafico(px.bar(g, x="metrica", y="valor", color="modelo", barmode="group",
+                           color_discrete_sequence=[VERDE, MORADO], text_auto=".2f",
+                           title=f"{'ASR' if modalidad == 'audio' else 'OCR'}: error por modelo frente a la transcripción manual (menor es mejor)",
+                           labels={"valor": "tasa de error", "metrica": "", "modelo": ""}))
+        st.markdown("**Por tipo de clip o documento**")
+        st.dataframe(metricas.drop(columns=["elegido"]).round(3), hide_index=True, width="stretch")
+    if comparacion is not None:
+        st.subheader("Comparación de modelos")
+        st.caption("Latencia en una laptop sin GPU. Los modelos locales no envían nada fuera; a Gemini solo se "
+                   "envió texto seudonimizado.")
+        st.dataframe(comparacion.round(3), hide_index=True, width="stretch")
+    st.subheader("Qué falta (y por qué)")
+    st.markdown(
+        "- **OCR sin CER/WER todavía:** la muestra de 10 documentos se sortea cuando estén las fotos y manuscritos "
+        "propios (regla fijada antes de ver resultados).\n"
+        "- **LLM parcial:** el nivel gratuito de Gemini (20 pedidos/día) dejó 32 de 54 extracciones.\n"
+        "- **Parakeet parcial:** se cortó por tiempo; se compara solo en los clips que procesó.")
 
 st.caption("Fuentes: Wikimedia Commons, OpenSLR 73 y capturas propias; licencias en datos/fuentes.csv. "
            "Nombres reales reemplazados por [PERSONA_###].")
