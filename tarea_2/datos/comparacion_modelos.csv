@@ -1,6 +1,6 @@
 modelo,tarea,licencia,costo,privacidad,CER,WER,latencia,acuerdo_humano
-PaddleOCR (base),OCR,Apache-2.0,"local, gratis",local,,,103.3 s/página,
-Tesseract (alternativo),OCR,Apache-2.0,"local, gratis",local,,,1.0 s/página,
+PaddleOCR (base),OCR,Apache-2.0,"local, gratis",local,0.2359704352586915,0.39009287925696595,103.3 s/página,
+Tesseract (alternativo),OCR,Apache-2.0,"local, gratis",local,0.4295099917875719,0.5851393188854489,1.0 s/página,
 faster-whisper small (base),ASR,MIT,"local, gratis",local,0.2193037690024287,0.3015949734171097,RTF 0.54,
 Parakeet TDT 0.6B v3 (alternativo),ASR,CC-BY-4.0,"local, gratis",local,0.21318701088423136,0.28564523924601254,RTF 0.21,
 Gemini gemini-3.8-flash,LLM,propietario (API),"nivel gratuito, 20 pedidos/día",nube; solo texto seudonimizado,,,,0.85

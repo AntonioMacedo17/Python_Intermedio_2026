@@ -42,6 +42,7 @@ def grafico(fig, alto=380):
 docs, trans = leer("documentos.csv"), leer("transcripciones.csv")
 llm, metricas, ejemplos = leer("extraccion_llm.csv"), leer("metricas.csv"), leer("ejemplos/ejemplos.csv")
 comparacion_asr, comparacion = leer("comparacion_asr.csv"), leer("comparacion_modelos.csv")
+comparacion_ocr = leer("comparacion_ocr.csv")
 campos = {} if llm is None else {r.id: json.loads(r.campos_json) for r in llm.itertuples()}
 publicables = set() if ejemplos is None else set(ejemplos["id"])
 
@@ -114,9 +115,10 @@ with tab_doc:
             st.markdown(f"**Fuente:** {fila['fuente']} · **Modelo:** {fila['modelo_ocr']}")
             st.text_area("Texto OCR (seudonimizado)", fila["texto_ocr"], height=280)
             if isinstance(fila.get("texto_referencia"), str) and fila["texto_referencia"].strip():
-                st.text_area("Transcripción manual de referencia", fila["texto_referencia"], height=160)
-                if metricas is not None and "cer_por_caso" in metricas:
-                    pass  # se completa con la Parte 2
+                st.text_area("Transcripción manual de referencia (primeras 15 líneas)", fila["texto_referencia"], height=160)
+            if comparacion_ocr is not None and sel in set(comparacion_ocr["id"]):
+                st.markdown("**Error de los dos OCR en este documento** (sobre la parte transcrita a mano)")
+                st.dataframe(comparacion_ocr[comparacion_ocr["id"] == sel], hide_index=True, width="stretch")
         with der:
             st.markdown("**Campos extraídos por el LLM**")
             st.json(campos.get(sel, {"aviso": "sin extracción"}))
@@ -155,7 +157,7 @@ with tab_eval:
                            color_discrete_sequence=[VERDE, MORADO], text_auto=".2f",
                            title=f"{'ASR' if modalidad == 'audio' else 'OCR'}: error por modelo frente a la transcripción manual (menor es mejor)",
                            labels={"valor": "tasa de error", "metrica": "", "modelo": ""}))
-        st.markdown("**Por tipo de clip o documento**")
+        st.markdown("**Por tipo de clip o documento** (OCR: también el total sin las 2 referencias parciales)")
         st.dataframe(metricas.drop(columns=["elegido"]).round(3), hide_index=True, width="stretch")
     if comparacion is not None:
         st.subheader("Comparación de modelos")
@@ -164,8 +166,9 @@ with tab_eval:
         st.dataframe(comparacion.round(3), hide_index=True, width="stretch")
     st.subheader("Qué falta (y por qué)")
     st.markdown(
-        "- **OCR sin CER/WER todavía:** la muestra de 10 documentos se sortea cuando estén las fotos y manuscritos "
-        "propios (regla fijada antes de ver resultados).\n"
+        "- **CER de OCR sobre un fragmento:** cada referencia cubre las primeras 15 líneas; en 2 documentos solo se "
+        "transcribió la parte legible (referencia *parcial*) y en 4 se saltaron palabras ilegibles.\n"
+        "- **Corpus de documentos: 19 de 25:** faltan 3 fotos y 3 manuscritos propios.\n"
         "- **LLM parcial:** el nivel gratuito de Gemini (20 pedidos/día) dejó 32 de 54 extracciones.")
 
 st.caption("Fuentes: Wikimedia Commons, OpenSLR 73 y capturas propias; licencias en datos/fuentes.csv. "

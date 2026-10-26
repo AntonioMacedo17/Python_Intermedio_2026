@@ -23,3 +23,23 @@ audio,Parakeet TDT 0.6B v3 (alternativo),evento_publico,CER,0.06641285956006768,
 audio,Parakeet TDT 0.6B v3 (alternativo),fiesta_patronal,CER,0.69102416570771,2 casos,False
 audio,Parakeet TDT 0.6B v3 (alternativo),leido_estudio,CER,0.07462686567164178,3 casos,False
 audio,Parakeet TDT 0.6B v3 (alternativo),marcha,CER,0.3473557692307692,1 casos,False
+documento,PaddleOCR (base),TODOS,CER,0.2359704352586915,,True
+documento,PaddleOCR (base),foto,CER,0.347679892400807,3 casos,False
+documento,PaddleOCR (base),impreso,CER,0.02448355011476664,3 casos,False
+documento,PaddleOCR (base),manuscrito,CER,0.36437718277066355,4 casos,False
+documento,Tesseract (alternativo),TODOS,CER,0.4295099917875719,,False
+documento,Tesseract (alternativo),foto,CER,0.5796906523201076,3 casos,False
+documento,Tesseract (alternativo),impreso,CER,0.15837796480489671,3 casos,False
+documento,Tesseract (alternativo),manuscrito,CER,0.5820721769499418,4 casos,False
+documento,PaddleOCR (base),TODOS sin parciales,CER,0.22765162402989364,8 casos,False
+documento,Tesseract (alternativo),TODOS sin parciales,CER,0.42311008910606496,8 casos,False
+documento,PaddleOCR (base),TODOS,WER,0.39009287925696595,,False
+documento,PaddleOCR (base),foto,WER,0.44814814814814813,3 casos,False
+documento,PaddleOCR (base),impreso,WER,0.15454545454545454,3 casos,False
+documento,PaddleOCR (base),manuscrito,WER,0.6217948717948718,4 casos,False
+documento,Tesseract (alternativo),TODOS,WER,0.5851393188854489,,False
+documento,Tesseract (alternativo),foto,WER,0.6370370370370371,3 casos,False
+documento,Tesseract (alternativo),impreso,WER,0.36363636363636365,3 casos,False
+documento,Tesseract (alternativo),manuscrito,WER,0.8076923076923077,4 casos,False
+documento,PaddleOCR (base),TODOS sin parciales,WER,0.3713355048859935,8 casos,False
+documento,Tesseract (alternativo),TODOS sin parciales,WER,0.5732899022801303,8 casos,False

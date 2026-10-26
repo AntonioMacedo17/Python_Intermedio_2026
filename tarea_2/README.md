@@ -11,7 +11,7 @@ texto estructurado y buscable?
 | Etapa | Archivo | Salida |
 |---|---|---|
 | Parte 1 · Corpus, OCR, ASR, limpieza, seudonimización, EDA | `01_extraccion.ipynb` | `datos/documentos.csv`, `datos/transcripciones.csv`, `datos/fuentes.csv` |
-| Parte 2 · Referencias manuales, CER/WER, modelos alternativos, LLM y auditoría | `02_evaluacion.ipynb` | `datos/metricas.csv`, `datos/comparacion_modelos.csv`, `datos/extraccion_llm.csv` |
+| Parte 2 · Referencias manuales, CER/WER, modelos alternativos, LLM y auditoría | `02_evaluacion.ipynb` | `datos/metricas.csv`, `datos/comparacion_modelos.csv`, `datos/comparacion_asr.csv`, `datos/comparacion_ocr.csv`, `datos/extraccion_llm.csv` |
 | Parte 3 · Dashboard | `app.py` | — |
 
 ## 1. Corpus
@@ -43,21 +43,21 @@ Todo corrió en una laptop **sin GPU** (Windows 11, 8 GB de RAM).
 
 ## 3. Privacidad
 
-- Ningún nombre real se publica. Las personas se reemplazan por `[PERSONA_###]`: 119 cadenas distintas, 136 reemplazos en total (34 de la lista y 102 del NER).
+- Ningún nombre real se publica. Las personas se reemplazan por `[PERSONA_###]`: 106 cadenas distintas, 119 reemplazos en total (51 de la lista y 68 del NER), después de la revisión humana.
 - Después del proceso automático hubo una **revisión humana** (`src/hojas_revision.py` genera las hojas de revisión).
 - A Gemini solo se envió **texto ya seudonimizado**. El script bloquea el envío si encuentra un nombre de la lista.
 - Solo se muestran imágenes o audios de ejemplo en el dashboard si su licencia lo permite y no tienen datos personales.
 
 ## 4. Resultados
 
-Las métricas se calcularon sobre los **10 clips de la muestra** (14,9 min) frente a la transcripción manual del estudiante. Se usó la misma normalización para los dos modelos (minúsculas, sin puntuación, con tildes). El valor agregado es el total de errores dividido entre el total de palabras.
+Las métricas se calcularon sobre una muestra de **10 clips** (14,9 min) y **10 documentos** (3 impresos, 3 fotos, 4 manuscritos) frente a la transcripción manual del estudiante. Se usó la misma normalización para todos los modelos (minúsculas, sin puntuación, con tildes). El valor agregado es el total de errores dividido entre el total de palabras (o de caracteres).
 
 | Modelo | WER | CER | Latencia (RTF mediano, CPU) | Licencia | Privacidad |
 |---|---|---|---|---|---|
 | faster-whisper small (base) | **0,302** | 0,219 | 0,54 | MIT | local |
 | Parakeet TDT 0.6B v3 (alternativo) | **0,286** | 0,213 | 0,21 | CC-BY-4.0 | local |
-| PaddleOCR (base) | pendiente | pendiente | 103 s/página | Apache-2.0 | local |
-| Tesseract (alternativo) | pendiente | pendiente | 1 s/página | Apache-2.0 | local |
+| PaddleOCR (base) | 0,390 | **0,236** | 103 s/página | Apache-2.0 | local |
+| Tesseract (alternativo) | 0,585 | **0,430** | 1 s/página | Apache-2.0 | local |
 | Gemini 3.8 Flash (extracción) | acuerdo con auditoría humana: **17/20 (85 %)** | — | — | API propietaria | nube, solo texto seudonimizado |
 
 **WER por tipo de audio** (Whisper / Parakeet):
@@ -76,9 +76,20 @@ La música de banda encima de la voz es el caso más difícil para los dos model
 - Parakeet es algo más preciso que Whisper small (WER 0,286 contra 0,302) y unas 2,5 veces más rápido en CPU.
 - La diferencia es pequeña para solo 10 clips, así que la conclusión es prudente: ambos sirven para volver buscable el habla clara, y ninguno sirve con música fuerte.
 
-**Auditoría del LLM (20 casos, hecha a mano):** 17/20 extracciones completamente correctas (85 %): 9/10 en audios y 8/10 en documentos. El error más frecuente fue un dato que no está en el texto (2 casos).
+**CER de OCR por tipo de documento** (PaddleOCR / Tesseract):
 
-**Pendiente:** el CER de OCR. La muestra de 10 documentos ya está sorteada y la regla del fragmento fijo de 15 líneas está fijada; faltan las referencias manuales, que se completarán en las próximas horas.
+| Tipo | CER | WER |
+|---|---|---|
+| Impreso (3) | **0,024** / 0,158 | 0,155 / 0,364 |
+| Foto (3) | 0,348 / 0,580 | 0,448 / 0,637 |
+| Manuscrito (4) | 0,364 / 0,582 | 0,622 / 0,808 |
+| Total sin las 2 referencias parciales (8) | 0,228 / 0,423 | 0,371 / 0,573 |
+
+- **Fragmento fijo:** cada referencia cubre las primeras 15 líneas y se compara con el tramo de la salida del OCR que mejor se le alinea.
+- **Referencias parciales:** en doc_012 (solo la etiqueta) y doc_017 (solo el texto mecanografiado) el estudiante transcribió únicamente la parte legible. El CER se calcula solo sobre esa parte y el total se reporta también sin esos 2 casos. En 4 documentos se saltaron palabras ilegibles: el OCR igual las lee y cuentan como error, así que ahí el CER está algo inflado.
+- PaddleOCR es casi perfecto en impresos (CER 0,02) y claramente mejor que Tesseract en todo. Pero es unas 100 veces más lento en CPU y en fotos y manuscritos falla en más de un tercio de los caracteres.
+
+**Auditoría del LLM (20 casos, hecha a mano):** 17/20 extracciones completamente correctas (85 %): 9/10 en audios y 8/10 en documentos. El error más frecuente fue un dato que no está en el texto (2 casos).
 
 ## 5. Limitaciones (honestas)
 
@@ -86,10 +97,10 @@ La música de banda encima de la voz es el caso más difícil para los dos model
    - Faltan 3 fotos y 3 manuscritos propios (capturas tomadas por el estudiante).
    - Con licencia libre abundan los impresos peruanos, pero casi no hay manuscritos.
    - Las capturas propias se agregarán después de la entrega, con el mismo pipeline (`src/corpus_documentos.py`).
-2. **Sin CER/WER de OCR todavía.**
-   - La muestra de 10 documentos (3 impresos / 3 fotos / 4 manuscritos) ya está sorteada con la regla fijada, sobre los 19 documentos actuales.
-   - Cada referencia cubrirá solo las primeras 15 líneas del documento (regla fijada antes de escribirlas).
-   - Faltan las referencias manuales. Sí se reporta la latencia de los dos OCR.
+2. **CER de OCR sobre un fragmento y con referencias imperfectas.**
+   - Solo se evalúan las primeras 15 líneas de cada documento, así que no se mide el orden de lectura de la página completa.
+   - En manuscritos y fotos difíciles el estudiante no pudo leer todo: 2 referencias son parciales y 4 tienen palabras omitidas (detalle en el notebook 02, sección 3).
+   - Con 3 o 4 documentos por tipo, las cifras por tipo son orientativas.
 3. **Gemini parcial: 32 de 54 extracciones** (19 documentos y 13 de 35 audios).
    - El nivel gratuito permite 20 pedidos por día y por modelo, y el límite cortó la corrida.
    - No se cambió de modelo para completar, para no mezclar dos modelos en el corpus.

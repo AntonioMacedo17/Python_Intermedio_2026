@@ -1,0 +1,21 @@
+id,tipo,referencia,modelo,CER,WER
+doc_005,impreso,completa,PaddleOCR (base),0.0492,0.3559
+doc_006,impreso,completa,PaddleOCR (base),0.0207,0.1304
+doc_004,impreso,completa,PaddleOCR (base),0.0093,0.0435
+doc_013,foto,con omisiones,PaddleOCR (base),0.0016,0.0179
+doc_009,foto,con omisiones,PaddleOCR (base),0.598,0.7379
+doc_012,foto,parcial,PaddleOCR (base),0.5231,0.9231
+doc_017,manuscrito,parcial,PaddleOCR (base),0.3303,0.6316
+doc_018,manuscrito,con omisiones,PaddleOCR (base),0.5297,0.7632
+doc_019,manuscrito,con omisiones,PaddleOCR (base),0.3133,0.4615
+doc_014,manuscrito,completa,PaddleOCR (base),0.306,0.6809
+doc_005,impreso,completa,Tesseract (alternativo),0.3316,0.6441
+doc_006,impreso,completa,Tesseract (alternativo),0.1762,0.4348
+doc_004,impreso,completa,Tesseract (alternativo),0.0206,0.1304
+doc_013,foto,con omisiones,Tesseract (alternativo),0.0698,0.1696
+doc_009,foto,con omisiones,Tesseract (alternativo),0.9628,0.9724
+doc_012,foto,parcial,Tesseract (alternativo),0.6615,0.9231
+doc_017,manuscrito,parcial,Tesseract (alternativo),0.4954,0.7368
+doc_018,manuscrito,con omisiones,Tesseract (alternativo),0.5941,0.8947
+doc_019,manuscrito,con omisiones,Tesseract (alternativo),0.5127,0.6154
+doc_014,manuscrito,completa,Tesseract (alternativo),0.7069,0.9787
