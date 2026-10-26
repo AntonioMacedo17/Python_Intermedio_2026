@@ -3,23 +3,46 @@
   "semilla": 2026,
   "muestra_documentos": {
     "tamano": 10,
-    "cuotas_por_tipo": {"impreso": 3, "foto": 3, "manuscrito": 4},
+    "cuotas_por_tipo": {
+      "impreso": 3,
+      "foto": 3,
+      "manuscrito": 4
+    },
     "excluir_por_titulo": {
       "Estado General de Miguel Grau.jpg": "Es una tabla (formulario con columnas llenadas a mano) sin un orden de lectura único: no se puede escribir una referencia lineal comparable con la salida del OCR, y el CER mediría el orden de lectura más que el reconocimiento."
     },
-    "excluir_si": ["descartado en la limpieza (ilegible o duplicado)"],
-    "procedimiento": "Dentro de cada tipo, sorteo sin reemplazo con pandas.DataFrame.sample(n=cuota, random_state=semilla) sobre los elegibles ordenados por id."
+    "excluir_si": [
+      "descartado en la limpieza (ilegible o duplicado)"
+    ],
+    "procedimiento": "Dentro de cada tipo, sorteo sin reemplazo con pandas.DataFrame.sample(n=cuota, random_state=semilla) sobre los elegibles ordenados por id.",
+    "corpus_al_sortear": "Sorteada el 25/10 sobre el corpus actual de 19 documentos de Commons (sin las capturas propias, que se agregan después de la entrega): las cuotas 3/3/4 se cumplen con lo disponible. Decidido por el estudiante para poder transcribir después de entregar.",
+    "fragmento_fijo": {
+      "regla": "La referencia manual cubre las PRIMERAS 15 LÍNEAS del documento en orden de lectura (o el documento completo si tiene 15 líneas o menos). La misma regla para los 10 documentos.",
+      "motivo": "Los documentos tienen hasta ~50 líneas; transcribirlos completos a mano no es factible y el fragmento fijo mantiene la carga igual para todos los tipos.",
+      "evaluacion": "Como la salida del OCR cubre la página entera, se compara la referencia con el tramo de la salida que mejor se le alinea (rapidfuzz.fuzz.partial_ratio_alignment sobre el texto normalizado), igual para PaddleOCR y Tesseract. Así el CER mide el reconocimiento dentro del fragmento; no penaliza el texto fuera del fragmento ni mide errores de orden de lectura fuera de él (limitación que se reporta).",
+      "fijado": "25/10/2026 22:28, antes de escribir cualquier referencia de documentos y sin haber calculado ningún CER de OCR."
+    }
   },
   "muestra_audio": {
     "tamano": 10,
     "obligatorios": {
       "Entrevista 2 en la Av. Rivagüero - El Agustino.ogg": "Grabación con 2 voces: se incluye para evaluar la diarización además del WER."
     },
-    "cuotas_por_condicion": {"leido_estudio": 3, "calle": 2, "evento_publico": 2, "fiesta_patronal": 2, "marcha": 1},
+    "cuotas_por_condicion": {
+      "leido_estudio": 3,
+      "calle": 2,
+      "evento_publico": 2,
+      "fiesta_patronal": 2,
+      "marcha": 1
+    },
     "nota_cuotas": "Los obligatorios cuentan dentro de la cuota de su condición (la Entrevista 2 ocupa 1 de los 2 cupos de 'calle').",
     "duracion_maxima_seg": 200,
     "justificacion_duracion": "Costo de la transcripción manual: una persona tarda varias veces la duración del audio en transcribirlo con cuidado. Con clips de 200 s o menos, la muestra suma entre unos 10 y 16 minutos de audio según el sorteo (calculado con las duraciones de Commons), factible en una tarde; incluir la entrevista de 498 s duplicaría el trabajo. Sesgo conocido: las entrevistas más largas (dos de evento público) quedan fuera de la evaluación y se reporta como limitación.",
-    "excluir_si": ["idioma distinto de 'es'", "descartado en la limpieza (duplicado o sin voz)", "duración > duracion_maxima_seg"],
+    "excluir_si": [
+      "idioma distinto de 'es'",
+      "descartado en la limpieza (duplicado o sin voz)",
+      "duración > duracion_maxima_seg"
+    ],
     "procedimiento": "Primero los obligatorios; luego, dentro de cada condición, sorteo sin reemplazo con pandas.DataFrame.sample(n=cupos_restantes, random_state=semilla) sobre los elegibles ordenados por id. La duración se mide del archivo de audio, no de ninguna salida de modelo."
   },
   "modelos": {

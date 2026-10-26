@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from evaluacion import por_caso, tasa
+from evaluacion import limpiar, por_caso, tasa
 
 RAIZ = Path(__file__).resolve().parents[1]
 RAW = RAIZ / "datos" / "raw"
@@ -68,7 +68,18 @@ def salidas_audio():
     return salidas
 
 
-def evaluar(ref, salidas, metrica, por="tipo"):
+def alinear_fragmento(referencia, salida):
+    """Documentos: la referencia cubre solo las primeras 15 líneas (config_evaluacion.json, fragmento_fijo).
+    Devuelve el tramo de la salida del OCR (ya normalizada) que mejor se alinea con la referencia."""
+    from rapidfuzz import fuzz
+    r, h = limpiar(referencia), limpiar(salida)
+    if not r or len(r) >= len(h):
+        return h
+    a = fuzz.partial_ratio_alignment(r, h)
+    return h[a.dest_start:a.dest_end]
+
+
+def evaluar(ref, salidas, metrica, por="tipo", fragmento=False):
     """Métrica agregada por modelo (y por grupo) sobre los MISMOS casos de la muestra.
     Devuelve (resumen, detalle por caso). Un modelo al que le falta algún caso no se evalúa."""
     filas, detalle = [], []
@@ -78,6 +89,8 @@ def evaluar(ref, salidas, metrica, por="tipo"):
             filas.append({"modelo": modelo, "grupo": "TODOS", "metrica": metrica, "valor": None,
                           "nota": f"faltan {d['texto'].isna().sum()} casos: no se evalúa"})
             continue
+        if fragmento:
+            d["texto"] = [alinear_fragmento(a, b) for a, b in zip(d["texto_referencia"], d["texto"])]
         d[metrica] = por_caso(d, "texto_referencia", "texto", metrica)
         d["modelo"] = modelo
         detalle.append(d)
