@@ -186,12 +186,30 @@ def main():
         filas.append({"id": f.id, "texto_asr_seud": texto, "texto_plano_seud": plano, **c})
     asr.merge(pd.DataFrame(filas), on="id").to_csv(RAW / "audio" / "asr_seudonimizado.csv", index=False)
 
+    # Referencias manuales: el estudiante escribió los nombres tal como se oyen. Se publican solo seudonimizadas
+    # (mismo mapeo); las métricas usan la versión original (decisión 16).
+    for modalidad in ["audio", "documentos"]:
+        ruta = RAW / "referencias" / f"referencias_{modalidad}.xlsx"
+        if ruta.exists():
+            ref = pd.read_excel(ruta)
+            ref["texto_referencia"] = [s.aplicar(f"ref_{i}", t)[0] for i, t in zip(ref["id"], ref["texto_referencia"])]
+            ref.drop(columns=[c for c in ["archivo_para_escuchar", "notas"] if c in ref]).to_csv(
+                RAW / "referencias" / f"referencias_{modalidad}_seud.csv", index=False)
+
+    # Campos que devolvió el LLM: recibió texto seudonimizado, pero de una versión anterior de este proceso
+    # (antes de la revisión humana); se pasan otra vez por el mismo procedimiento antes de publicarlos.
+    ruta = RAW / "llm" / "extraccion_llm_borrador.csv"
+    if ruta.exists():
+        ext = pd.read_csv(ruta)
+        ext["campos_json"] = [s.aplicar(f"llm_{i}", t)[0] for i, t in zip(ext["id"], ext["campos_json"])]
+        ext.to_csv(RAW / "llm" / "extraccion_llm_seud.csv", index=False)
+
     pd.DataFrame([{"nombre": v[0], "seudonimo": v[1]} for v in s.tabla.values()]).to_csv(
         RAW / "seudonimos.csv", index=False)
     pd.DataFrame(s.detecciones).to_csv(RAW / "revision_seudonimizacion.csv", index=False)
     print("cadenas distintas reemplazadas:", len(s.tabla))
     det = pd.DataFrame(s.detecciones)
-    det = det[~det["id"].str.endswith("_plano")]
+    det = det[~det["id"].str.endswith("_plano") & ~det["id"].str.match(r"(ref|llm)_")]
     print(det.groupby("capa")["veces"].sum().to_string())
 
 

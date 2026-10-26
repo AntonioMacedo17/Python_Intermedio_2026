@@ -1,0 +1,25 @@
+modalidad,modelo,grupo,metrica,valor,nota,elegido
+audio,faster-whisper small (base),TODOS,WER,0.3015949734171097,,True
+audio,faster-whisper small (base),calle,WER,0.23994252873563218,2 casos,False
+audio,faster-whisper small (base),evento_publico,WER,0.1756601607347876,2 casos,False
+audio,faster-whisper small (base),fiesta_patronal,WER,0.7430340557275542,2 casos,False
+audio,faster-whisper small (base),leido_estudio,WER,0.17391304347826086,3 casos,False
+audio,faster-whisper small (base),marcha,WER,0.38461538461538464,1 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),TODOS,WER,0.28564523924601254,,False
+audio,Parakeet TDT 0.6B v3 (alternativo),calle,WER,0.25287356321839083,2 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),evento_publico,WER,0.13318025258323765,2 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),fiesta_patronal,WER,0.7275541795665634,2 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),leido_estudio,WER,0.13043478260869565,3 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),marcha,WER,0.391025641025641,1 casos,False
+audio,faster-whisper small (base),TODOS,CER,0.2193037690024287,,False
+audio,faster-whisper small (base),calle,CER,0.1525101763907734,2 casos,False
+audio,faster-whisper small (base),evento_publico,CER,0.09708121827411167,2 casos,False
+audio,faster-whisper small (base),fiesta_patronal,CER,0.6956271576524741,2 casos,False
+audio,faster-whisper small (base),leido_estudio,CER,0.1044776119402985,3 casos,False
+audio,faster-whisper small (base),marcha,CER,0.23317307692307693,1 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),TODOS,CER,0.21318701088423136,,False
+audio,Parakeet TDT 0.6B v3 (alternativo),calle,CER,0.1508819538670285,2 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),evento_publico,CER,0.06641285956006768,2 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),fiesta_patronal,CER,0.69102416570771,2 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),leido_estudio,CER,0.07462686567164178,3 casos,False
+audio,Parakeet TDT 0.6B v3 (alternativo),marcha,CER,0.3473557692307692,1 casos,False
