@@ -58,7 +58,7 @@ Las métricas se calcularon sobre los **10 clips de la muestra** (14,9 min) fren
 | Parakeet TDT 0.6B v3 (alternativo) | **0,286** | 0,213 | 0,21 | CC-BY-4.0 | local |
 | PaddleOCR (base) | pendiente | pendiente | 103 s/página | Apache-2.0 | local |
 | Tesseract (alternativo) | pendiente | pendiente | 1 s/página | Apache-2.0 | local |
-| Gemini 3.8 Flash (extracción) | acuerdo con auditoría humana: **16/20 (80 %)** | — | — | API propietaria | nube, solo texto seudonimizado |
+| Gemini 3.8 Flash (extracción) | acuerdo con auditoría humana: **17/20 (85 %)** | — | — | API propietaria | nube, solo texto seudonimizado |
 
 **WER por tipo de audio** (Whisper / Parakeet):
 
@@ -76,7 +76,7 @@ La música de banda encima de la voz es el caso más difícil para los dos model
 - Parakeet es algo más preciso que Whisper small (WER 0,286 contra 0,302) y unas 2,5 veces más rápido en CPU.
 - La diferencia es pequeña para solo 10 clips, así que la conclusión es prudente: ambos sirven para volver buscable el habla clara, y ninguno sirve con música fuerte.
 
-**Auditoría del LLM (20 casos, hecha a mano):** 16/20 extracciones completamente correctas (80 %): 9/10 en audios y 7/10 en documentos. El error más frecuente fue un dato que no está en el texto (3 casos).
+**Auditoría del LLM (20 casos, hecha a mano):** 17/20 extracciones completamente correctas (85 %): 9/10 en audios y 8/10 en documentos. El error más frecuente fue un dato que no está en el texto (2 casos).
 
 **Pendiente:** el CER de OCR. La muestra de 10 documentos ya está sorteada y la regla del fragmento fijo de 15 líneas está fijada; faltan las referencias manuales, que se completarán en las próximas horas.
 
