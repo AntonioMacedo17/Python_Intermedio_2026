@@ -50,7 +50,35 @@ Todo corrió en una laptop **sin GPU** (Windows 11, 8 GB de RAM).
 
 ## 4. Resultados
 
-_(Se completan con las salidas del notebook 02.)_
+Las métricas se calcularon sobre los **10 clips de la muestra** (14,9 min) frente a la transcripción manual del estudiante. Se usó la misma normalización para los dos modelos (minúsculas, sin puntuación, con tildes). El valor agregado es el total de errores dividido entre el total de palabras.
+
+| Modelo | WER | CER | Latencia (RTF mediano, CPU) | Licencia | Privacidad |
+|---|---|---|---|---|---|
+| faster-whisper small (base) | **0,302** | 0,219 | 0,54 | MIT | local |
+| Parakeet TDT 0.6B v3 (alternativo) | **0,286** | 0,213 | 0,21 | CC-BY-4.0 | local |
+| PaddleOCR (base) | pendiente | pendiente | 103 s/página | Apache-2.0 | local |
+| Tesseract (alternativo) | pendiente | pendiente | 1 s/página | Apache-2.0 | local |
+| Gemini 3.8 Flash (extracción) | — | — | — | API propietaria | nube, solo texto seudonimizado |
+
+**WER por tipo de audio** (Whisper / Parakeet):
+
+| Tipo de audio | WER |
+|---|---|
+| Lectura en estudio | 0,17 / 0,13 |
+| Evento público | 0,18 / 0,13 |
+| Calle | 0,24 / 0,25 |
+| Marcha | 0,39 / 0,39 |
+| Fiesta patronal | **0,74 / 0,73** |
+
+La música de banda encima de la voz es el caso más difícil para los dos modelos.
+
+**Conclusión:**
+- Parakeet es algo más preciso que Whisper small (WER 0,286 contra 0,302) y unas 2,5 veces más rápido en CPU.
+- La diferencia es pequeña para solo 10 clips, así que la conclusión es prudente: ambos sirven para volver buscable el habla clara, y ninguno sirve con música fuerte.
+
+**Pendiente:**
+- El CER de OCR: la muestra de 10 documentos ya está sorteada y la regla del fragmento fijo de 15 líneas está fijada, pero faltan las referencias manuales.
+- El acuerdo LLM-humano: la auditoría de 20 casos ya está sorteada, pero falta llenarla.
 
 ## 5. Limitaciones (honestas)
 
@@ -59,9 +87,9 @@ _(Se completan con las salidas del notebook 02.)_
    - Con licencia libre abundan los impresos peruanos, pero casi no hay manuscritos.
    - Las capturas propias se agregarán después de la entrega, con el mismo pipeline (`src/corpus_documentos.py`).
 2. **Sin CER/WER de OCR todavía.**
-   - La muestra de 10 documentos (3 impresos / 3 fotos / 4 manuscritos) se sortea con la regla fijada cuando estén las capturas propias, y luego se escriben sus referencias manuales.
-   - No se evaluó sobre otra muestra para no romper la regla fijada antes.
-   - Sí se reporta la latencia de los dos OCR.
+   - La muestra de 10 documentos (3 impresos / 3 fotos / 4 manuscritos) ya está sorteada con la regla fijada, sobre los 19 documentos actuales.
+   - Cada referencia cubrirá solo las primeras 15 líneas del documento (regla fijada antes de escribirlas).
+   - Faltan las referencias manuales. Sí se reporta la latencia de los dos OCR.
 3. **Gemini parcial: 32 de 54 extracciones** (19 documentos y 13 de 35 audios).
    - El nivel gratuito permite 20 pedidos por día y por modelo, y el límite cortó la corrida.
    - No se cambió de modelo para completar, para no mezclar dos modelos en el corpus.
