@@ -166,8 +166,7 @@ with tab_eval:
     st.markdown(
         "- **OCR sin CER/WER todavía:** la muestra de 10 documentos se sortea cuando estén las fotos y manuscritos "
         "propios (regla fijada antes de ver resultados).\n"
-        "- **LLM parcial:** el nivel gratuito de Gemini (20 pedidos/día) dejó 32 de 54 extracciones.\n"
-        "- **Parakeet parcial:** se cortó por tiempo; se compara solo en los clips que procesó.")
+        "- **LLM parcial:** el nivel gratuito de Gemini (20 pedidos/día) dejó 32 de 54 extracciones.")
 
 st.caption("Fuentes: Wikimedia Commons, OpenSLR 73 y capturas propias; licencias en datos/fuentes.csv. "
            "Nombres reales reemplazados por [PERSONA_###].")
