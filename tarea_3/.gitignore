@@ -1,0 +1,39 @@
+# Claves y secretos
+.env
+*.env
+
+# Entornos virtuales
+.venv/
+.venv-*/
+
+# Modelos y pesos (Qwen3-TTS, VoxCPM2, Whisper, etc.)
+modelos/
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.gguf
+
+# Voz propia y salidas del reel (no versionar audios crudos ni videos)
+salidas*/
+*.wav
+*.opus
+*.m4a
+*.ogg
+*.mp3
+*.mp4
+*.mov
+
+# Microdatos pesados y comprimidos
+*.zip
+*.7z
+*.rar
+*.dta
+*.sav
+
+# Python
+__pycache__/
+.ipynb_checkpoints/
