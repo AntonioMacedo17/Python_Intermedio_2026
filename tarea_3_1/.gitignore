@@ -4,3 +4,6 @@ __pycache__/
 datos/raw/*.tif
 datos/raw/*.csv
 datos/cache/
+
+# Enunciado en PDF (no se versiona)
+Tarea 3.1 Incendios en el Perú tarea de hoy.pdf
