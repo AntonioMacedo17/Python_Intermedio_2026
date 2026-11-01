@@ -186,5 +186,32 @@
       "p": 0.0992,
       "n": 9
     }
+  },
+  "correlaciones_parciales_lnPIBpc": {
+    "presion_tributaria~gini_bm": {
+      "rho": -0.525,
+      "p": 0.0001,
+      "n": 50
+    },
+    "renta_personas_pib~gini_bm": {
+      "rho": -0.176,
+      "p": 0.2269,
+      "n": 49
+    },
+    "gasto_social_pib~gini_bm": {
+      "rho": -0.369,
+      "p": 0.0246,
+      "n": 37
+    },
+    "ratio_directos_indirectos~gini_bm": {
+      "rho": 0.387,
+      "p": 0.0055,
+      "n": 50
+    },
+    "iva_pct~gini_bm": {
+      "rho": -0.281,
+      "p": 0.0483,
+      "n": 50
+    }
   }
 }

@@ -11,7 +11,8 @@ import json
 from pathlib import Path
 
 import pandas as pd
-from scipy.stats import spearmanr
+import numpy as np
+from scipy.stats import pearsonr, rankdata, spearmanr
 
 RAIZ = Path(__file__).resolve().parents[1]
 PROC = RAIZ / "datos" / "procesados"
@@ -29,6 +30,16 @@ def promedio_nordico(p, col, anio=ANIO):
 def valor(p, iso, col, anio=ANIO):
     s = p[(p.iso3 == iso) & (p.anio == anio)][col]
     return float(s.iloc[0]) if len(s) and pd.notna(s.iloc[0]) else None
+
+
+def parcial(cx, x, y):
+    """Spearman parcial: residuos de los rangos de x e y tras regresarlos sobre el rango de ln(PIB pc)."""
+    d = cx[[x, y, "pib_pc_ppa"]].dropna()
+    rx, ry, rz = rankdata(d[x]), rankdata(d[y]), rankdata(np.log(d.pib_pc_ppa))
+    ex = rx - np.polyval(np.polyfit(rz, rx, 1), rz)
+    ey = ry - np.polyval(np.polyfit(rz, ry, 1), rz)
+    rho, pval = pearsonr(ex, ey)
+    return {"rho": round(float(rho), 3), "p": round(float(pval), 4), "n": int(len(d))}
 
 
 def corte_transversal(p):
@@ -86,6 +97,10 @@ def main():
         rho, pval = spearmanr(d[x], d[y])
         corr[f"{x}~{y}"] = {"rho": round(float(rho), 3), "p": round(float(pval), 4), "n": int(len(d))}
     res["correlaciones_spearman"] = corr
+    # Control por nivel de desarrollo: correlación parcial de rangos, quitando el efecto de ln(PIB per cápita PPA)
+    res["correlaciones_parciales_lnPIBpc"] = {
+        f"{x}~gini_bm": parcial(cx, x, "gini_bm") for x in
+        ["presion_tributaria", "renta_personas_pib", "gasto_social_pib", "ratio_directos_indirectos", "iva_pct"]}
 
     (PROC / "indicadores.json").write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
 
