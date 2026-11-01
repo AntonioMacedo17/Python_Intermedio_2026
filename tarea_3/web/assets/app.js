@@ -1,4 +1,4 @@
-/* Dashboard «¿Quién sostiene el fisco peruano?» — datos en data/*.json, generados por scripts/analizar_datos.py */
+/* Dashboard «¿Quién financia al Estado peruano?» — datos en data/*.json, generados por scripts/analizar_datos.py */
 
 const NORDICOS = ["DNK", "FIN", "NOR", "SWE", "ISL"];
 const GRUPOS = { OCDE: "Promedio OCDE", ALC: "Promedio ALC", NORD: "Promedio nórdico" };

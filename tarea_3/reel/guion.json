@@ -1,0 +1,49 @@
+{
+  "titulo": "¿Quién financia al Estado peruano?",
+  "subtitulo": "Estructura tributaria, desigualdad y gasto social en el Perú frente a América Latina, la OCDE y los países nórdicos",
+  "fuente": "OCDE, WID.world, Banco Mundial, MEF",
+  "escenas": [
+    {
+      "frase": "Cada vez que compras algo, pagas i ge be. Pero ¿quién sostiene realmente al Estado peruano?",
+      "sub": "Cada vez que compras algo, pagas IGV. Pero ¿quién sostiene realmente al Estado peruano?",
+      "cifra": "",
+      "etiqueta": "¿Quién financia al Estado peruano?"
+    },
+    {
+      "frase": "En dos mil veintitrés, el Perú recaudó dieciséis coma siete por ciento de su pib. La o ce de e, treinta y tres coma siete. Los nórdicos, más de cuarenta y uno.",
+      "sub": "En 2023, el Perú recaudó 16.7 % de su PIB. La OCDE, 33.7. Los nórdicos, más de 41.",
+      "cifra": "16.7 %",
+      "etiqueta": "del PIB recaudó el Perú en 2023"
+    },
+    {
+      "frase": "El i ge be recauda tres coma seis veces lo que la renta de las personas. Lo directo lo pagan sobre todo las empresas, y sube y baja con la minería.",
+      "sub": "El IGV recauda 3.6 veces lo que la renta de las personas. Lo directo lo pagan sobre todo las empresas, y sube y baja con la minería.",
+      "cifra": "3.6×",
+      "etiqueta": "recauda el IGV por cada sol del impuesto a la renta de personas"
+    },
+    {
+      "frase": "La mitad de peruanos con menores ingresos recibe apenas ocho coma tres por ciento del ingreso nacional. Y la propiedad casi no tributa.",
+      "sub": "La mitad de peruanos con menores ingresos recibe apenas 8.3 % del ingreso nacional. Y la propiedad casi no tributa.",
+      "cifra": "8.3 %",
+      "etiqueta": "del ingreso nacional va a la mitad con menores ingresos"
+    },
+    {
+      "frase": "El gasto social es siete coma cinco por ciento del pib; en la o ce de e, casi veintiuno. Entre cincuenta países, recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa.",
+      "sub": "El gasto social es 7.5 % del PIB; en la OCDE, casi 21. Entre 50 países, recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa.",
+      "cifra": "7.5 %",
+      "etiqueta": "del PIB en gasto social público"
+    },
+    {
+      "frase": "Además, el Estado deja de recaudar más de dos por ciento del pib en exoneraciones y otros beneficios.",
+      "sub": "Además, el Estado deja de recaudar más de 2 % del PIB en exoneraciones y otros beneficios.",
+      "cifra": "2.16 %",
+      "etiqueta": "del PIB en gasto tributario (estimación oficial 2026)"
+    },
+    {
+      "frase": "Explora los datos en el dashboard. El enlace está en la descripción.",
+      "sub": "Explora los datos en el dashboard. El enlace está en la descripción.",
+      "cifra": "",
+      "etiqueta": "Explora el dashboard: enlace en la descripción"
+    }
+  ]
+}
