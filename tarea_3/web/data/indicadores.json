@@ -1,0 +1,190 @@
+{
+  "anio_referencia": 2023,
+  "presion_tributaria": {
+    "PER": 16.666,
+    "ALC": 21.539,
+    "OCDE": 33.731,
+    "Nordicos": 41.189
+  },
+  "iva_pct": {
+    "PER": 38.389,
+    "ALC": 28.242,
+    "OCDE": 20.242,
+    "Nordicos": 21.119
+  },
+  "iva_pib": {
+    "PER": 6.398,
+    "ALC": 6.083,
+    "OCDE": 6.828,
+    "Nordicos": 8.665
+  },
+  "renta_personas_pct": {
+    "PER": 10.542,
+    "ALC": 10.017,
+    "OCDE": 24.375,
+    "Nordicos": 34.928
+  },
+  "renta_personas_pib": {
+    "PER": 1.757,
+    "ALC": 2.158,
+    "OCDE": 8.222,
+    "Nordicos": 14.447
+  },
+  "renta_empresas_pct": {
+    "PER": 24.27,
+    "ALC": 17.82,
+    "OCDE": 11.131,
+    "Nordicos": 12.34
+  },
+  "propiedad_pib": {
+    "PER": 0.897,
+    "ALC": 0.847,
+    "OCDE": 1.685,
+    "Nordicos": 1.463
+  },
+  "bienes_servicios_pct": {
+    "PER": 45.025,
+    "ALC": 47.92,
+    "OCDE": 30.773,
+    "Nordicos": 28.569
+  },
+  "directos_pct": {
+    "PER": 41.735,
+    "ALC": 33.738,
+    "OCDE": 41.205,
+    "Nordicos": 52.029
+  },
+  "ratio_directos_indirectos": {
+    "PER": 0.927,
+    "ALC": 0.704,
+    "OCDE": 1.339,
+    "Nordicos": 1.854
+  },
+  "gasto_social_pib": {
+    "PER": 7.548,
+    "ALC": null,
+    "OCDE": 20.758,
+    "Nordicos": 24.784
+  },
+  "ranking_presion_alc": {
+    "puesto": 23,
+    "de": 28
+  },
+  "igv_sobre_renta_personas_PER": 3.64,
+  "evolucion_PER": {
+    "presion_tributaria": {
+      "2000": 15.083,
+      "2023": 16.666
+    },
+    "iva_pct": {
+      "2000": 36.365,
+      "2023": 38.389
+    },
+    "renta_personas_pct": {
+      "2000": 7.981,
+      "2023": 10.542
+    },
+    "renta_empresas_pct": {
+      "2000": 9.521,
+      "2023": 24.27
+    }
+  },
+  "gasto_social_PER_serie": [
+    [
+      2012.0,
+      5.997
+    ],
+    [
+      2013.0,
+      7.057
+    ],
+    [
+      2014.0,
+      7.785
+    ],
+    [
+      2015.0,
+      7.692
+    ],
+    [
+      2016.0,
+      7.519
+    ],
+    [
+      2017.0,
+      8.24
+    ],
+    [
+      2018.0,
+      7.626
+    ],
+    [
+      2019.0,
+      7.827
+    ],
+    [
+      2020.0,
+      9.19
+    ],
+    [
+      2021.0,
+      8.822
+    ],
+    [
+      2022.0,
+      8.079
+    ],
+    [
+      2023.0,
+      7.548
+    ]
+  ],
+  "desigualdad_PER_2019_2023": {
+    "gini_bm": 41.26,
+    "top10_ingreso": 60.35,
+    "top1_ingreso": 32.31,
+    "top10_riqueza": 71.74,
+    "top1_riqueza": 39.02,
+    "bottom50_ingreso": 8.31
+  },
+  "desigualdad_nordicos_2019_2023": {
+    "gini_bm": 28.08,
+    "top10_ingreso": 30.84,
+    "top1_ingreso": 10.0,
+    "top10_riqueza": 56.88,
+    "top1_riqueza": 21.97,
+    "bottom50_ingreso": 23.52
+  },
+  "correlaciones_spearman": {
+    "presion_tributaria~gini_bm": {
+      "rho": -0.75,
+      "p": 0.0,
+      "n": 50
+    },
+    "renta_personas_pib~gini_bm": {
+      "rho": -0.66,
+      "p": 0.0,
+      "n": 49
+    },
+    "gasto_social_pib~gini_bm": {
+      "rho": -0.488,
+      "p": 0.0022,
+      "n": 37
+    },
+    "ratio_directos_indirectos~gini_bm": {
+      "rho": -0.379,
+      "p": 0.0067,
+      "n": 50
+    },
+    "renta_personas_pib~top10_ingreso": {
+      "rho": -0.708,
+      "p": 0.0046,
+      "n": 14
+    },
+    "gasto_social_pib~top10_ingreso": {
+      "rho": -0.583,
+      "p": 0.0992,
+      "n": 9
+    }
+  }
+}

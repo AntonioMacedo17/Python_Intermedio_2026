@@ -37,3 +37,6 @@ salidas*/
 # Python
 __pycache__/
 .ipynb_checkpoints/
+
+# WID.world: archivos crudos por país (~400 MB). Se regeneran con scripts/obtener_datos.py
+datos/originales/wid/WID_data_*.csv
