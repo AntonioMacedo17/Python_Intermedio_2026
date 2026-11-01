@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Quién sostiene el fisco?</title>
+<meta name="description" content="Estructura tributaria, desigualdad y gasto social en el Perú frente a América Latina, la OCDE y los países nórdicos (2000–2024). Dashboard interactivo con datos de la OCDE, WID.world y el Banco Mundial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<header class="hero">
+  <nav class="nav">
+    <span class="marca">Fisco &amp; desigualdad · Perú</span>
+    <div class="nav-links">
+      <a href="#resumen">Resumen</a><a href="#explorar">Explorar</a><a href="#desigualdad">Desigualdad</a>
+      <a href="#hallazgos">Hallazgos</a><a href="#metodo">Método</a>
+      <button id="tema" class="tema" type="button" aria-label="Cambiar tema claro/oscuro">◐</button>
+    </div>
+  </nav>
+  <div class="hero-in">
+    <p class="kicker">Política fiscal · desigualdad · Perú frente al mundo</p>
+    <h1>¿Quién sostiene el fisco peruano?</h1>
+    <p class="pregunta"><strong>Pregunta de investigación:</strong> ¿cómo se compara la estructura tributaria del Perú
+      —cuánto recauda, de quién y con qué impuestos— con la de América Latina, la OCDE y los países nórdicos entre 2000
+      y 2024, y cómo se asocia con la desigualdad y el gasto social?</p>
+    <div class="hero-grid">
+      <div class="hero-num">
+        <span class="big" id="hero-veces">—</span>
+        <span class="hero-txt" id="hero-txt">Cargando datos…</span>
+      </div>
+      <dl class="ficha">
+        <div><dt>Cobertura geográfica</dt><dd>Perú, 28 países de América Latina y el Caribe, 34 países de la OCDE (incluidos 5 nórdicos)</dd></div>
+        <div><dt>Periodo</dt><dd>2000–2024 (impuestos); gasto social del Perú desde 2012</dd></div>
+        <div><dt>Fuentes</dt><dd>OCDE (Global Revenue Statistics y SOCX), WID.world, Banco Mundial</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="resumen" class="seccion">
+    <div class="controles" role="group" aria-label="Filtros principales">
+      <label>Año <output id="anio-out">2023</output>
+        <input id="anio" type="range" min="2000" max="2024" step="1" value="2023"></label>
+      <label>Comparar al Perú con
+        <select id="grupo">
+          <option value="OCDE">Promedio OCDE</option>
+          <option value="ALC">Promedio América Latina y el Caribe</option>
+          <option value="NOR">Promedio nórdico (5 países)</option>
+        </select></label>
+      <label>Indicador (mapa, serie y ranking)
+        <select id="indicador"></select></label>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <p class="nota-kpi">Indicadores del año elegido. «p.p.» = puntos porcentuales. El promedio nórdico es el promedio simple
+      de Dinamarca, Finlandia, Islandia, Noruega y Suecia.</p>
+  </section>
+
+  <section id="explorar" class="seccion">
+    <h2>Explorar el indicador</h2>
+    <p class="lead" id="ind-desc"></p>
+    <div class="grid-2">
+      <figure class="card">
+        <figcaption><span class="fig-t" id="t-mapa">Mapa</span><span class="fig-s">Haz clic en un país para sumarlo a la comparación de composición.</span></figcaption>
+        <div id="g-mapa" class="graf graf-mapa"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><span class="fig-t" id="t-serie">Evolución</span><span class="fig-s">Perú frente a los tres grupos de referencia. La línea vertical marca el año elegido.</span></figcaption>
+        <div id="g-serie" class="graf"></div>
+      </figure>
+    </div>
+    <figure class="card">
+      <figcaption><span class="fig-t">¿De qué impuestos sale cada sol recaudado?</span>
+        <span class="fig-s">Composición de la recaudación del gobierno general (% del total), año elegido.</span></figcaption>
+      <div class="chips" id="chips" aria-label="Países en la comparación"></div>
+      <div class="agregar">
+        <label>Agregar país <select id="agregar-pais"><option value="">— elegir —</option></select></label>
+        <button type="button" id="reset-paises" class="btn-sec">Restablecer</button>
+      </div>
+      <div id="g-comp" class="graf graf-alto"></div>
+    </figure>
+    <figure class="card">
+      <figcaption><span class="fig-t" id="t-rank">Ranking</span><span class="fig-s">Países de América Latina y el Caribe y nórdicos, con los promedios ALC y OCDE como referencia.</span></figcaption>
+      <div id="g-rank" class="graf graf-rank"></div>
+    </figure>
+  </section>
+
+  <section id="desigualdad" class="seccion">
+    <h2>Impuestos, gasto social y desigualdad</h2>
+    <p class="lead">Cada punto es un país. Eje horizontal: indicador fiscal (último año disponible 2019–2023).
+      Eje vertical: desigualdad (promedio 2019–2023). Es una <strong>asociación entre países</strong>, no un efecto causal.</p>
+    <div class="controles" role="group" aria-label="Filtros del gráfico de dispersión">
+      <label>Indicador fiscal (eje X)
+        <select id="x-disp">
+          <option value="presion_tributaria">Presión tributaria (% PIB)</option>
+          <option value="gasto_social_pib">Gasto social público (% PIB)</option>
+          <option value="renta_personas_pib">Impuesto a la renta de personas (% PIB)</option>
+          <option value="iva_pct">IVA/IGV (% de la recaudación)</option>
+          <option value="ratio_directos_indirectos">Ratio directos / indirectos</option>
+        </select></label>
+      <label>Desigualdad (eje Y)
+        <select id="y-disp">
+          <option value="gini_bm">Índice de Gini (Banco Mundial, encuestas)</option>
+          <option value="top10_ingreso">Ingreso del 10 % más rico (WID)</option>
+          <option value="top1_riqueza">Riqueza del 1 % más rico (WID)</option>
+        </select></label>
+    </div>
+    <div class="grid-2">
+      <figure class="card">
+        <figcaption><span class="fig-t" id="t-disp">Dispersión</span><span class="fig-s" id="s-disp"></span></figcaption>
+        <div id="g-disp" class="graf graf-alto"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><span class="fig-t">¿Cuánto se llevan los de arriba y los de abajo?</span>
+          <span class="fig-s">WID.world, promedio 2019–2023. Ingreso nacional antes de impuestos y riqueza neta personal.</span></figcaption>
+        <div id="g-wid" class="graf graf-alto"></div>
+      </figure>
+    </div>
+  </section>
+
+  <section id="hallazgos" class="seccion">
+    <h2>Tres hallazgos</h2>
+    <div class="hallazgos" id="lista-hallazgos"></div>
+  </section>
+
+  <section id="metodo" class="seccion metodo">
+    <h2>Metodología, fuentes y limitaciones</h2>
+    <div class="grid-3">
+      <div>
+        <h3>Cómo se construyeron los indicadores</h3>
+        <ul>
+          <li><b>Presión tributaria:</b> recaudación tributaria total del gobierno general, incluidas las contribuciones a la seguridad social, en % del PIB (clasificación OCDE).</li>
+          <li><b>Composición:</b> recaudación de cada impuesto ÷ recaudación total × 100. Renta de personas = código 1100; renta de empresas = 1200; propiedad = 4000; IVA/IGV = 5111; resto de bienes y servicios = 5000 − 5111.</li>
+          <li><b>Ratio directos / indirectos:</b> (renta 1000 + propiedad 4000) ÷ bienes y servicios 5000. Las contribuciones sociales se dejan aparte porque su incidencia es discutida.</li>
+          <li><b>Gasto social:</b> gasto social público total en % del PIB, metodología SOCX de la OCDE (incluye al Perú con la misma definición).</li>
+          <li><b>Desigualdad:</b> Gini del Banco Mundial (encuestas de hogares) y participaciones de WID.world (adultos, reparto igualitario en la pareja), promediadas 2019–2023.</li>
+          <li><b>Asociación:</b> correlación de Spearman entre países y, en el texto, correlación parcial controlando por el PIB per cápita (PPA, en logaritmo).</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Fuentes</h3>
+        <ul class="fuentes">
+          <li>OCDE, CEPAL, CIAT y BID (2026). <i>Estadísticas tributarias en América Latina y el Caribe 2026</i>; base Global Revenue Statistics. <a href="https://doi.org/10.1787/38649e87-es">doi.org/10.1787/38649e87-es</a></li>
+          <li>OCDE, Social Expenditure Database (SOCX). <a href="https://www.oecd.org/en/data/datasets/social-expenditure-database-socx.html">oecd.org</a></li>
+          <li>World Inequality Database. <a href="https://wid.world/data/">wid.world</a></li>
+          <li>Banco Mundial, World Development Indicators (SI.POV.GINI, NY.GDP.PCAP.PP.KD). <a href="https://data.worldbank.org/indicator/SI.POV.GINI">data.worldbank.org</a></li>
+          <li>Francke, P. (2017). Una nota sobre la desigualdad de ingresos en el Perú. <i>Economía</i> (PUCP), 40(79). <a href="https://doi.org/10.18800/economia.201701.007">DOI</a></li>
+          <li>Alarco, G., Castillo, C. y Leiva, F. (2019). Desigualdad factorial, personal y de la riqueza en Perú, 1950-2016. <i>Problemas del Desarrollo</i>, 197(50). <a href="http://dx.doi.org/10.22201/iiec.20078951e.2019.197.67473">DOI</a></li>
+          <li>Jaramillo, M. (2013). The Incidence of Social Spending and Taxes in Peru. CEQ Working Paper 9. <a href="https://econpapers.repec.org/paper/tulceqwps/09.htm">RePEc</a></li>
+          <li>CooperAcción (2013). <i>Actualidad Minera del Perú</i> n.º 171: «Las paradojas del crecimiento minero y la tributación en el Perú». <a href="https://cooperaccion.org.pe/wp-content/uploads/2017/03/BOLETINAMP171-1.pdf">PDF</a></li>
+        </ul>
+        <p class="peq">Datos descargados el 01/11/2026. Código y datos: <a href="https://github.com/AntonioMacedo17/Python_Intermedio_2026/tree/main/tarea_3" id="link-repo">repositorio en GitHub</a>.</p>
+      </div>
+      <div>
+        <h3>Limitaciones</h3>
+        <ul>
+          <li><b>Asociación, no causalidad:</b> las comparaciones entre países no aíslan el efecto de los impuestos sobre la desigualdad; influyen la historia, las instituciones, la informalidad y el nivel de desarrollo.</li>
+          <li><b>Gini con conceptos distintos:</b> en América Latina se mide sobre ingreso per cápita y en Europa sobre ingreso disponible; la comparación es aproximada.</li>
+          <li><b>WID.world</b> combina encuestas, registros tributarios y cuentas nacionales; los últimos años son extrapolados. Sus cifras difieren de las del INEI.</li>
+          <li><b>Renta de empresas</b> en el Perú depende del precio de los minerales: es volátil y no refleja cuánto pagan las personas de altos ingresos.</li>
+          <li><b>Gasto social del Perú</b> en SOCX empieza en 2012 y no existe promedio ALC con esa metodología.</li>
+          <li>No se mide evasión, gasto tributario (exoneraciones) ni incidencia por deciles.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tabla-box">
+      <div class="tabla-head">
+        <h3>Tabla de datos del año elegido</h3>
+        <button type="button" id="descargar" class="btn-sec">Descargar CSV</button>
+      </div>
+      <div class="tabla-scroll"><table id="tabla"></table></div>
+    </div>
+  </section>
+</main>
+<footer class="pie">
+  <p>Antonio Macedo · Diplomado QLAB, Python Intermedio 2026 · Elaborado con apoyo de IA (Claude); datos y cifras verificados contra las fuentes.</p>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
