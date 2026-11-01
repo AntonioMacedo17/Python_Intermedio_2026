@@ -17,7 +17,7 @@ IND = json.loads((AQUI.parent / "web" / "data" / "indicadores.json").read_text(e
 TITULO = "¿Quién financia al Estado peruano?"
 SUBTITULO = ("Estructura tributaria, desigualdad y gasto social en el Perú frente a América Latina, "
              "la OCDE y los países nórdicos")
-FUENTE = "OCDE, WID.world, Banco Mundial, MEF"
+FUENTE = "OCDE, WID.world, Banco Mundial, SUNAT"
 
 ESCENAS = [
     {"frase": "Cada vez que compras algo, pagas i ge be. Pero ¿quién sostiene realmente al Estado peruano?",
@@ -44,7 +44,7 @@ ESCENAS = [
      "cifra": "7.5 %", "etiqueta": "del PIB en gasto social público"},
     {"frase": "Además, el Estado deja de recaudar más de dos por ciento del pib en exoneraciones y otros beneficios.",
      "sub": "Además, el Estado deja de recaudar más de 2 % del PIB en exoneraciones y otros beneficios.",
-     "cifra": "2.16 %", "etiqueta": "del PIB en gasto tributario (estimación oficial 2026)"},
+     "cifra": "2.16 %", "etiqueta": "del PIB en gasto tributario (SUNAT, estimación 2026)"},
     {"frase": "Explora los datos en el dashboard. El enlace está en la descripción.",
      "sub": "Explora los datos en el dashboard. El enlace está en la descripción.",
      "cifra": "", "etiqueta": "Explora el dashboard: enlace en la descripción"},

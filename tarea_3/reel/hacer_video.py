@@ -26,7 +26,7 @@ URL = "antoniomacedo17.github.io/Python_Intermedio_2026"
 AUTOR = "Antonio Macedo · Diplomado QLAB"
 CREDITOS = ["Voz: clon de mi voz con IA (Qwen3-TTS)",
             "Música: «Clean Soul», Kevin MacLeod (incompetech.com), CC BY 3.0",
-            "Datos: OCDE, WID.world, Banco Mundial, MEF"]
+            "Datos: OCDE, WID.world, Banco Mundial, SUNAT"]
 
 # Paleta 3 del dashboard, variante oscura
 FONDO, TEXTO, SUAVE, CAJA = "#1F2328", "#FFFFFF", "#B9BFC6", "#2D333B"
@@ -81,7 +81,12 @@ def tiempos(guion, nar, partes):
         largos = np.array([max(1, len(re.sub(r"[^\w]", "", x.word))) for x in ws], float)
         f_voz = np.concatenate([[0], np.cumsum(largos) / largos.sum()])
         t_voz = np.array([ws[0].start] + [x.end for x in ws])
-        subs = e["sub"].split()
+        subs = []
+        for s in e["sub"].split():   # «16.7 %» va junto en el subtítulo
+            if subs and s.startswith("%"):
+                subs[-1] += " " + s
+            else:
+                subs.append(s)
         pesos = np.array([hablado(s) for s in subs], float)
         f_sub = np.concatenate([[0], np.cumsum(pesos) / pesos.sum()])
         t_sub = np.interp(f_sub, f_voz, t_voz) + ini
@@ -198,9 +203,9 @@ def video(guion, nar, ruta):
     sf.write(wav, nar.audio, nar.sr)
     fondo, bloques, fuente_sub = base(guion), reel._bloques(nar.palabras), _fuente("PublicSans", 60, 800)
     dur = nar.duracion
-    # Voz a -14 LUFS; música unos 20 dB por debajo, con entrada y salida suaves
+    # Voz a -14 LUFS; música unos 16 dB por debajo, con entrada y salida suaves
     filtro = (f"[1:a]loudnorm=I=-14:TP=-2:LRA=11,aresample=48000[v];"
-              f"[2:a]atrim=0:{dur:.2f},loudnorm=I=-34:TP=-10,afade=t=in:d=1.5,afade=t=out:st={dur - 2.5:.2f}:d=2.5,"
+              f"[2:a]atrim=0:{dur:.2f},loudnorm=I=-30:TP=-9,afade=t=in:d=1.5,afade=t=out:st={dur - 2.5:.2f}:d=2.5,"
               f"aresample=48000[m];[v][m]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.89[a]")
     cmd = [reel.FFMPEG, "-y", "-v", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{ANCHO}x{ALTO}", "-r", str(FPS), "-i", "-",

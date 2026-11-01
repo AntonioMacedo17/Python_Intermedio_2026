@@ -6,7 +6,7 @@ Tarea 3 · Diplomado QLAB, Python Intermedio 2026 · Antonio Macedo
 
 - **Dashboard:** https://antoniomacedo17.github.io/Python_Intermedio_2026/
 - **Post de LinkedIn (con el reel):** _pendiente: se agrega al publicarlo_
-- **Reel:** `reel/` (guion, scripts y subtítulos); el video se publica en LinkedIn
+- **Reel:** subtítulos en [`reel/reel_tarea3.srt`](reel/reel_tarea3.srt), guion en `reel/guion_reel.py`; el video se publica en LinkedIn
 
 ---
 
