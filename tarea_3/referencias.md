@@ -48,6 +48,14 @@ en el dashboard ni en el reel hasta que Antonio las confirme a mano en el navega
    Lab, Technical Note 2026/04. https://wid.world/document/world-inequality-lab-technical-note-2026-04/
    — Verificado: es la referencia metodológica que el propio archivo de metadatos de WID cita para las series usadas.
 
+### Agregadas el 01/11/2026 (sección «Lo que el Estado deja de recaudar»)
+
+- **OCDE (2018).** *The Role and Design of Net Wealth Taxes in the OECD*. OECD Tax Policy Studies, OECD Publishing. https://doi.org/10.1787/9789264290303-en — verificado en Crossref (título, editorial, fecha 12/04/2018).
+- **Observatorio Fiscal Internacional (International Tax Observatory, ITO) (2026).** Resumen ejecutivo del informe sobre progresividad tributaria e Impuesto Mínimo Efectivo sobre la Riqueza en ALC, comisionado por Brasil (presidencia de la PTLAC). https://taxobservatory.world//www-site/uploads/2026/04/executive-summary-ESP-visual.pdf — verificado: se leyó el PDF. Cifras citadas: 50 % más pobre ≈30 % de su ingreso en impuestos y 1 % más rico ≈22 %; impuesto mínimo de 2 % sobre patrimonios > USD 100 millones ≈ USD 24 mil millones al año (≈0,6 % del PIB) para Argentina, Brasil, Chile, Colombia, México, Perú y Uruguay. No da la cifra del Perú por separado.
+- **MEF, Marco Macroeconómico Multianual 2026-2029 (estimación SUNAT del gasto tributario 2026)**, según El Comercio (28/08/2025). https://www.elcomercio.pe/economia/peru/gasto-tributario-potencial-ascenderia-a-s26350-millones-al-2026-noticia/ — **verificación parcial**: se leyó la nota de prensa; el PDF oficial no se pudo abrir (bloqueo automático). Cifras: S/ 26 350 millones; 2,16 % del PBI; 12,7 % de la recaudación; IGV 76,8 %; agropecuario 25,6 %.
+- **WID.world, Inequality Transparency Index.** https://wid.world/transparency/ — verificado (método: cuatro fuentes, de 0 a 20). No se cita la calificación del Perú porque no se verificó.
+- **MEF, presión tributaria de 14,6 % del PBI en 2025**, según Energiminas (27/01/2026). https://energiminas.com/?p=41366 — fuente secundaria; se usa solo como referencia de orden de magnitud.
+
 ## C. No verificadas (no citar hasta confirmar)
 
 | Referencia | Por qué no se verificó | Link a revisar |
@@ -59,3 +67,5 @@ en el dashboard ni en el reel hasta que Antonio las confirme a mano en el navega
 | CEPAL (2016). *La matriz de la desigualdad social en América Latina* | cepal.org bloquea (403) | buscar en https://repositorio.cepal.org |
 | Segovia, Cristián (2021). Efecto distributivo de la política tributaria en el Perú. BCRP, Documento de Trabajo 2021-010 | bcrp.gob.pe con anti-bots | https://www.bcrp.gob.pe/docs/Publicaciones/Documentos-de-Trabajo/2021/documento-de-trabajo-010-2021.pdf |
 | Lustig, Nora (ed.) (2018). *Commitment to Equity Handbook* (Perú entre los que menos redistribuyen) | solo resúmenes de búsqueda | — |
+| MEF/SUNAT (2025). *Estimación de los Gastos Tributarios 2026* (PDF oficial) | mef.gob.pe devuelve una página de verificación automática | https://www.mef.gob.pe/contenidos/tributos/doc/Estimacion_Gastos_Tributarios_2026.pdf |
+| MEF/SUNAT ante la Comisión Agraria del Congreso (2023). Costo fiscal de la Ley 31110 (régimen agrario) | el link devuelve 404 | https://www.congreso.gob.pe/Docs/comisiones2023/Agraria/files/sesiones_ordinarias/ptt_sunat_9na_sesiÓn.pdf |

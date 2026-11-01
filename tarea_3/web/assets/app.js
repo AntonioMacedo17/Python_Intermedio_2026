@@ -1,7 +1,7 @@
 /* Dashboard «¿Quién sostiene el fisco peruano?» — datos en data/*.json, generados por scripts/analizar_datos.py */
 
 const NORDICOS = ["DNK", "FIN", "NOR", "SWE", "ISL"];
-const GRUPOS = { OCDE: "Promedio OCDE", ALC: "Promedio ALC", NOR: "Promedio nórdico" };
+const GRUPOS = { OCDE: "Promedio OCDE", ALC: "Promedio ALC", NORD: "Promedio nórdico" };
 
 const INDICADORES = {
   presion_tributaria: { lab: "Presión tributaria", u: "% del PIB",
@@ -47,7 +47,7 @@ const fmt = (v, d = 1) => (v == null || Number.isNaN(v) ? "s. d." : v.toLocaleSt
 const fila = (iso, anio) => POR.get(iso + "|" + anio);
 
 function val(iso, anio, col) {
-  if (iso === "NOR") {
+  if (iso === "NORD") {
     const xs = NORDICOS.map((i) => val(i, anio, col)).filter((v) => v != null);
     return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
   }
@@ -126,7 +126,7 @@ function serie() {
   const ind = INDICADORES[estado.indicador], anios = [...Array(25).keys()].map((i) => 2000 + i);
   document.getElementById("t-serie").textContent = `${ind.lab} (${ind.u}), 2000–2024`;
   const series = [["PER", "Perú", "--accent", 3], ["ALC", "Promedio ALC", "--g-alc", 2],
-    ["OCDE", "Promedio OCDE", "--g-ocde", 2], ["NOR", "Promedio nórdico", "--g-nor", 2]];
+    ["OCDE", "Promedio OCDE", "--g-ocde", 2], ["NORD", "Promedio nórdico", "--g-nor", 2]];
   const tr = series.map(([iso, nom, col, w]) => ({
     x: anios, y: anios.map((a) => val(iso, a, estado.indicador)), name: nom, mode: "lines+markers", connectgaps: false,
     line: { color: css(col), width: w }, marker: { size: iso === "PER" ? 6 : 4 },
@@ -139,7 +139,7 @@ function serie() {
 
 /* ---------- Composición ---------- */
 function composicion() {
-  const lista = ["PER", "ALC", "OCDE", "NOR", ...estado.paises];
+  const lista = ["PER", "ALC", "OCDE", "NORD", ...estado.paises];
   const nombre = (iso) => GRUPOS[iso] || fila(iso, estado.anio)?.pais || PANEL.find((f) => f.iso3 === iso)?.pais || iso;
   const etiquetas = lista.map(nombre).reverse();
   const tr = COMPOSICION.map(([col, lab, color]) => ({
@@ -231,13 +231,13 @@ function dispersion() {
 
 /* ---------- Desigualdad WID ---------- */
 function wid() {
-  const medidas = [["top1_riqueza", "Riqueza del 1 % más rico"], ["top10_ingreso", "Ingreso del 10 % más rico"],
-    ["bottom50_ingreso", "Ingreso del 50 % más pobre"]];
+  const medidas = [["top1_riqueza", "Riqueza<br>1 % más rico"], ["top10_ingreso", "Ingreso<br>10 % más rico"],
+    ["bottom50_ingreso", "Ingreso<br>50 % más pobre"]];
   const per = CX.find((d) => d.iso3 === "PER"), nor = CX.filter((d) => NORDICOS.includes(d.iso3));
   const lat = CX.filter((d) => d.grupo === "América Latina y el Caribe" && d.top10_ingreso != null);
   const prom = (arr, c) => { const v = arr.map((d) => d[c]).filter((z) => z != null); return v.reduce((a, b) => a + b, 0) / v.length; };
-  const tr = [["Perú", (c) => per[c], "--accent"], [`Otros 9 de ALC (promedio)`, (c) => prom(lat, c), "--g-alc"],
-    ["Nórdicos (promedio)", (c) => prom(nor, c), "--g-nor"]].map(([nom, f, col]) => ({
+  const tr = [["Perú", (c) => per[c], "--accent"], ["ALC, 9 países (prom.)", (c) => prom(lat, c), "--g-alc"],
+    ["Nórdicos (prom.)", (c) => prom(nor, c), "--g-nor"]].map(([nom, f, col]) => ({
     type: "bar", name: nom, x: medidas.map((m) => m[1]), y: medidas.map((m) => f(m[0])),
     marker: { color: css(col), line: { color: css("--surface"), width: 2 } },
     text: medidas.map((m) => fmt(f(m[0])) + " %"), textposition: "outside", cliponaxis: false, textfont: { color: css("--ink-2") },
@@ -253,15 +253,15 @@ function hallazgos() {
   const d = r.desigualdad_PER_2019_2023, dn = r.desigualdad_nordicos_2019_2023;
   const cp = r.correlaciones_parciales_lnPIBpc, cs = r.correlaciones_spearman;
   const items = [
-    { num: `${fmt(r.igv_sobre_renta_personas_PER)}×`, t: "El IGV sostiene más que la renta de las personas",
-      p: `En ${r.anio_referencia}, el Perú recaudó ${fmt(p.PER)} % del PIB (ALC: ${fmt(p.ALC)} %; OCDE: ${fmt(p.OCDE)} %; nórdicos: ${fmt(p.Nordicos)} %), puesto ${r.ranking_presion_alc.puesto} de ${r.ranking_presion_alc.de} en ALC. El IGV aportó ${fmt(iv.PER)} % de la recaudación (OCDE: ${fmt(iv.OCDE)} %) y recaudó ${fmt(r.igv_sobre_renta_personas_PER)} veces lo que el impuesto a la renta de personas (${fmt(rp.PER, 2)} % del PIB frente a ${fmt(rp.OCDE)} % en la OCDE). Lo «directo» viene de la renta de empresas (${fmt(r.renta_empresas_pct.PER)} % del total), muy ligada a la minería.`,
-      f: "OCDE, Global Revenue Statistics (2026)." },
-    { num: `${fmt(d.top1_riqueza, 0)} %`, t: "Riqueza muy concentrada y poco gravada",
-      p: `Según WID.world (promedio 2019–2023), el 1 % más rico del Perú tiene ${fmt(d.top1_riqueza)} % de la riqueza neta y el 10 % más rico ${fmt(d.top10_riqueza)} % (nórdicos: ${fmt(dn.top1_riqueza)} % y ${fmt(dn.top10_riqueza)} %). El 50 % de menores ingresos recibe ${fmt(d.bottom50_ingreso)} % del ingreso (nórdicos: ${fmt(dn.bottom50_ingreso)} %). Los impuestos a la propiedad recaudan ${fmt(r.propiedad_pib.PER, 2)} % del PIB (OCDE: ${fmt(r.propiedad_pib.OCDE, 2)} %).`,
-      f: "WID.world; OCDE. Las estimaciones de WID son superiores a las oficiales (ver Alarco et al., 2019; Francke, 2017)." },
-    { num: `${fmt(gs.PER)} %`, t: "Poco gasto social; importa cuánto se recauda y gasta",
-      p: `El gasto social público del Perú fue ${fmt(gs.PER)} % del PIB en ${r.anio_referencia} (OCDE: ${fmt(gs.OCDE)} %; nórdicos: ${fmt(gs.Nordicos)} %). Entre ${cs["presion_tributaria~gini_bm"].n} países, a mayor presión tributaria, menor Gini (ρ = ${fmt(cs["presion_tributaria~gini_bm"].rho, 2)}); la asociación se mantiene al controlar por PIB per cápita (ρ parcial = ${fmt(cp["presion_tributaria~gini_bm"].rho, 2)}) y también para el gasto social (ρ parcial = ${fmt(cp["gasto_social_pib~gini_bm"].rho, 2)}). En cambio, la de la renta de personas desaparece (ρ parcial = ${fmt(cp["renta_personas_pib~gini_bm"].rho, 2)}, no significativa).`,
-      f: "OCDE SOCX; Banco Mundial; cálculos propios. Asociación, no causalidad (ver Jaramillo, 2013)." },
+    { num: `${fmt(r.igv_sobre_renta_personas_PER)}×`, t: "Impuestos directos como la OCDE… pero los pagan las empresas",
+      p: `En ${r.anio_referencia}, los impuestos directos (renta y propiedad) pesan en el Perú casi lo mismo que en la OCDE: ${fmt(r.directos_pct.PER)} % de la recaudación frente a ${fmt(r.directos_pct.OCDE)} %. La diferencia está en quién paga: la renta de empresas aporta ${fmt(r.renta_empresas_pct.PER)} % del total (OCDE: ${fmt(r.renta_empresas_pct.OCDE)} %), una recaudación que sube y baja con la minería y el precio de los metales; la renta de las personas recauda solo ${fmt(rp.PER, 2)} % del PIB (OCDE: ${fmt(rp.OCDE)} %; nórdicos: ${fmt(rp.Nordicos)} %). Por eso el IGV recauda ${fmt(r.igv_sobre_renta_personas_PER)} veces lo que la renta de personas y aporta ${fmt(iv.PER)} % del total (OCDE: ${fmt(iv.OCDE)} %). Presión tributaria: ${fmt(p.PER)} % del PIB, puesto ${r.ranking_presion_alc.puesto} de ${r.ranking_presion_alc.de} en ALC.`,
+      f: "OCDE, Global Revenue Statistics (2026); cálculos propios. Sobre minería y tributación: CooperAcción (2013)." },
+    { num: `${fmt(d.bottom50_ingreso)} %`, t: "La mitad de menores ingresos recibe muy poco; la propiedad casi no tributa",
+      p: `El 50 % de menores ingresos del Perú recibe ${fmt(d.bottom50_ingreso)} % del ingreso nacional y el 10 % más rico ${fmt(d.top10_ingreso)} % (nórdicos: ${fmt(dn.bottom50_ingreso)} % y ${fmt(dn.top10_ingreso)} %; WID.world, promedio 2019–2023). Los impuestos a la propiedad recaudan ${fmt(r.propiedad_pib.PER, 2)} % del PIB (OCDE: ${fmt(r.propiedad_pib.OCDE, 2)} %). La riqueza estaría aún más concentrada: WID estima que el 1 % más rico tiene ${fmt(d.top1_riqueza)} % de la riqueza neta (nórdicos: ${fmt(dn.top1_riqueza)} %), pero es una estimación con pocos datos directos para el Perú (ver «Cómo medir mejor»).`,
+      f: "WID.world (estimaciones, últimos años extrapolados); OCDE. Las cifras de WID superan a las de encuestas oficiales (ver Alarco et al., 2019; Francke, 2017)." },
+    { num: `${fmt(cp["presion_tributaria~gini_bm"].rho, 2)}`, t: "Cuánto se recauda y gasta se asocia con menos desigualdad; la mezcla de impuestos, por sí sola, no",
+      p: `Entre ${cp["presion_tributaria~gini_bm"].n} países, los que recaudan más tienen menor desigualdad (Gini), aun comparando países con PIB per cápita parecido (correlación parcial ${fmt(cp["presion_tributaria~gini_bm"].rho, 2)}). Lo mismo ocurre con el gasto social (${fmt(cp["gasto_social_pib~gini_bm"].rho, 2)}, ${cp["gasto_social_pib~gini_bm"].n} países). En cambio, la mezcla de impuestos no apunta en la dirección esperada: la renta de personas deja de ser significativa (${fmt(cp["renta_personas_pib~gini_bm"].rho, 2)}) y una mayor proporción directos/indirectos se asocia incluso con más desigualdad (+${fmt(cp["ratio_directos_indirectos~gini_bm"].rho, 2)}); una posible explicación, no probada aquí, es que en América Latina lo «directo» es sobre todo renta de empresas. El Perú gasta ${fmt(gs.PER)} % del PIB en lo social (OCDE: ${fmt(gs.OCDE)} %; nórdicos: ${fmt(gs.Nordicos)} %). Coincide con Jaramillo (2013): el Perú redistribuye poco porque recauda y gasta poco. Es una asociación, no una prueba de causa.`,
+      f: "OCDE; OCDE SOCX; Banco Mundial; cálculos propios (Spearman parcial, controlando ln PIB per cápita PPA)." },
   ];
   document.getElementById("lista-hallazgos").innerHTML = items.map((h) =>
     `<article class="hallazgo"><div class="num">${h.num}</div><h3>${h.t}</h3><p>${h.p}</p><div class="fuente">Fuente: ${h.f}</div></article>`).join("");

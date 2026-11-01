@@ -1,40 +1,43 @@
 /* Tokens de color: la paleta se cambia solo aquí (claro y oscuro) */
 :root {
+  /* Paleta 3 "editorial" (elegida por Antonio), validada en Python: contraste y separación OKLab
+     con simulación de daltonismo (protanopia, deuteranopia, tritanopia) >= 10 entre los 4 grupos */
   color-scheme: light;
-  --bg: #F7F5F0;
+  --bg: #FFFFFF;
   --surface: #FFFFFF;
-  --surface-2: #EFECE4;
-  --ink: #1E2A32;
-  --ink-2: #4A5560;
-  --muted: #7A838B;
-  --line: #DCD8CE;
-  --brand: #1B4D6B;
-  --accent: #C2562F;      /* Perú */
-  --g-alc: #6C8EA4;
-  --g-ocde: #A39E93;
-  --g-nor: #2F7F6F;
-  --hero-bg: #1B4D6B;
-  --hero-ink: #F7F5F0;
-  --seq: "#E3EDF3,#B9D0DE,#8AB0C7,#5E8FAE,#3A6F92,#1B4D6B,#0F3550";
-  --c1: #1B4D6B; --c2: #5E8FAE; --c3: #B9D0DE; --c4: #2F7F6F; --c5: #C2562F; --c6: #E39A6F; --c7: #C9C3B6;
+  --surface-2: #F3F4F5;
+  --ink: #1F2328;
+  --ink-2: #4E555C;
+  --muted: #7A8188;
+  --line: #E1E3E6;
+  --brand: #00798C;
+  --accent: #D1495B;      /* Perú */
+  --g-alc: #D4952B;
+  --g-ocde: #2FA3B3;
+  --g-nor: #1E3F66;
+  --hero-bg: #1F2328;
+  --hero-ink: #FFFFFF;
+  --hero-big: #FF8C9B;
+  --seq: "#E6F4F6,#BFE3E8,#8DCBD4,#55AEBB,#2A8E9C,#0F6E7C,#05505B";
+  --c1: #1E3F66; --c2: #2FA3B3; --c3: #A9D6DC; --c4: #7D848B; --c5: #D4952B; --c6: #F0CF8E; --c7: #6A4C93;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #12181D; --surface: #1A2228; --surface-2: #222C33; --ink: #EDF0F2; --ink-2: #B7C0C7; --muted: #8C969E;
-    --line: #2E3A42; --brand: #7FB0CF; --accent: #E2764B; --g-alc: #8EAFC4; --g-ocde: #B5AFA3; --g-nor: #4FB09A;
-    --hero-bg: #0E2A3B; --hero-ink: #EDF0F2;
-    --seq: "#1C2E3A,#23435A,#2D5B7B,#3A7499,#5A92B5,#86B2CE,#BCD5E5";
-    --c1: #7FB0CF; --c2: #4E86AA; --c3: #2D5B7B; --c4: #4FB09A; --c5: #E2764B; --c6: #B5603B; --c7: #6B7680;
+    --bg: #121417; --surface: #1B1E22; --surface-2: #24282D; --ink: #EEF0F2; --ink-2: #B9BFC6; --muted: #8E959C;
+    --line: #30353B; --brand: #5CC6D3; --accent: #FF8C9B; --g-alc: #F2BE5C; --g-ocde: #25838F; --g-nor: #B4C6FF;
+    --hero-bg: #0B0D10; --hero-ink: #EEF0F2; --hero-big: #FF8C9B;
+    --seq: "#14353A,#18505A,#1D6B78,#2A8896,#4BA7B3,#7FC4CD,#BCE1E6";
+    --c1: #8FB0FF; --c2: #2FA3B3; --c3: #1F5C66; --c4: #8A9096; --c5: #F2BE5C; --c6: #8A6A2E; --c7: #B79AE0;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #12181D; --surface: #1A2228; --surface-2: #222C33; --ink: #EDF0F2; --ink-2: #B7C0C7; --muted: #8C969E;
-  --line: #2E3A42; --brand: #7FB0CF; --accent: #E2764B; --g-alc: #8EAFC4; --g-ocde: #B5AFA3; --g-nor: #4FB09A;
-  --hero-bg: #0E2A3B; --hero-ink: #EDF0F2;
-  --seq: "#1C2E3A,#23435A,#2D5B7B,#3A7499,#5A92B5,#86B2CE,#BCD5E5";
-  --c1: #7FB0CF; --c2: #4E86AA; --c3: #2D5B7B; --c4: #4FB09A; --c5: #E2764B; --c6: #B5603B; --c7: #6B7680;
+  --bg: #121417; --surface: #1B1E22; --surface-2: #24282D; --ink: #EEF0F2; --ink-2: #B9BFC6; --muted: #8E959C;
+  --line: #30353B; --brand: #5CC6D3; --accent: #FF8C9B; --g-alc: #F2BE5C; --g-ocde: #25838F; --g-nor: #B4C6FF;
+  --hero-bg: #0B0D10; --hero-ink: #EEF0F2; --hero-big: #FF8C9B;
+  --seq: "#14353A,#18505A,#1D6B78,#2A8896,#4BA7B3,#7FC4CD,#BCE1E6";
+  --c1: #8FB0FF; --c2: #2FA3B3; --c3: #1F5C66; --c4: #8A9096; --c5: #F2BE5C; --c6: #8A6A2E; --c7: #B79AE0;
 }
 
 * { box-sizing: border-box; }
@@ -67,7 +70,7 @@ h3 { font-size: 1.1rem; }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; margin-top: 28px; align-items: end; }
 .hero-num { display: flex; gap: 18px; align-items: center; }
 .big { font-family: Fraunces, Georgia, serif; font-weight: 800; font-size: clamp(4rem, 12vw, 7.5rem); line-height: .9; color: var(--accent); }
-:root:not([data-theme="dark"]) .hero .big { color: #F3B58F; }
+.hero .big { color: var(--hero-big); }
 .hero-txt { font-size: 1.1rem; max-width: 30ch; }
 .ficha { margin: 0; display: grid; gap: 10px; border-left: 2px solid rgba(255,255,255,.35); padding-left: 18px; }
 .ficha dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; opacity: .75; }
@@ -159,3 +162,11 @@ tr.peru td { font-weight: 700; color: var(--accent); }
   .graf-rank { height: 760px; }
   .nav-links { gap: 10px; }
 }
+
+/* Recuadros: lo que el Estado deja de recaudar */
+.recuadros { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.recuadro { background: var(--surface-2); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 14px; padding: 18px; }
+.recuadro .num { font-family: Fraunces, Georgia, serif; font-size: 2.2rem; font-weight: 800; color: var(--brand); line-height: 1; }
+.recuadro h3 { margin-top: 8px; }
+.recuadro p { color: var(--ink-2); font-size: .9rem; }
+@media (max-width: 900px) { .recuadros { grid-template-columns: 1fr; } }

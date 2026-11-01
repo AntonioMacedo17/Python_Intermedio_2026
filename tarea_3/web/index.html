@@ -17,7 +17,8 @@
     <span class="marca">Fisco &amp; desigualdad · Perú</span>
     <div class="nav-links">
       <a href="#resumen">Resumen</a><a href="#explorar">Explorar</a><a href="#desigualdad">Desigualdad</a>
-      <a href="#hallazgos">Hallazgos</a><a href="#metodo">Método</a>
+      <a href="#hallazgos">Hallazgos</a><a href="#deja">Lo que no se recauda</a>
+        <a href="#metodo">Método</a>
       <button id="tema" class="tema" type="button" aria-label="Cambiar tema claro/oscuro">◐</button>
     </div>
   </nav>
@@ -50,7 +51,7 @@
         <select id="grupo">
           <option value="OCDE">Promedio OCDE</option>
           <option value="ALC">Promedio América Latina y el Caribe</option>
-          <option value="NOR">Promedio nórdico (5 países)</option>
+          <option value="NORD">Promedio nórdico (5 países)</option>
         </select></label>
       <label>Indicador (mapa, serie y ranking)
         <select id="indicador"></select></label>
@@ -127,6 +128,32 @@
     <div class="hallazgos" id="lista-hallazgos"></div>
   </section>
 
+  <section id="deja" class="seccion">
+    <h2>Lo que el Estado deja de recaudar</h2>
+    <p class="lead">Contexto de la literatura y de cifras oficiales. <strong>No es un resultado de nuestro análisis</strong> ni una relación causal.</p>
+    <div class="grid-3 recuadros">
+      <article class="recuadro">
+        <div class="num">2.16 %</div>
+        <h3>del PIB en gasto tributario (2026)</h3>
+        <p>Es lo que el Estado deja de recaudar por exoneraciones, inafectaciones y otros beneficios: S/&nbsp;26&nbsp;350 millones, 12.7 % de la recaudación esperada (estimación SUNAT en el Marco Macroeconómico Multianual 2026-2029 del MEF). El 76.8 % es IGV, sobre todo por exoneraciones a productos agrícolas y a la Amazonía. Por sector, el agropecuario concentra el 25.6 %, es decir, unos 0.55 puntos del PIB (cálculo propio: 2.16 × 0.256).</p>
+        <p>Referencia de escala: el gasto social público del Perú fue 7.5 % del PIB en 2023 (OCDE SOCX). Los años no coinciden; la comparación solo indica órdenes de magnitud.</p>
+        <p class="peq">Régimen agrario (Ley 31110 y la nueva ley agraria) y convenios de estabilidad tributaria en minería: no pudimos verificar una estimación oficial reciente de su costo fiscal, así que no la citamos. Queda como limitación.</p>
+      </article>
+      <article class="recuadro">
+        <div class="num">2 %</div>
+        <h3>impuesto mínimo a las grandes fortunas</h3>
+        <p>El Observatorio Fiscal Internacional (2026) estima que en ALC el 50 % más pobre destina cerca del 30 % de sus ingresos a impuestos y el 1 % más rico alrededor del 22 %. Propone un impuesto mínimo efectivo de 2 % sobre patrimonios mayores a USD 100 millones: para siete países, entre ellos el Perú, rendiría cerca de USD 24 mil millones al año (≈0.6 % de su PIB). El resumen no da la cifra del Perú por separado.</p>
+        <p>La OCDE (2018) advierte que los impuestos al patrimonio neto funcionan mejor con bases amplias, pocas exenciones e intercambio de información, porque la evasión y la fuga de capitales reducen lo recaudado.</p>
+      </article>
+      <article class="recuadro" id="medir">
+        <div class="num">4</div>
+        <h3>fuentes para medir la desigualdad: cómo medir mejor</h3>
+        <p>WID.world califica la transparencia de cada país según cuatro fuentes: encuestas de ingreso, registros tributarios de renta, encuestas de riqueza y registros tributarios de riqueza. Las mejores mediciones combinan encuestas, registros tributarios anonimizados y cuentas nacionales (cuentas nacionales distributivas).</p>
+        <p>Para el Perú, las cifras de riqueza de WID se apoyan en pocos datos directos. No encontramos tabulaciones públicas y periódicas de la SUNAT por percentiles. Dos pasos concretos serían publicarlas y abrir un acceso seguro a microdatos anonimizados para investigación.</p>
+      </article>
+    </div>
+  </section>
+
   <section id="metodo" class="seccion metodo">
     <h2>Metodología, fuentes y limitaciones</h2>
     <div class="grid-3">
@@ -138,7 +165,9 @@
           <li><b>Ratio directos / indirectos:</b> (renta 1000 + propiedad 4000) ÷ bienes y servicios 5000. Las contribuciones sociales se dejan aparte porque su incidencia es discutida.</li>
           <li><b>Gasto social:</b> gasto social público total en % del PIB, metodología SOCX de la OCDE (incluye al Perú con la misma definición).</li>
           <li><b>Desigualdad:</b> Gini del Banco Mundial (encuestas de hogares) y participaciones de WID.world (adultos, reparto igualitario en la pareja), promediadas 2019–2023.</li>
-          <li><b>Asociación:</b> correlación de Spearman entre países y, en el texto, correlación parcial controlando por el PIB per cápita (PPA, en logaritmo).</li>
+          <li><b>Asociación:</b> correlación de Spearman entre países (compara posiciones en el ranking, no valores; va de −1 a 1).</li>
+          <li><b>Correlación parcial, en simple:</b> los países ricos suelen recaudar más y ser menos desiguales a la vez. Para que eso no confunda, primero se quita a cada variable la parte que explica el PIB per cápita y luego se correlaciona lo que queda. Si la relación sigue, no se debe solo a que los países sean más ricos; aun así no prueba causalidad.</li>
+          <li><b>Cifra oficial peruana:</b> el MEF reportó una presión tributaria de 14.6 % del PBI en 2025 (según prensa). Es menor que la de la OCDE (16.7 % en 2023) porque las definiciones difieren: la OCDE incluye contribuciones a la seguridad social (1.9 % del PIB en el Perú en 2023) y a todos los niveles de gobierno.</li>
         </ul>
       </div>
       <div>
@@ -152,6 +181,10 @@
           <li>Alarco, G., Castillo, C. y Leiva, F. (2019). Desigualdad factorial, personal y de la riqueza en Perú, 1950-2016. <i>Problemas del Desarrollo</i>, 197(50). <a href="http://dx.doi.org/10.22201/iiec.20078951e.2019.197.67473">DOI</a></li>
           <li>Jaramillo, M. (2013). The Incidence of Social Spending and Taxes in Peru. CEQ Working Paper 9. <a href="https://econpapers.repec.org/paper/tulceqwps/09.htm">RePEc</a></li>
           <li>CooperAcción (2013). <i>Actualidad Minera del Perú</i> n.º 171: «Las paradojas del crecimiento minero y la tributación en el Perú». <a href="https://cooperaccion.org.pe/wp-content/uploads/2017/03/BOLETINAMP171-1.pdf">PDF</a></li>
+          <li>OCDE (2018). <i>The Role and Design of Net Wealth Taxes in the OECD</i>. <a href="https://doi.org/10.1787/9789264290303-en">DOI</a></li>
+          <li>Observatorio Fiscal Internacional (2026). Resumen ejecutivo: progresividad tributaria e impuesto mínimo efectivo sobre la riqueza en ALC. <a href="https://taxobservatory.world//www-site/uploads/2026/04/executive-summary-ESP-visual.pdf">PDF</a></li>
+          <li>MEF, Marco Macroeconómico Multianual 2026-2029 (gasto tributario; estimación SUNAT), según El Comercio (28/08/2025). <a href="https://www.elcomercio.pe/economia/peru/gasto-tributario-potencial-ascenderia-a-s26350-millones-al-2026-noticia/">nota</a> · <a href="https://www.mef.gob.pe//contenidos/tributos/doc/Estimacion_Gastos_Tributarios_2026.pdf">PDF MEF</a></li>
+          <li>WID.world, Inequality Transparency Index. <a href="https://wid.world/transparency/">wid.world/transparency</a></li>
         </ul>
         <p class="peq">Datos descargados el 01/11/2026. Código y datos: <a href="https://github.com/AntonioMacedo17/Python_Intermedio_2026/tree/main/tarea_3" id="link-repo">repositorio en GitHub</a>.</p>
       </div>
@@ -163,7 +196,8 @@
           <li><b>WID.world</b> combina encuestas, registros tributarios y cuentas nacionales; los últimos años son extrapolados. Sus cifras difieren de las del INEI.</li>
           <li><b>Renta de empresas</b> en el Perú depende del precio de los minerales: es volátil y no refleja cuánto pagan las personas de altos ingresos.</li>
           <li><b>Gasto social del Perú</b> en SOCX empieza en 2012 y no existe promedio ALC con esa metodología.</li>
-          <li>No se mide evasión, gasto tributario (exoneraciones) ni incidencia por deciles.</li>
+          <li>No se mide evasión ni incidencia por deciles. El gasto tributario y los impuestos a la riqueza se presentan como contexto de fuentes oficiales y de la literatura, no como resultados propios.</li>
+          <li>Las cifras del gasto tributario 2026 provienen del Marco Macroeconómico Multianual, citado por la prensa; no pudimos abrir el PDF oficial (bloqueo automático del sitio).</li>
         </ul>
       </div>
     </div>
