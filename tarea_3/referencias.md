@@ -52,20 +52,22 @@ en el dashboard ni en el reel hasta que Antonio las confirme a mano en el navega
 
 - **OCDE (2018).** *The Role and Design of Net Wealth Taxes in the OECD*. OECD Tax Policy Studies, OECD Publishing. https://doi.org/10.1787/9789264290303-en — verificado en Crossref (título, editorial, fecha 12/04/2018).
 - **Observatorio Fiscal Internacional (International Tax Observatory, ITO) (2026).** Resumen ejecutivo del informe sobre progresividad tributaria e Impuesto Mínimo Efectivo sobre la Riqueza en ALC, comisionado por Brasil (presidencia de la PTLAC). https://taxobservatory.world//www-site/uploads/2026/04/executive-summary-ESP-visual.pdf — verificado: se leyó el PDF. Cifras citadas: 50 % más pobre ≈30 % de su ingreso en impuestos y 1 % más rico ≈22 %; impuesto mínimo de 2 % sobre patrimonios > USD 100 millones ≈ USD 24 mil millones al año (≈0,6 % del PIB) para Argentina, Brasil, Chile, Colombia, México, Perú y Uruguay. No da la cifra del Perú por separado.
-- **MEF, Marco Macroeconómico Multianual 2026-2029 (estimación SUNAT del gasto tributario 2026)**, según El Comercio (28/08/2025). https://www.elcomercio.pe/economia/peru/gasto-tributario-potencial-ascenderia-a-s26350-millones-al-2026-noticia/ — **verificación parcial**: se leyó la nota de prensa; el PDF oficial no se pudo abrir (bloqueo automático). Cifras: S/ 26 350 millones; 2,16 % del PBI; 12,7 % de la recaudación; IGV 76,8 %; agropecuario 25,6 %.
+- **SUNAT (2025).** *Estimación potencial de los gastos tributarios 2026*. Informe N.º 000045-2025-SUNAT/1V3000, 27/06/2025. https://www.mef.gob.pe//contenidos/tributos/doc/Estimacion_Gastos_Tributarios_2026.pdf — **verificado por Antonio** (abrió el PDF): S/ 26 350 millones; 2,16 % del PBI; 12,68 % de la recaudación. Advierte que la suma «solamente debe ser considerada como una gruesa referencia» y «podría estar sobrestimada». **No** confirma el 76,8 % del IGV ni el 25,6 % del agro: esas cifras son de El Comercio (28/08/2025, https://www.elcomercio.pe/economia/peru/gasto-tributario-potencial-ascenderia-a-s26350-millones-al-2026-noticia/) y no se usan.
 - **WID.world, Inequality Transparency Index.** https://wid.world/transparency/ — verificado (método: cuatro fuentes, de 0 a 20). No se cita la calificación del Perú porque no se verificó.
 - **MEF, presión tributaria de 14,6 % del PBI en 2025**, según Energiminas (27/01/2026). https://energiminas.com/?p=41366 — fuente secundaria; se usa solo como referencia de orden de magnitud.
 
-## C. No verificadas (no citar hasta confirmar)
+### Verificadas por Antonio en el navegador (01/11/2026)
+
+- **Arias Minaya, Luis Alberto (2010).** «Perú: la tributación directa, evasión en el impuesto a la renta y desafíos». En *Evasión y equidad en América Latina*, CEPAL, pp. 325-356, LC/W.309/Rev.1. https://repositorio.cepal.org/items/2a4a441a-7e89-48df-8737-e1060361ac65/full (el año correcto es 2010, no 2009).
+- **Durand, Francisco (2019).** *Odebrecht, la empresa que capturaba gobiernos*. Fondo Editorial PUCP / Oxfam. https://repositorio.pucp.edu.pe/index/bitstream/handle/123456789/170219/
+- **CEPAL (2016).** *La matriz de la desigualdad social en América Latina*. https://www.cepal.org/es/publicaciones/40668-la-matriz-la-desigualdad-social-america-latina
+- **Lustig, Nora (ed.) (2018).** *Commitment to Equity Handbook*. Brookings Institution Press / CEQ Institute. https://directory.doabooks.org/handle/20.500.12854/93617
+- **CEPAL (2026).** *Panorama Fiscal de América Latina y el Caribe 2026* (existe: https://www.cepal.org/es/presentaciones/panorama-fiscal-america-latina-caribe-2026). **No se citan cifras de ella.**
+
+## C. No verificadas o excluidas (no citar hasta confirmar)
 
 | Referencia | Por qué no se verificó | Link a revisar |
 |---|---|---|
-| Arias Minaya, Luis Alberto (2009). *Perú: la tributación directa, evasión en el impuesto a la renta y desafíos*. CEPAL | cepal.org bloquea (403) | https://repositorio.cepal.org/items/2a4a441a-7e89-48df-8737-e1060361ac65/full |
-| Durand, Francisco (2018/2019). *Odebrecht, la empresa que capturaba gobiernos*. Fondo Editorial PUCP / Oxfam | repositorio PUCP con anti-bots | https://repositorio.pucp.edu.pe/index/bitstream/handle/123456789/170219/ |
-| Durand, Francisco (2016). *Cuando el poder extractivo captura el Estado* | no se encontró registro fiable | — |
-| CEPAL (2026). *Panorama Fiscal de América Latina y el Caribe 2026: fortalecimiento de los sistemas tributarios…* | cepal.org bloquea (403) | https://repositorio.cepal.org/server/api/core/bitstreams/12d76448-6e7a-4e38-8414-0cc965a470b9/content |
-| CEPAL (2016). *La matriz de la desigualdad social en América Latina* | cepal.org bloquea (403) | buscar en https://repositorio.cepal.org |
-| Segovia, Cristián (2021). Efecto distributivo de la política tributaria en el Perú. BCRP, Documento de Trabajo 2021-010 | bcrp.gob.pe con anti-bots | https://www.bcrp.gob.pe/docs/Publicaciones/Documentos-de-Trabajo/2021/documento-de-trabajo-010-2021.pdf |
-| Lustig, Nora (ed.) (2018). *Commitment to Equity Handbook* (Perú entre los que menos redistribuyen) | solo resúmenes de búsqueda | — |
-| MEF/SUNAT (2025). *Estimación de los Gastos Tributarios 2026* (PDF oficial) | mef.gob.pe devuelve una página de verificación automática | https://www.mef.gob.pe/contenidos/tributos/doc/Estimacion_Gastos_Tributarios_2026.pdf |
-| MEF/SUNAT ante la Comisión Agraria del Congreso (2023). Costo fiscal de la Ley 31110 (régimen agrario) | el link devuelve 404 | https://www.congreso.gob.pe/Docs/comisiones2023/Agraria/files/sesiones_ordinarias/ptt_sunat_9na_sesiÓn.pdf |
+| Durand, Francisco (2016). *Cuando el poder extractivo captura el Estado* | no se encontró registro fiable; **no citar** (decisión de Antonio) | — |
+| Segovia, Cristián (2021). Efecto distributivo de la política tributaria en el Perú. BCRP, Documento de Trabajo 2021-010 | bcrp.gob.pe con anti-bots; Antonio la revisará | https://www.bcrp.gob.pe/docs/Publicaciones/Documentos-de-Trabajo/2021/documento-de-trabajo-010-2021.pdf |
+| MEF/SUNAT ante la Comisión Agraria del Congreso (2023). Costo fiscal de la Ley 31110 (régimen agrario) | el link devuelve 404; **no citar** (decisión de Antonio) | https://www.congreso.gob.pe/Docs/comisiones2023/Agraria/files/sesiones_ordinarias/ptt_sunat_9na_sesiÓn.pdf |

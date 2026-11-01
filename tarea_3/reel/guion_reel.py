@@ -71,7 +71,7 @@ def verificar():
     }
     for k, ok in chequeos.items():
         print("OK   " if ok else "FALLA", k)
-    # 2.16 % del gasto tributario 2026 no sale de nuestros datos: MMM 2026-2029 (MEF, estimación SUNAT)
+    # 2.16 % del gasto tributario 2026 no sale de nuestros datos: SUNAT, Informe N.º 000045-2025-SUNAT/1V3000
     return all(chequeos.values())
 
 

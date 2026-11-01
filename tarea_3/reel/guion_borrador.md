@@ -10,7 +10,7 @@ subtítulos (.srt), en cifras. Todas las cifras salen de `web/data/indicadores.j
 | 3 | El IGV recauda tres coma seis veces lo que la renta de las personas. Lo directo lo pagan sobre todo las empresas, y sube y baja con la minería. | «3.6×» · renta de personas 1.8 % del PIB vs 14.4 % en los nórdicos | igv_sobre_renta_personas_PER; renta_personas_pib; directos_pct (41.7 vs 41.2) |
 | 4 | La mitad de peruanos con menores ingresos recibe apenas ocho coma tres por ciento del ingreso nacional. Y la propiedad casi no tributa. | 50 % inferior: 8.3 % del ingreso (nórdicos 23.5 %) · propiedad 0.9 % del PIB | bottom50_ingreso (WID, prom. 2019–2023); propiedad_pib |
 | 5 | El gasto social es siete coma cinco por ciento del PIB; en la OCDE, casi veintiuno. Entre cincuenta países, recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa. | Gasto social 7.5 vs 20.8 % · dispersión del dashboard | gasto_social_pib (SOCX); correlación parcial −0.53 (n = 50) |
-| 6 | Además, el Estado deja de recaudar más de dos por ciento del PIB en exoneraciones y otros beneficios. | «2.16 % del PIB en gasto tributario (2026)» | MMM 2026-2029 (MEF, estimación SUNAT), vía El Comercio |
+| 6 | Además, el Estado deja de recaudar más de dos por ciento del PIB en exoneraciones y otros beneficios. | «2.16 % del PIB en gasto tributario (2026)» | SUNAT, Informe N.º 000045-2025-SUNAT/1V3000 (27/06/2025) |
 | 7 | Explora los datos en el dashboard. El enlace está en la descripción. | URL del dashboard · «Voz generada con IA (clon de mi voz)» · «Fuentes: OCDE, WID.world, Banco Mundial, MEF» | — |
 
 **Extensión:** 156 palabras; a unas 2.5 palabras por segundo da ~62 s. La generación en CPU tomaría ~40 min.
