@@ -41,3 +41,7 @@ __pycache__/
 # WID.world: archivos crudos por país (~400 MB). Se regeneran con scripts/obtener_datos.py
 datos/originales/wid/WID_data_*.csv
 salidas_log*.txt
+
+# PDFs de referencias de terceros (copia local para verificar; no se redistribuyen)
+referencias_pdf/
+referencias/

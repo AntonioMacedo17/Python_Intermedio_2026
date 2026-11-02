@@ -56,6 +56,32 @@ en el dashboard ni en el reel hasta que Antonio las confirme a mano en el navega
 - **WID.world, Inequality Transparency Index.** https://wid.world/transparency/ — verificado (método: cuatro fuentes, de 0 a 20). No se cita la calificación del Perú porque no se verificó.
 - **MEF, presión tributaria de 14,6 % del PBI en 2025**, según Energiminas (27/01/2026). https://energiminas.com/?p=41366 — fuente secundaria; se usa solo como referencia de orden de magnitud.
 
+### Agregadas el 01/11/2026 por la noche (leídas en el PDF; páginas según la numeración impresa)
+
+- **Lahura, Erick y Segovia, Cristián (2021).** «Política tributaria, distribución del ingreso y diferencias de género
+  en el Perú». BCRP, Documento de Trabajo N.º 2021-010, 30/11/2021.
+  https://www.bcrp.gob.pe/docs/Publicaciones/Documentos-de-Trabajo/2021/documento-de-trabajo-010-2021.pdf
+  (copia local, no versionada: `referencias_pdf/`). **Verificado leyendo el PDF.** Lo que se cita:
+  - Datos: ingresos y pagos anónimos de todas las personas naturales registradas en la SUNAT con rentas del trabajo
+    y de fuente extranjera en 2014 y 2015: 5 493 801 contribuyentes (p. 12 y tabla 2, p. 13). El texto llama «única» a esa base (p. 2).
+  - Solo alrededor de 25 % paga el impuesto: 1 350 403 en 2014 y 1 399 023 en 2015 (tabla 2, p. 13); en la p. 16 el
+    texto dice «solo 1.4 millones tuvieron que pagar impuestos (25 por ciento)» (ahí escribe 5.7 millones de
+    contribuyentes, cifra que no coincide con las tablas; usamos la de las tablas).
+  - Índice de Kakwani 0.355 (2014) y 0.369 (2015): impuestos directos progresivos (tabla 4, p. 15).
+  - El Gini baja 2.45 puntos (2014) y 2.26 (2015) después de impuestos (tabla 5a, p. 15; p. 21), **solo entre
+    trabajadores formales** (nota 25, p. 21; limitaciones, p. 22).
+  - El cambio de tasas de la Ley 30296 (vigente en 2015) hizo más desigual el ingreso después de impuestos (pp. 16 y 22).
+  - Citan a Jaramillo (2014), con datos de la ENAHO: los impuestos directos reducen el Gini en 0.6 puntos (de 0.504 a 0.498) (p. 4).
+  - Advierten que los ingresos declarados pueden no ser los reales por la evasión (p. 22).
+  - No dicen de forma explícita que los registros «midan mejor la parte alta» ni que el acceso sea restringido: eso no se les atribuye.
+- **Durand, Francisco (2016).** *Cuando el poder extractivo captura el Estado: lobbies, puertas giratorias y paquetazo
+  ambiental en Perú*. Oxfam en Perú, 28/06/2016. https://peru.oxfam.org/lo-%C3%BAltimo/publicaciones/cuando-el-poder-extractivo-captura-el-estado ·
+  [PDF](https://oi-files-cng-v2-prod.s3.eu-west-2.amazonaws.com/peru.oxfam.org/s3fs-public/file_attachments/Cuando%20el%20Poder%20Extractivo%20captura%20el%20Estado%20-%20Francisco%20Durand.pdf)
+  — **Verificado leyendo el PDF** (98 páginas). Lo que se cita: estudia la Ley 30230 (2014) como caso de captura
+  corporativa del Estado (p. 8); en lo tributario, la ley condona deudas, limita la capacidad fiscalizadora de la
+  SUNAT, amplía los plazos de los convenios de estabilidad tributaria y suspende por tres años la Norma XVI del
+  Código Tributario contra la elusión (p. 62).
+
 ### Verificadas por Antonio en el navegador (01/11/2026)
 
 - **Arias Minaya, Luis Alberto (2010).** «Perú: la tributación directa, evasión en el impuesto a la renta y desafíos». En *Evasión y equidad en América Latina*, CEPAL, pp. 325-356, LC/W.309/Rev.1. https://repositorio.cepal.org/items/2a4a441a-7e89-48df-8737-e1060361ac65/full (el año correcto es 2010, no 2009).
@@ -66,8 +92,8 @@ en el dashboard ni en el reel hasta que Antonio las confirme a mano en el navega
 
 ## C. No verificadas o excluidas (no citar hasta confirmar)
 
+Durand (2016) y Lahura y Segovia (2021) salieron de esta tabla: ahora están verificadas (ver arriba).
+
 | Referencia | Por qué no se verificó | Link a revisar |
 |---|---|---|
-| Durand, Francisco (2016). *Cuando el poder extractivo captura el Estado* | no se encontró registro fiable; **no citar** (decisión de Antonio) | — |
-| Segovia, Cristián (2021). Efecto distributivo de la política tributaria en el Perú. BCRP, Documento de Trabajo 2021-010 | bcrp.gob.pe con anti-bots; Antonio la revisará | https://www.bcrp.gob.pe/docs/Publicaciones/Documentos-de-Trabajo/2021/documento-de-trabajo-010-2021.pdf |
 | MEF/SUNAT ante la Comisión Agraria del Congreso (2023). Costo fiscal de la Ley 31110 (régimen agrario) | el link devuelve 404; **no citar** (decisión de Antonio) | https://www.congreso.gob.pe/Docs/comisiones2023/Agraria/files/sesiones_ordinarias/ptt_sunat_9na_sesiÓn.pdf |

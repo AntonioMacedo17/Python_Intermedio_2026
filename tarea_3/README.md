@@ -64,7 +64,7 @@ cápita. En simple: se quita a cada variable la parte que explica el nivel de de
 queda. Si la relación sigue, no se debe solo a que los países ricos recauden más; aun así no prueba causalidad.
 
 Referencias académicas y oficiales (Francke 2017; Alarco, Castillo y Leiva 2019; Jaramillo 2013; OCDE 2018;
-Observatorio Fiscal Internacional 2026; SUNAT 2025; CEPAL 2016; Lustig 2018) en [`referencias.md`](referencias.md), con link y estado de verificación.
+Observatorio Fiscal Internacional 2026; SUNAT 2025; Lahura y Segovia 2021; Durand 2016; CEPAL 2016; Lustig 2018) en [`referencias.md`](referencias.md), con link y estado de verificación.
 
 ## 4. Tres hallazgos (año 2023, salvo que se indique)
 
@@ -74,10 +74,12 @@ Observatorio Fiscal Internacional 2026; SUNAT 2025; CEPAL 2016; Lustig 2018) en 
    - La renta de personas recauda solo 1.76 % del PIB (OCDE: 8.2 %; nórdicos: 14.4 %).
    - El IGV recauda **3.6 veces** lo que la renta de personas.
    - La presión tributaria es 16.7 % del PIB (ALC: 21.5 %; OCDE: 33.7 %; nórdicos: 41.2 %), puesto 23 de 28 en ALC.
+   - La base es estrecha: en los registros de la SUNAT de 2014–2015, solo alrededor de 25 % de 5.49 millones de trabajadores formales pagó impuesto a la renta, y la rebaja de tasas de 2015 (Ley 30296) hizo más desigual su ingreso después de impuestos (Lahura y Segovia, 2021, pp. 13, 16 y 22).
 2. **La mitad de menores ingresos recibe muy poco y la propiedad casi no tributa.**
    - El 50 % de menores ingresos recibe 8.3 % del ingreso nacional (nórdicos: 23.5 %; WID, promedio 2019–2023).
    - Los impuestos a la propiedad recaudan 0.90 % del PIB (OCDE: 1.69 %).
    - WID estima que el 1 % más rico tiene 39 % de la riqueza neta, pero es una estimación con pocos datos directos para el Perú.
+   - Cómo medir mejor: con registros anónimos de la SUNAT, Lahura y Segovia (2021) encuentran impuestos directos progresivos (Kakwani ≈ 0.36) que bajan el Gini 2.3–2.5 puntos entre trabajadores formales; con la ENAHO, Jaramillo halla 0.6 puntos (citado en su p. 4). No son comparables: cubren poblaciones distintas.
 3. **Recaudar y gastar más se asocia con menos desigualdad; la mezcla de impuestos, por sí sola, no.**
    - Entre 50 países, la presión tributaria se asocia con un menor Gini aun controlando por PIB per cápita (ρ parcial = −0.53, p < 0.001).
    - El gasto social muestra lo mismo (−0.37, p = 0.025, 37 países).
@@ -87,7 +89,9 @@ Observatorio Fiscal Internacional 2026; SUNAT 2025; CEPAL 2016; Lustig 2018) en 
 
 **Contexto (no es resultado propio):** según la SUNAT, el gasto tributario potencial de 2026 es S/ 26 350 millones,
 2.16 % del PBI y 12.68 % de la recaudación (Informe N.º 000045-2025-SUNAT/1V3000). La SUNAT advierte que la suma es
-«una gruesa referencia» y «podría estar sobrestimada».
+«una gruesa referencia» y «podría estar sobrestimada». Como ejemplo de cómo se decide lo que no se recauda, Durand (2016,
+pp. 8 y 62) estudia la Ley 30230 (2014) como caso de captura del Estado: en lo tributario condona deudas, limita la
+fiscalización de la SUNAT, amplía los convenios de estabilidad tributaria y suspende por tres años la norma antielusión.
 
 ## 5. Limitaciones
 
@@ -97,6 +101,7 @@ Observatorio Fiscal Internacional 2026; SUNAT 2025; CEPAL 2016; Lustig 2018) en 
 - **Gasto social del Perú en SOCX:** solo desde 2012; no hay promedio ALC con esa metodología.
 - **Lo que no se mide:** evasión ni incidencia por deciles. No se verificó el costo fiscal del régimen agrario ni el de los convenios de estabilidad minera.
 - **Gasto tributario:** la SUNAT advierte que su suma «solamente debe ser considerada como una gruesa referencia» y «podría estar sobrestimada».
+- **Lahura y Segovia (2021):** su estudio cubre solo a trabajadores formales y advierte que los ingresos declarados pueden no ser los reales por la evasión (p. 22).
 - **Fuentes que no se pudieron abrir:** algunas (CEPAL, BCRP) bloquean las descargas automáticas; las que Antonio no verificó en el navegador están marcadas como «no verificadas» en `referencias.md` y no se citan en el dashboard.
 
 ## 6. Links
