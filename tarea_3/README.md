@@ -5,7 +5,7 @@
 Tarea 3 · Diplomado QLAB, Python Intermedio 2026 · Antonio Macedo
 
 - **Dashboard:** https://antoniomacedo17.github.io/Python_Intermedio_2026/
-- **Post de LinkedIn (con el reel):** _pendiente: se agrega al publicarlo_
+- **Post de LinkedIn (con el reel):** https://www.linkedin.com/feed/update/urn:li:activity:7522872705176592384/ (link corto: https://lnkd.in/p/eiFUeEJW; las 2 capturas del dashboard están en los comentarios del post)
 - **Reel:** [`reel/reel_tarea3.mp4`](reel/reel_tarea3.mp4) (68 s), subtítulos en [`reel/reel_tarea3.srt`](reel/reel_tarea3.srt) y guion en `reel/guion_reel.py`; también se publica en LinkedIn
 
 ---
@@ -113,7 +113,7 @@ del texto final de la ley; Zegarra (2025) considera razonable la estimación del
 ## 6. Links
 
 - Dashboard: https://antoniomacedo17.github.io/Python_Intermedio_2026/
-- LinkedIn (post con el reel): _pendiente_
+- LinkedIn (post con el reel): https://www.linkedin.com/feed/update/urn:li:activity:7522872705176592384/
 - Repositorio: https://github.com/AntonioMacedo17/Python_Intermedio_2026/tree/main/tarea_3
 
 ## 7. Cómo reproducir
