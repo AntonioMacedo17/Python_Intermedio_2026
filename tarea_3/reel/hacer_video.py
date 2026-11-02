@@ -35,12 +35,13 @@ PAUSA, INICIO, FINAL = 0.35, 0.4, 1.2
 
 # Gráfico de barras de cada escena: (etiqueta, valor, color); None = sin gráfico
 BARRAS = {
-    2: [("Perú", 16.7, PERU), ("América Latina", 21.5, ALC), ("OCDE", 33.7, OCDE), ("Nórdicos", 41.2, NOR)],
-    3: [("Perú", 1.8, PERU), ("OCDE", 8.2, OCDE), ("Nórdicos", 14.4, NOR)],
-    4: [("Perú", 8.3, PERU), ("Nórdicos", 23.5, NOR)],
-    5: [("Perú", 7.5, PERU), ("OCDE", 20.8, OCDE), ("Nórdicos", 24.8, NOR)],
+    2: [("Perú", 16.7, PERU), ("América Latina (prom.)", 21.5, ALC), ("OCDE (prom.)", 33.7, OCDE),
+        ("Nórdicos (prom.)", 41.2, NOR)],
+    3: [("Renta de empresas", 24.3, PERU), ("Renta de personas", 10.5, PERU)],
+    4: [("Perú", 8.3, PERU), ("Nórdicos (prom.)", 23.5, NOR)],
+    5: [("Perú", 7.5, PERU), ("OCDE (prom.)", 20.8, OCDE), ("Nórdicos (prom.)", 24.8, NOR)],
 }
-TITULO_BARRAS = {2: "Recaudación, % del PIB (2023)", 3: "Renta de personas, % del PIB (2023)",
+TITULO_BARRAS = {2: "Recaudación, % del PIB (2023)", 3: "Perú: % de lo recaudado (2023)",
                  4: "Ingreso del 50 % de menores ingresos, % (WID, 2019–2023)",
                  5: "Gasto social público, % del PIB (2023)"}
 
@@ -64,7 +65,7 @@ def narracion(guion):
 
 def hablado(palabra):
     """Cuántas letras «suena» una palabra escrita: sirve para repartir el tiempo de los subtítulos."""
-    p = palabra.replace("IGV", "i ge be").replace("PIB", "pib").replace("OCDE", "o ce de e").replace("%", "por ciento")
+    p = palabra.replace("IGV", "i ge be").replace("PIB", "pib").replace("OCDE", guion_global.get("ocde_voz", "o ce de e")).replace("%", "por ciento")
     p = re.sub(r"\d+", lambda m: num2words(int(m.group()), lang="es"), p.replace(".", " coma "))
     return max(1, len(re.sub(r"[^\w]", "", p)))
 
@@ -100,7 +101,7 @@ def tiempos(guion, nar, partes):
 def base(guion):
     img = Image.new("RGB", (ANCHO, ALTO), FONDO)
     d = ImageDraw.Draw(img)
-    d.text((MARGEN, 235), "FISCO Y DESIGUALDAD · PERÚ", font=_fuente("PublicSans", 34, 800), fill=PERU)
+    d.text((MARGEN, 235), "IMPUESTOS Y DESIGUALDAD · PERÚ", font=_fuente("PublicSans", 34, 800), fill=PERU)
     aviso, f = "VOZ GENERADA CON IA", _fuente("PublicSans", 28, 700)
     x1 = MARGEN + d.textlength(aviso, font=f) + 36
     d.rounded_rectangle((MARGEN, 300, x1, 350), radius=25, outline=SUAVE, width=2)
@@ -229,6 +230,11 @@ if __name__ == "__main__":
     nar, partes = narracion(guion)
     tiempos(guion, nar, partes)
     reel.a_srt(nar, SALIDAS / "reel_tarea3.srt")
+    # La narración armada queda aparte: el video se puede rehacer con otros colores sin regenerar la voz
+    sf.write(SALIDAS / "narracion.wav", nar.audio, nar.sr)
+    print(f"narración y subtítulos listos: {nar.duracion:.1f} s")
+    if "--solo-audio" in sys.argv:
+        sys.exit(0)
     for k, (ini, _) in enumerate(nar.escenas, 1):   # una imagen por escena para revisar el diseño
         cuadro(base(guion), guion, nar, ini + 1.5, reel._bloques(nar.palabras),
                _fuente("PublicSans", 60, 800)).save(SALIDAS / f"cuadro_{k}.png")

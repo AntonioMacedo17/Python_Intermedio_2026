@@ -2,7 +2,7 @@
 
 Cada escena tiene:
 - "frase": lo que dice la voz clonada. Números en palabras y siglas escritas como se pronuncian en el Perú
-  (IGV -> "i ge be", PIB -> "pib", OCDE -> "o ce de e").
+  (IGV -> "i ge be", PIB -> "pib", OCDE -> "ocedeé").
 - "sub": lo mismo para los subtítulos, con cifras y siglas normales.
 - "cifra" y "etiqueta": lo que se ve en grande en pantalla.
 
@@ -19,28 +19,37 @@ SUBTITULO = ("Estructura tributaria, desigualdad y gasto social en el Perú fren
              "la OCDE y los países nórdicos")
 FUENTE = "OCDE, WID.world, Banco Mundial, SUNAT"
 
+# Grafía de "OCDE" para la voz: se probaron 4 en una frase corta (salidas/prueba_ocde.txt): «o ce de e» sonaba cortada («OCE de» para Whisper) y «ocedeé» fue la más corrida.
+OCDE = "ocedeé"
+
 ESCENAS = [
-    {"frase": "Cada vez que compras algo, pagas i ge be. Pero ¿quién sostiene realmente al Estado peruano?",
-     "sub": "Cada vez que compras algo, pagas IGV. Pero ¿quién sostiene realmente al Estado peruano?",
+    {"frase": "Queremos mejores servicios públicos. Consumidores, empresas y trabajadores pagamos impuestos. "
+              "Pero ¿quién sostiene realmente al Estado peruano?",
+     "sub": "Queremos mejores servicios públicos. Consumidores, empresas y trabajadores pagamos impuestos. "
+            "Pero ¿quién sostiene realmente al Estado peruano?",
      "cifra": "", "etiqueta": "¿Quién financia al Estado peruano?"},
-    {"frase": "En dos mil veintitrés, el Perú recaudó dieciséis coma siete por ciento de su pib. "
-              "La o ce de e, treinta y tres coma siete. Los nórdicos, más de cuarenta y uno.",
-     "sub": "En 2023, el Perú recaudó 16.7 % de su PIB. La OCDE, 33.7. Los nórdicos, más de 41.",
+    {"frase": "En dos mil veintitrés el Perú recaudó dieciséis coma siete por ciento de su pib. "
+              f"El promedio de los países de la {OCDE} llega a treinta y tres coma siete "
+              "y el de los países nórdicos supera el cuarenta y uno.",
+     "sub": "En 2023 el Perú recaudó 16.7 % de su PIB. "
+            "El promedio de los países de la OCDE llega a 33.7 y el de los países nórdicos supera el 41.",
      "cifra": "16.7 %", "etiqueta": "del PIB recaudó el Perú en 2023"},
-    {"frase": "El i ge be recauda tres coma seis veces lo que la renta de las personas. "
-              "Lo directo lo pagan sobre todo las empresas, y sube y baja con la minería.",
-     "sub": "El IGV recauda 3.6 veces lo que la renta de las personas. "
-            "Lo directo lo pagan sobre todo las empresas, y sube y baja con la minería.",
+    {"frase": "Los impuestos directos gravan ingresos y ganancias como el impuesto a la renta. "
+              "En el Perú los pagan sobre todo las empresas y no las personas. "
+              "El i ge be recauda tres coma seis veces lo que la renta de personas.",
+     "sub": "Los impuestos directos gravan ingresos y ganancias como el impuesto a la renta. "
+            "En el Perú los pagan sobre todo las empresas y no las personas. "
+            "El IGV recauda 3.6 veces lo que la renta de personas.",
      "cifra": "3.6×", "etiqueta": "recauda el IGV por cada sol del impuesto a la renta de personas"},
     {"frase": "La mitad de peruanos con menores ingresos recibe apenas ocho coma tres por ciento del ingreso "
               "nacional. Y la propiedad casi no tributa.",
      "sub": "La mitad de peruanos con menores ingresos recibe apenas 8.3 % del ingreso nacional. "
             "Y la propiedad casi no tributa.",
      "cifra": "8.3 %", "etiqueta": "del ingreso nacional va a la mitad con menores ingresos"},
-    {"frase": "El gasto social es siete coma cinco por ciento del pib; en la o ce de e, casi veintiuno. "
-              "Entre cincuenta países, recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa.",
-     "sub": "El gasto social es 7.5 % del PIB; en la OCDE, casi 21. "
-            "Entre 50 países, recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa.",
+    {"frase": f"El gasto social es siete coma cinco por ciento del pib y en la {OCDE} casi veintiuno. "
+              "Entre cincuenta países recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa.",
+     "sub": "El gasto social es 7.5 % del PIB y en la OCDE casi 21. "
+            "Entre 50 países recaudar y gastar más se asocia con menos desigualdad. Asociación, no causa.",
      "cifra": "7.5 %", "etiqueta": "del PIB en gasto social público"},
     {"frase": "Además, el Estado deja de recaudar más de dos por ciento del pib en exoneraciones y otros beneficios.",
      "sub": "Además, el Estado deja de recaudar más de 2 % del PIB en exoneraciones y otros beneficios.",
@@ -64,6 +73,8 @@ def verificar():
         "IGV/renta personas 3.6": r(IND["igv_sobre_renta_personas_PER"]) == 3.6,
         "renta personas 1.8 / OCDE 8.2 / nórdicos 14.4": (r(rp["PER"]), r(rp["OCDE"]), r(rp["Nordicos"])) == (1.8, 8.2, 14.4),
         "empresas > OCDE": IND["renta_empresas_pct"]["PER"] > 2 * IND["renta_empresas_pct"]["OCDE"],
+        "empresas 24.3 > personas 10.5 (% de lo recaudado)": (r(IND["renta_empresas_pct"]["PER"]),
+                                                              r(IND["renta_personas_pct"]["PER"])) == (24.3, 10.5),
         "50 % inferior 8.3 vs 23.5": (r(d["bottom50_ingreso"]), r(dn["bottom50_ingreso"])) == (8.3, 23.5),
         "propiedad < 1 % PIB": IND["propiedad_pib"]["PER"] < 1,
         "gasto social 7.5 / OCDE 20.8 (casi 21) / nórdicos 24.8": (r(gs["PER"]), r(gs["OCDE"]), r(gs["Nordicos"])) == (7.5, 20.8, 24.8),
@@ -77,6 +88,6 @@ def verificar():
 
 if __name__ == "__main__":
     assert verificar(), "hay cifras que no coinciden"
-    (AQUI / "guion.json").write_text(json.dumps({"titulo": TITULO, "subtitulo": SUBTITULO, "fuente": FUENTE,
+    (AQUI / "guion.json").write_text(json.dumps({"titulo": TITULO, "subtitulo": SUBTITULO, "fuente": FUENTE, "ocde_voz": OCDE,
                                                  "escenas": ESCENAS}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("palabras:", sum(len(e["frase"].split()) for e in ESCENAS))
