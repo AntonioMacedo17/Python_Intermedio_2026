@@ -28,10 +28,11 @@ CREDITOS = ["Voz: clon de mi voz con IA (Qwen3-TTS)",
             "Música: «Clean Soul», Kevin MacLeod (incompetech.com), CC BY 3.0",
             "Datos: OCDE, WID.world, Banco Mundial, SUNAT"]
 
-# Paleta 3 del dashboard, variante oscura
-FONDO, TEXTO, SUAVE, CAJA = "#1F2328", "#FFFFFF", "#B9BFC6", "#2D333B"
-PERU, ALC, OCDE, NOR = "#FF8C9B", "#F2BE5C", "#3FB8C6", "#B4C6FF"
-PAUSA, INICIO, FINAL = 0.35, 0.4, 1.2
+# Paleta 1 «marfil» del dashboard, variante oscura (azul profundo, no negro)
+FONDO, TEXTO, SUAVE, CAJA = "#1A2B45", "#F5EFE3", "#B7C3D6", "#273C5E"
+PERU, ALC, OCDE, NOR = "#FF7A85", "#F2C14E", "#7FA8E8", "#C9DCF5"
+# Después de la última escena solo queda un silencio corto (antes había ~2 s: pausa + 1.2 s)
+PAUSA, INICIO, FINAL = 0.35, 0.4, 0.4
 
 # Gráfico de barras de cada escena: (etiqueta, valor, color); None = sin gráfico
 BARRAS = {
@@ -55,10 +56,12 @@ def narracion(guion):
         partes.append(w)
     silencio = lambda s: np.zeros(int(s * sr), np.float32)
     audio = [silencio(INICIO)]
-    for w in partes:
+    for k, w in enumerate(partes):
         escenas.append((t, t + len(w) / sr))
-        audio += [w, silencio(PAUSA)]
-        t += len(w) / sr + PAUSA
+        audio.append(w)
+        if k < len(partes) - 1:
+            audio.append(silencio(PAUSA))
+            t += len(w) / sr + PAUSA
     audio.append(silencio(FINAL))
     return reel.Narracion(np.concatenate(audio), sr, escenas), partes
 
@@ -162,7 +165,8 @@ def capa(k, e, avance):
         y += 24
         maximo = max(v for _, v, _ in barras)
         fl, fv = _fuente("PublicSans", 32, 600), _fuente("PublicSans", 34, 800)
-        etiqueta_ancho, alto_barra = 250, 44
+        # El ancho de la columna de etiquetas se ajusta al nombre más largo para que no se monte sobre la barra
+        etiqueta_ancho, alto_barra = max(d.textlength(n, font=fl) for n, _, _ in barras) + 28, 44
         largo = ancho - etiqueta_ancho - 110
         for nombre, v, col in barras:
             d.text((MARGEN, y + alto_barra / 2), nombre, font=fl, fill=TEXTO, anchor="lm")
