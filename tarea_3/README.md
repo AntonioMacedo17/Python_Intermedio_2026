@@ -6,7 +6,7 @@ Tarea 3 · Diplomado QLAB, Python Intermedio 2026 · Antonio Macedo
 
 - **Dashboard:** https://antoniomacedo17.github.io/Python_Intermedio_2026/
 - **Post de LinkedIn (con el reel):** _pendiente: se agrega al publicarlo_
-- **Reel:** subtítulos en [`reel/reel_tarea3.srt`](reel/reel_tarea3.srt), guion en `reel/guion_reel.py`; el video se publica en LinkedIn
+- **Reel:** [`reel/reel_tarea3.mp4`](reel/reel_tarea3.mp4) (68 s), subtítulos en [`reel/reel_tarea3.srt`](reel/reel_tarea3.srt) y guion en `reel/guion_reel.py`; también se publica en LinkedIn
 
 ---
 
@@ -28,7 +28,7 @@ se inspira en la CEPAL: la forma de recaudar y gastar también es una forma de d
   - Mapa por país, serie 2000–2024, composición de la recaudación, ranking, dispersión fiscal–desigualdad y comparación de WID.
   - Controles: año, grupo de comparación, indicador, países de la composición (también con clic en el mapa) y ejes de la dispersión.
   - Hallazgos, una sección sobre lo que el Estado deja de recaudar, metodología, fuentes, limitaciones y tabla descargable en CSV.
-- **Reel** de ~60 s (1080×1920), en 7 escenas:
+- **Reel** de 68 s (1080×1920), en 7 escenas:
   - Narrado con mi voz clonada por IA (Qwen3-TTS) a partir de una grabación mía de 20 s.
   - Lleva subtítulos .srt, música con licencia CC BY y el aviso «voz generada con IA».
 
@@ -64,7 +64,7 @@ cápita. En simple: se quita a cada variable la parte que explica el nivel de de
 queda. Si la relación sigue, no se debe solo a que los países ricos recauden más; aun así no prueba causalidad.
 
 Referencias académicas y oficiales (Francke 2017; Alarco, Castillo y Leiva 2019; Jaramillo 2013; OCDE 2018;
-Observatorio Fiscal Internacional 2026; SUNAT 2025; Lahura y Segovia 2021; Durand 2016; CEPAL 2016; Lustig 2018) en [`referencias.md`](referencias.md), con link y estado de verificación.
+Observatorio Fiscal Internacional 2026; SUNAT 2025; Lahura y Segovia 2021; Durand 2016; MEF 2024; Zegarra 2025; CEPAL 2016; Lustig 2018) en [`referencias.md`](referencias.md), con link y estado de verificación.
 
 ## 4. Tres hallazgos (año 2023, salvo que se indique)
 
@@ -92,6 +92,12 @@ Observatorio Fiscal Internacional 2026; SUNAT 2025; Lahura y Segovia 2021; Duran
 «una gruesa referencia» y «podría estar sobrestimada». Como ejemplo de cómo se decide lo que no se recauda, Durand (2016,
 pp. 8 y 62) estudia la Ley 30230 (2014) como caso de captura del Estado: en lo tributario condona deudas, limita la
 fiscalización de la SUNAT, amplía los convenios de estabilidad tributaria y suspende por tres años la norma antielusión.
+El régimen agrario es un ejemplo de beneficio regresivo: para el dictamen de 2024 que dio origen a la Ley 32434 (impuesto
+a la renta de 15 % en 2026–2035), el MEF estimó un costo de S/ 1 888.2 millones por año (S/ 826 millones por la tasa
+reducida) y lo calificó de «regresivo». Con la Ley 27360, las grandes empresas concentraron alrededor del 90 % de las ventas
+y el 89 % de las utilidades, y hoy 506 contribuyentes (0.02 % de las unidades agropecuarias) reúnen el 92 % de los ingresos
+de los beneficiarios de la Ley 31110 (Informe N.º 0174-2024-EF/61.01, pp. 9, 28–29 y 67). La cifra es del dictamen, no
+del texto final de la ley; Zegarra (2025) considera razonable la estimación del MEF.
 
 ## 5. Limitaciones
 
@@ -99,7 +105,7 @@ fiscalización de la SUNAT, amplía los convenios de estabilidad tributaria y su
 - **El Gini mide cosas distintas:** en ALC suele medirse sobre ingreso per cápita y en Europa sobre ingreso disponible.
 - **WID.world:** combina encuestas, registros tributarios y cuentas nacionales; los últimos años son extrapolados y difieren de las cifras del INEI. El top 1 % del Perú cae de 35.8 % (2022) a 27.6 % (2023), lo que sugiere un cambio de método y no un cambio real.
 - **Gasto social del Perú en SOCX:** solo desde 2012; no hay promedio ALC con esa metodología.
-- **Lo que no se mide:** evasión ni incidencia por deciles. No se verificó el costo fiscal del régimen agrario ni el de los convenios de estabilidad minera.
+- **Lo que no se mide:** evasión ni incidencia por deciles. No se verificó el costo fiscal de los convenios de estabilidad minera. El costo del régimen agrario es la estimación del MEF para el dictamen de 2024, no para el texto final de la Ley 32434.
 - **Gasto tributario:** la SUNAT advierte que su suma «solamente debe ser considerada como una gruesa referencia» y «podría estar sobrestimada».
 - **Lahura y Segovia (2021):** su estudio cubre solo a trabajadores formales y advierte que los ingresos declarados pueden no ser los reales por la evasión (p. 22).
 - **Fuentes que no se pudieron abrir:** algunas (CEPAL, BCRP) bloquean las descargas automáticas; las que Antonio no verificó en el navegador están marcadas como «no verificadas» en `referencias.md` y no se citan en el dashboard.

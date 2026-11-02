@@ -29,4 +29,4 @@ Proyecto de la Tarea 3 del Diplomado QLAB, Python Intermedio 2026.
 - **Dashboard:** https://antoniomacedo17.github.io/Python_Intermedio_2026/
 - **Repositorio (README con las 8 secciones):** https://github.com/AntonioMacedo17/Python_Intermedio_2026/tree/main/tarea_3
 - **Post de LinkedIn con el reel:** <pegar link>
-- **Reel:** ~60 s, 1080×1920, voz clonada con IA (Qwen3-TTS), subtítulos .srt (`tarea_3/reel/reel_tarea3.srt`) y música CC BY.
+- **Reel:** 68 s, 1080×1920, voz clonada con IA (Qwen3-TTS), subtítulos .srt (`tarea_3/reel/reel_tarea3.srt`) y música CC BY (`tarea_3/reel/reel_tarea3.mp4`).

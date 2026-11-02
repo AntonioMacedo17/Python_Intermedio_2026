@@ -82,6 +82,26 @@ en el dashboard ni en el reel hasta que Antonio las confirme a mano en el navega
   SUNAT, amplía los plazos de los convenios de estabilidad tributaria y suspende por tres años la Norma XVI del
   Código Tributario contra la elusión (p. 62).
 
+- **MEF, Dirección General de Política de Ingresos Públicos (2024).** Informe N.º 0174-2024-EF/61.01, firmado el
+  02/12/2024, sobre el dictamen de los proyectos de ley 2421/2021-CR y otros («Ley que promueve la transformación
+  productiva, competitiva y sostenible del sector agrario…»). Copia local de un sitio de terceros (`referencias_pdf/`,
+  no versionada); link público: el proyecto de ley del Congreso del 12/09/2025 que lo cita,
+  https://api.congreso.gob.pe/spley-portal-service/archivo/MzIzOTcz/pdf. **Verificado leyendo el PDF:**
+  - p. 67: costo de S/ 1 888,2 millones por año en 2025-2035, de ellos S/ 826 millones por la tasa reducida del IR.
+  - p. 9: de 3 511 contribuyentes acogidos a la Ley 31110, 506 (0,02 % de las unidades agropecuarias) con ingresos
+    mayores a 1 700 UIT concentran el 92 % de los ingresos de los beneficiarios.
+  - pp. 28-29: título «La propuesta de un régimen para las empresas agrarias resulta regresiva y afecta la recaudación
+    fiscal»; con la Ley 27360 las grandes empresas concentraron alrededor del 90 % de las ventas y el 89 % de la renta
+    imponible (utilidades).
+  - La estimación se refiere al **dictamen de 2024**, no al texto final de la Ley 32434.
+  - El proyecto del Congreso (12/09/2025) dice que la Ley 32434 fija un IR de 15 % para 2026-2035 (verificado en ese
+    proyecto, no en el texto de la ley) y fecha el informe del MEF el «12 de diciembre de 2024», mientras que el PDF está
+    firmado el 02/12/2024. Usamos la fecha del PDF. La fecha de la Ley 32434 (10/09/2025) la dio Antonio y no se verificó aquí.
+- **Zegarra, Eduardo (2025).** *El costo fiscal de la Ley Chlimper 2.0*. CooperAcción, documento de trabajo, febrero
+  de 2025. https://cooperaccion.org.pe/wp-content/uploads/2025/02/El-costo-fiscal-de-la-propuesta-de-Ley-Chlimper-2-1.pdf
+  — **Verificado leyendo el PDF.** En la p. 7 concluye que los cálculos del MEF «parecen razonables». Ojo: Zegarra
+  cita una cifra previa del MEF de unos S/ 1 850 millones anuales, solo por impuesto a la renta (p. 2), no los S/ 1 888,2 millones del informe 0174.
+
 ### Verificadas por Antonio en el navegador (01/11/2026)
 
 - **Arias Minaya, Luis Alberto (2010).** «Perú: la tributación directa, evasión en el impuesto a la renta y desafíos». En *Evasión y equidad en América Latina*, CEPAL, pp. 325-356, LC/W.309/Rev.1. https://repositorio.cepal.org/items/2a4a441a-7e89-48df-8737-e1060361ac65/full (el año correcto es 2010, no 2009).
