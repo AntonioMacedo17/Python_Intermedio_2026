@@ -114,4 +114,18 @@ Los dos modos usan el mismo modelo (`sonnet`), la misma instrucción, el mismo e
 
 ## Cambios después de fijar
 
-(ninguno por ahora)
+Ninguno cambia las preguntas, las respuestas esperadas ni las tolerancias. Todos se hicieron después de las
+pruebas con 1 pregunta y **antes de la corrida completa**:
+
+1. **2026-11-08 · Entorno de Python del modo B.** En la prueba con E3, el PATH del agente incluía el `.venv` del
+   repo (porque el evaluador se lanza con `uv run`), y un error de Python le mostró la ruta real del proyecto. No la
+   usó, pero podría haber leído `evaluacion/`. Ahora el evaluador crea un entorno aparte con `uv sync --frozen` en la
+   carpeta temporal del sistema (`tarea4_eval_venv`), le quita al agente el `.venv` del repo del PATH y la variable
+   `VIRTUAL_ENV`, y marca en `acceso_fuera_copia` si la ruta del repo aparece en alguna salida de herramienta. Esto
+   reemplaza lo dicho arriba sobre `UV_PROJECT_ENVIRONMENT` apuntando al `.venv` del proyecto.
+2. **2026-11-08 · Caso no previsto en combinadas.** Si el agente da una sola de las dos cifras (la otra en null), la
+   pregunta cuenta como «incorrecta» (no como «sin respuesta»). Solo es «sin respuesta» si las dos cifras son null.
+3. **Observación de la prueba (no es un cambio):** en la prueba con E3, el modo B acertó (18.5) sin cargar ninguna
+   skill: descomprimió la sumaria y calculó con `factor07 × mieperho`. Las skills y el MCP sí estaban disponibles
+   (el evento de inicio las lista). No se cambió la instrucción para empujarlo a usarlas: si las activa o no es parte
+   de lo que se mide.
