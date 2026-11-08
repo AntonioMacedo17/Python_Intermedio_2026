@@ -1,0 +1,7 @@
+clave,valor,fuente,calc_facpob07,calc_sumaria,dif_facpob07_pp,dif_sumaria_pp
+nacional,27.6,"Data-Science-Python, sessions/16-skills-enaho/README.md, sección «Validación» (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho)",27.529,27.579,-0.071,-0.021
+extrema_nacional,5.5,"Data-Science-Python, sessions/16-skills-enaho/README.md, sección «Validación» (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho)",5.5,5.505,-0.0,0.005
+urbana,24.8,"Data-Science-Python, sessions/16-skills-enaho/README.md, sección «Validación» (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho)",24.735,24.807,-0.065,0.007
+rural,39.3,"Data-Science-Python, sessions/16-skills-enaho/README.md, sección «Validación» (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho)",39.442,39.303,0.142,0.003
+cusco,18.5,referencias/pobreza_departamento_2024.csv (sesión 16 del curso),18.539,18.541,0.039,0.041
+cajamarca,45.0,referencias/pobreza_departamento_2024.csv (sesión 16 del curso),44.995,45.007,-0.005,0.007
