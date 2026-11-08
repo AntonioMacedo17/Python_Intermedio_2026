@@ -1,5 +1,5 @@
 VALIDACIÓN · ENAHO 2024 (INEI), módulos 34 (sumaria) y 02 (miembros)
-Generado: 2026-11-08 14:46 con .claude/skills/limpiando-enaho/scripts/limpiar.py
+Generado: 2026-11-08 16:18 con .claude/skills/limpiando-enaho/scripts/limpiar.py
 Archivos: datos\966-Modulo34.zip::sumaria-2024.dta y datos\966-Modulo02.zip::enaho01-2024-200.dta
 Referencias: Data-Science-Python, sessions/16-skills-enaho/README.md (sección Validación)
 
