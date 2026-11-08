@@ -1,0 +1,22 @@
+# Microdatos y descargas: nunca al repo (en cualquier carpeta, p. ej. datos/ y mcp/datos/)
+datos/
+**/datos/
+
+# Entorno y cachés
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.cache/
+
+# Claves y configuración local
+.env
+.env.*
+*.key
+.claude/settings.local.json
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db

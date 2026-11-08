@@ -1,0 +1,22 @@
+[project]
+name = "tarea-4-agente-socioeconomico"
+version = "0.1.0"
+description = "Agente de investigación socioeconómica: MCP del BCRP + Skills de ENAHO 2024 (Tarea 4, Python Intermedio)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=4,<5",
+    "httpx",
+    "pandas",
+    "pyarrow",
+    "geopandas",
+    "matplotlib",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["mcp"]
+
+[tool.uv]
+package = false
