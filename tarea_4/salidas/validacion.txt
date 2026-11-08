@@ -1,0 +1,44 @@
+VALIDACIÓN · ENAHO 2024 (INEI), módulos 34 (sumaria) y 02 (miembros)
+Generado: 2026-11-08 14:11 con .claude/skills/limpiando-enaho/scripts/limpiar.py
+Archivos: datos\966-Modulo34.zip::sumaria-2024.dta y datos\966-Modulo02.zip::enaho01-2024-200.dta
+Referencias: Data-Science-Python, sessions/16-skills-enaho/README.md (sección Validación)
+
+ESENCIALES (si alguna falla, no se escribe la base)
+  [PASA ] Pobreza nacional (personas, facpob07) = 27.6 % ± 0.1 pp: 27.53 %
+  [PASA ] Pobreza nacional (sumaria, factor07 × mieperho) = 27.6 % ± 0.1 pp: 27.58 %
+  [PASA ] Residentes habituales = 108,664: 108,664 de 117,721 filas del módulo 02
+  [PASA ] 25 códigos de departamento (01 a 25): 25 códigos: 01 a 25
+  [PASA ] Llaves únicas en sumaria (conglome, vivienda, hogar): 33,691 hogares, 0 duplicados
+  [PASA ] Llaves únicas en personas (+ codperso): 0 duplicados en 117,721 filas
+  [PASA ] La unión no pierde ni duplica filas: 108,664 personas antes, 108,664 después, 0 sin hogar en sumaria
+  [PASA ] ubigeo y estrato coinciden entre módulo 02 y sumaria: 0 ubigeo distintos, 0 estrato distintos
+  [PASA ] facpob07 sin nulos y positivo: 0 nulos, 0 no positivos
+  [PASA ] factor07 sin nulos y positivo: 0 nulos, 0 no positivos
+  [PASA ] pobreza sin nulos tras la unión: 0 nulos
+  [PASA ] sexo y edad sin nulos en residentes: 0 sexo nulos, 0 edad nulos
+
+INFORMATIVAS (tolerancia ± 0.1 pp; no detienen el script)
+  [PASA ] Pobreza urbana (estrato <= 5) ~ 24.8 % · personas, facpob07: 24.74 %
+  [PASA ] Pobreza urbana (estrato <= 5) ~ 24.8 % · sumaria, factor07 × mieperho: 24.81 %
+  [FALLA] Pobreza rural (estrato >= 6) ~ 39.3 % · personas, facpob07: 39.44 %
+  [PASA ] Pobreza rural (estrato >= 6) ~ 39.3 % · sumaria, factor07 × mieperho: 39.30 %
+  [PASA ] Pobreza extrema nacional ~ 5.5 % · personas, facpob07: 5.50 %
+  [PASA ] Pobreza extrema nacional ~ 5.5 % · sumaria, factor07 × mieperho: 5.50 %
+  [FALLA] Pobreza Lima Metropolitana (dominio == 8) ~ 28.2 % · personas, facpob07: 28.03 %
+  [PASA ] Pobreza Lima Metropolitana (dominio == 8) ~ 28.2 % · sumaria, factor07 × mieperho: 28.21 %
+
+POR QUÉ DIFIEREN LAS DOS POBREZAS NACIONALES
+  Personas con facpob07: 27.53 %  ·  Sumaria con factor07 × mieperho: 27.58 %
+  1. Distintos factores: en la sumaria cada hogar pesa factor07 × mieperho (todos sus miembros con el
+     mismo peso); en personas cada residente habitual pesa su propio facpob07. Son factores distintos
+     del INEI y no son proporcionales entre sí. Población expandida:
+     34,147,768 (personas, Σ facpob07) vs 34,482,700 (sumaria, Σ factor07 × mieperho).
+  2. Distinto conteo de personas por hogar: en 1,846 de 33,691 hogares mieperho no coincide con el
+     número de residentes habituales del módulo 02. Entre los residentes hay 44 trabajadores del hogar
+     (p203 == 8) y 0 pensionistas (p203 == 9), así que eso explica solo una parte; el resto
+     depende de la definición de mieperho del INEI (ver Diccionario2024.pdf del módulo 34), no verificada aquí.
+  La cifra oficial del INEI (27.6 %) redondea ambas. Las referencias informativas (urbana, rural, extrema,
+  Lima Met.) coinciden con el método de la sumaria; esta base usa siempre facpob07 a nivel de personas.
+
+RESULTADO: TODAS LAS VALIDACIONES ESENCIALES PASAN
+Base escrita: salidas\personas_2024.parquet (108,664 filas)

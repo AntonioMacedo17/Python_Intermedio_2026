@@ -20,3 +20,7 @@ __pycache__/
 # Archivos temporales del sistema
 .DS_Store
 Thumbs.db
+
+# Base limpia de la ENAHO: es microdato, no se versiona
+salidas/personas_2024.parquet
+*.parquet

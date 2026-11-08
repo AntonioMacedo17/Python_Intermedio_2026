@@ -1,0 +1,36 @@
+nivel,codigo,categoria,pobreza_pct,pobreza_extrema_pct,n_obs,poblacion_expandida
+nacional,,Perú,27.53,5.5,108664,34147768
+area,,rural,39.44,15.6,36071,6486385
+area,,urbana,24.74,3.13,72593,27661382
+sexo,,hombre,27.37,5.37,52587,16453003
+sexo,,mujer,27.68,5.62,56077,17694764
+grupo_edad,,0-14,37.52,8.59,26489,7941994
+grupo_edad,,15-29,25.97,4.5,23122,7512400
+grupo_edad,,30-44,27.87,5.59,20648,6689119
+grupo_edad,,45-59,21.41,3.58,19408,6130223
+grupo_edad,,60 y más,22.02,4.49,18997,5874030
+departamento,01,Amazonas,26.08,6.15,3911,430252
+departamento,02,Áncash,22.88,5.76,4576,1199410
+departamento,03,Apurímac,24.09,5.18,2500,474458
+departamento,04,Arequipa,15.77,1.62,4645,1415224
+departamento,05,Ayacucho,33.04,9.24,3308,755197
+departamento,06,Cajamarca,44.99,19.62,4468,1547849
+departamento,07,Callao,33.77,4.98,3457,1138852
+departamento,08,Cusco,18.54,2.15,3777,1380357
+departamento,09,Huancavelica,33.61,11.28,3244,525028
+departamento,10,Huánuco,39.47,12.4,3903,910900
+departamento,11,Ica,5.91,0.15,4838,855183
+departamento,12,Junín,18.61,3.81,4658,1436462
+departamento,13,La Libertad,30.07,6.58,5028,2064878
+departamento,14,Lambayeque,14.05,0.5,4405,1348585
+departamento,15,Lima,26.89,3.12,14823,11233286
+departamento,16,Loreto,42.61,15.01,5678,1121012
+departamento,17,Madre de Dios,11.14,1.53,2045,165829
+departamento,18,Moquegua,10.88,2.34,2511,196788
+departamento,19,Pasco,39.28,8.27,2746,323033
+departamento,20,Piura,31.81,4.36,5876,1970217
+departamento,21,Puno,40.42,12.63,3112,1535441
+departamento,22,San Martín,21.99,4.45,4619,937167
+departamento,23,Tacna,23.88,2.58,3622,375607
+departamento,24,Tumbes,26.6,1.06,2771,261973
+departamento,25,Ucayali,27.12,3.33,4143,544778
