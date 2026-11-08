@@ -1,0 +1,60 @@
+{
+ "id": "B1",
+ "modo": "A",
+ "modelo": "sonnet",
+ "intento": 1,
+ "segundos": 4.1,
+ "eventos": [
+  {
+   "inicio": {
+    "model": "claude-sonnet-5-5",
+    "tools": [
+     "StructuredOutput"
+    ],
+    "mcp_servers": [],
+    "skills_enaho": []
+   }
+  },
+  {
+   "tool_use": "StructuredOutput",
+   "input": {
+    "valor": 5,
+    "fuente": "BCRP, Programa Monetario de diciembre 2024 (reunión del 12-dic-2024): tasa de referencia mantenida en 5,00 % (serie PD04722MM). Dato de memoria, no consultado en línea en esta sesión.",
+    "unidad": "porcentaje",
+    "interpretacion": ""
+   }
+  },
+  {
+   "tool_result": "Structured output provided successfully"
+  },
+  {
+   "rate_limit": {
+    "five_hour": {
+     "utilization": 0.68,
+     "resetsAt": 1794178200,
+     "status": "allowed"
+    },
+    "seven_day": {
+     "utilization": 0.12,
+     "resetsAt": 1794636000,
+     "status": "allowed"
+    }
+   }
+  },
+  {
+   "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 2,
+    "duration_ms": 2775,
+    "structured_output": {
+     "valor": 5,
+     "fuente": "BCRP, Programa Monetario de diciembre 2024 (reunión del 12-dic-2024): tasa de referencia mantenida en 5,00 % (serie PD04722MM). Dato de memoria, no consultado en línea en esta sesión.",
+     "unidad": "porcentaje",
+     "interpretacion": ""
+    },
+    "result": "{\"valor\":5,\"fuente\":\"BCRP, Programa Monetario de diciembre 2024 (reunión del 12-dic-2024): tasa de referencia mantenida en 5,00 % (serie PD04722MM). Dato de memoria, no consultado en línea en esta sesión.\",\"unidad\":\"porcentaje\",\"interpretacion\":\"\"}"
+   }
+  }
+ ]
+}
