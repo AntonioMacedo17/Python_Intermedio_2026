@@ -1,0 +1,9 @@
+fuente_dato,afirmacion,valor_calculado,valor_referencia,verificacion,diferencia
+BCRP,"Inflación de Lima a 12 meses, dic-2024 (PN01273PM)",1.9663,1.97,"Página BCRPData https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01273PM/html, fila Dic.2024 (2 decimales)",-0.004
+BCRP,"Pico de la inflación de Lima 2020-2024, jun-2022 (PN01273PM)",8.8126,8.81,"Página BCRPData https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01273PM/html, fila Jun.2022 (2 decimales)",0.003
+BCRP,"Crecimiento del PBI 2024, var. % anual (PM04863AA)",3.515275,3.5,"Página BCRPData https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/PM04863AA/html, columna 2024 (1 decimal)",0.015
+BCRP,"Caída del PBI 2020, var. % anual (PM04863AA)",-10.933306,-10.9,"Página BCRPData https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/PM04863AA/html, columna 2020 (1 decimal)",-0.033
+ENAHO,Pobreza monetaria nacional 2024 (facpob07),27.53,27.6,"Referencia del curso, sesión 16, sección Validación (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho); cifra oficial INEI 27.6 %",-0.07
+ENAHO,Pobreza rural 2024 (facpob07),39.44,39.3,"Referencia del curso, sesión 16 (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho)",0.14
+ENAHO,Pobreza urbana 2024 (facpob07),24.74,24.8,"Referencia del curso, sesión 16 (https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho)",-0.06
+ENAHO,"Pobreza de Cajamarca 2024, la más alta (facpob07)",44.99,45.0,referencias/pobreza_departamento_2024.csv (sesión 16 del curso),-0.01
