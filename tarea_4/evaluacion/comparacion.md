@@ -71,8 +71,8 @@ pedía la instrucción: no inventó. Sus 3 incorrectas fueron:
      negación después de la palabra;
    - en C2-A, «canasta general», porque el patrón `gener…` atrapa «general».
 
-   La regla queda como está, porque se fijó antes de correr. La columna `revision_manual_coherencia` de
-   `resultados.csv` está vacía para tu revisión.
+   La regla queda como está, porque se fijó antes de correr. La calificación final de coherencia es la revisión
+   manual (ver «Revisión manual de coherencia», abajo).
 5. **Aislamiento.** Ningún comando ni lectura del modo B tocó la ruta del repo, y esa ruta no aparece en ninguna
    salida de herramienta (columna `acceso_fuera_copia` vacía en las 20 filas). Dos cosas para que lo sepas:
    - en B-E3 el agente corrió `ls ~ | head`, que mostró las 10 primeras entradas de tu carpeta personal (AppData,
@@ -82,6 +82,22 @@ pedía la instrucción: no inventó. Sus 3 incorrectas fueron:
    de 19.8 a 28.9 s, porque procesan los datos desde cero.
 7. **Límite de uso.** No hizo falta cambiar a haiku. El uso de la ventana de 5 horas pasó de 0.68 a 0.74 durante la
    corrida (columna `uso_limite_5h`). No hubo reintentos ni límites del BCRP.
+
+## Revisión manual de coherencia (combinadas)
+
+Antonio revisó a mano las 4 interpretaciones de C1 y C2 (modos A y B). Las 4 son **coherentes**: ninguna afirma
+causalidad y todas reconocen que las fuentes tienen distinto nivel de agregación o cobertura. Está anotado en la
+columna `revision_manual_coherencia` de `resultados.csv`, junto con dos detalles que no cambian el resultado:
+
+- **C1-A** afirma que Cajamarca está entre los departamentos más pobres, aunque no tiene la cifra (a).
+- **C2-B** menciona el rango meta del BCRP, un dato que no obtuvo de ninguna herramienta.
+
+El marcador no cambia: C1-A y C2-A siguen incorrectas porque les falta la cifra (a), y C1-B y C2-B siguen
+correctas. **Resultado final: A 2/10, B 9/10.**
+
+**Limitación de la regla automática:** tuvo **2 falsos positivos de 4**. Marcó como causales las interpretaciones
+C1-A y C2-A, que en realidad niegan la causalidad. Por eso la calificación final de coherencia fue manual, no la de
+la regla.
 
 ## Conclusión
 
