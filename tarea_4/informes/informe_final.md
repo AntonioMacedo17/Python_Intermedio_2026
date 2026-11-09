@@ -277,20 +277,23 @@ la base de personas (`salidas/personas_2024.parquet`), el `.venv/` ni la caché 
 ## Verificación
 
 Valores calculados: `salidas/verificacion.csv` (generado por `informes/scripts/verificacion.py`). Los valores de
-referencia del BCRP son los que mostraban las páginas BCRPData el 8 de noviembre de 2026, leídos de forma
-automática en esta sesión: **requieren la revisión manual de Antonio**. Los de la ENAHO son las referencias del
-curso.
+referencia del BCRP son los que mostraban las páginas BCRPData el 8 de noviembre de 2026, leídos primero de forma
+automática en esta sesión. Antonio revisó a mano en BCRPData las filas 1, 3 y 4 (columna «Verificado por Antonio»); la
+fila 2 queda solo con la lectura automática («—»). Los de la ENAHO son las referencias del curso.
 
 | # | Afirmación | Valor calculado | Fuente o procedimiento de verificación | ¿Coincide? | Diferencia y explicación | Verificado por Antonio |
 |---|---|---|---|---|---|---|
-| 1 | Inflación de Lima a 12 meses, dic-2024 (`PN01273PM`) | 1.9663 % | [BCRPData PN01273PM](https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01273PM/html), fila Dic.2024: 1.97 | Sí | −0.004: la web redondea a 2 decimales | |
-| 2 | Pico de inflación 2020-2024, jun-2022 (`PN01273PM`) | 8.8126 % | [BCRPData PN01273PM](https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01273PM/html), fila Jun.2022: 8.81 | Sí | +0.003: redondeo a 2 decimales | |
-| 3 | Crecimiento del PBI 2024 (`PM04863AA`) | 3.5153 % | [BCRPData PM04863AA](https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/PM04863AA/html), columna 2024: 3,5 | Sí | +0.015: la web redondea a 1 decimal. También coincide con `evaluacion/verdades_bcrp.csv` (API directa, sin MCP) | |
-| 4 | Caída del PBI 2020 (`PM04863AA`) | −10.9333 % | [BCRPData PM04863AA](https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/PM04863AA/html), columna 2020: −10,9 | Sí | −0.033: redondeo a 1 decimal | |
-| 5 | Pobreza monetaria nacional 2024 | 27.53 % | [Curso, sesión 16, sección Validación](https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho): 27.6 % (cifra oficial INEI) | Sí (± 0.1 pp) | −0.07 pp: facpob07 por personas; con el método de la sumaria da 27.58 % | |
-| 6 | Pobreza rural 2024 | 39.44 % | [Curso, sesión 16](https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho): 39.3 % | Parcial | +0.14 pp: fuera de ± 0.1 por método (facpob07); con la sumaria da 39.30 % | |
-| 7 | Pobreza urbana 2024 | 24.74 % | [Curso, sesión 16](https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho): 24.8 % | Sí (± 0.1 pp) | −0.06 pp: método (sumaria: 24.81 %) | |
-| 8 | Pobreza de Cajamarca 2024 (la más alta) | 44.99 % | `referencias/pobreza_departamento_2024.csv` (sesión 16 del curso): 45.0 % | Sí | −0.01 pp: redondeo | |
+| 1 | Inflación de Lima a 12 meses, dic-2024 (`PN01273PM`) | 1.9663 % | [BCRPData PN01273PM](https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01273PM/html), fila Dic.2024: 1.97 | Sí | −0.004: la web redondea a 2 decimales | Sí, revisado en BCRPData el 08/11/2026 |
+| 2 | Pico de inflación 2020-2024, jun-2022 (`PN01273PM`) | 8.8126 % | [BCRPData PN01273PM](https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN01273PM/html), fila Jun.2022: 8.81 | Sí | +0.003: redondeo a 2 decimales | — |
+| 3 | Crecimiento del PBI 2024 (`PM04863AA`) | 3.5153 % | [BCRPData PM04863AA](https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/PM04863AA/html), columna 2024: 3,5 | Sí | +0.015: la web redondea a 1 decimal. También coincide con `evaluacion/verdades_bcrp.csv` (API directa, sin MCP) | Sí, revisado en BCRPData el 08/11/2026 |
+| 4 | Caída del PBI 2020 (`PM04863AA`) | −10.9333 % | [BCRPData PM04863AA](https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/PM04863AA/html), columna 2020: −10,9 | Sí | −0.033: redondeo a 1 decimal | Sí, revisado en BCRPData el 08/11/2026 |
+| 5 | Pobreza monetaria nacional 2024 | 27.53 % | [Curso, sesión 16, sección Validación](https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho): 27.6 % (cifra oficial INEI) | Sí (± 0.1 pp) | −0.07 pp: facpob07 por personas; con el método de la sumaria da 27.58 % | — |
+| 6 | Pobreza rural 2024 | 39.44 % | [Curso, sesión 16](https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho): 39.3 % | Parcial | +0.14 pp: fuera de ± 0.1 por método (facpob07); con la sumaria da 39.30 % | — |
+| 7 | Pobreza urbana 2024 | 24.74 % | [Curso, sesión 16](https://github.com/d2cml-ai/Data-Science-Python/tree/main/sessions/16-skills-enaho): 24.8 % | Sí (± 0.1 pp) | −0.06 pp: método (sumaria: 24.81 %) | — |
+| 8 | Pobreza de Cajamarca 2024 (la más alta) | 44.99 % | `referencias/pobreza_departamento_2024.csv` (sesión 16 del curso): 45.0 % | Sí | −0.01 pp: redondeo | — |
 
-**Para revisar a mano en la web del BCRP:** la fila 1 (inflación de Lima en Dic.2024 en la página de `PN01273PM`) y
-la fila 3 (PBI 2024 en la página de `PM04863AA`). Los links están en la tabla.
+**Revisión manual (8 de noviembre de 2026).** Antonio abrió las páginas BCRPData de la tabla y confirmó la fila 1
+(`PN01273PM`, Dic24: 1.97) y las filas 3 y 4 (`PM04863AA`, 2024: 3,5 y 2020: −10,9). Capturas de esa revisión:
+
+- [Captura de BCRPData, `PN01273PM`, fila Dic24](../evidencias_ia/integracion/verificacion_ipc.png)
+- [Captura de BCRPData, `PM04863AA`, filas 2020 y 2024](../evidencias_ia/integracion/verificacion_pbi.png)
